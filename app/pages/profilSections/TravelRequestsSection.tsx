@@ -87,7 +87,7 @@ export const TravelRequestsSection = () => {
           <div className="flex items-center justify-center h-64">
             <div className="text-center text-gray-500 py-8 flex flex-col items-center">
               <img
-                src="/images/noTravelDemandes.png"
+                src="/images/noTravelDemandes.webp"
                 alt={t('profile.messages.noDemandsFound')}
                 className="w-40 h-40 object-contain"
               />

@@ -70,15 +70,18 @@ export const ReservationsSection = ({
     [actionLoadingKey]
   );
 
-  const fetchRequestsForTab = useCallback(async (targetTab: keyof typeof tabStatusFilterMap) => {
-    try {
-      const response = await getRequests(1, 1000, tabStatusFilterMap[targetTab]);
-      const incoming = response.items || [];
-      setRequestsByTab((prev) => ({ ...prev, [targetTab]: incoming }));
-    } catch (error) {
-      console.error('Error fetching requests:', error);
-    }
-  }, [tabStatusFilterMap]);
+  const fetchRequestsForTab = useCallback(
+    async (targetTab: keyof typeof tabStatusFilterMap) => {
+      try {
+        const response = await getRequests(1, 1000, tabStatusFilterMap[targetTab]);
+        const incoming = response.items || [];
+        setRequestsByTab((prev) => ({ ...prev, [targetTab]: incoming }));
+      } catch (error) {
+        console.error('Error fetching requests:', error);
+      }
+    },
+    [tabStatusFilterMap]
+  );
 
   const fetchAllTabRequests = useCallback(async () => {
     setLoading(true);
@@ -125,16 +128,17 @@ export const ReservationsSection = ({
     socket.on('message-notification', (payload: { requestId?: number }) => {
       if (!payload?.requestId) return;
 
-      setRequestsByTab((prev) =>
-        Object.fromEntries(
-          Object.entries(prev).map(([tabKey, list]) => [
-            tabKey,
-            list.map((request) => {
-              if (request.id !== payload.requestId) return request;
-              return { ...request, unReadMessages: (request.unReadMessages || 0) + 1 };
-            }),
-          ])
-        ) as typeof prev
+      setRequestsByTab(
+        (prev) =>
+          Object.fromEntries(
+            Object.entries(prev).map(([tabKey, list]) => [
+              tabKey,
+              list.map((request) => {
+                if (request.id !== payload.requestId) return request;
+                return { ...request, unReadMessages: (request.unReadMessages || 0) + 1 };
+              }),
+            ])
+          ) as typeof prev
       );
     });
 
@@ -315,7 +319,7 @@ export const ReservationsSection = ({
       {filtered.length === 0 ? (
         <div className="text-center text-gray-500 py-8 flex flex-col items-center">
           <img
-            src="/images/noReservations.png"
+            src="/images/noReservations.webp"
             alt={t('profile.messages.noReservations')}
             className="w-40 h-40 object-contain"
           />
@@ -327,153 +331,145 @@ export const ReservationsSection = ({
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
             {filtered.map((request) => {
-            const travel = request.travel;
-            const requester = request.requester;
-            const travelOwner = travel?.owner; // Utiliser travel.owner au lieu de travel.user
+              const travel = request.travel;
+              const requester = request.requester;
+              const travelOwner = travel?.owner; // Utiliser travel.owner au lieu de travel.user
 
-            // Déterminer qui afficher : si l'utilisateur connecté est le requester, afficher le propriétaire du voyage, sinon afficher le requester
-            const isCurrentUserRequester = requester?.id.toString() === currentUser?.id;
-            const displayUser = isCurrentUserRequester ? travelOwner : requester;
+              // Déterminer qui afficher : si l'utilisateur connecté est le requester, afficher le propriétaire du voyage, sinon afficher le requester
+              const isCurrentUserRequester = requester?.id.toString() === currentUser?.id;
+              const displayUser = isCurrentUserRequester ? travelOwner : requester;
 
-            // Data Preparation
-            const departureCity = travel?.departureAirport?.name || '';
-            const arrivalCity = travel?.arrivalAirport?.name || '';
-            const travelDate = travel?.departureDatetime
-              ? formatDate(travel.departureDatetime)
-              : '';
-            const flightNumber = travel?.flightNumber || 'N/A';
-            const weight = request.weight || 0;
+              // Data Preparation
+              const departureCity = travel?.departureAirport?.name || '';
+              const arrivalCity = travel?.arrivalAirport?.name || '';
+              const travelDate = travel?.departureDatetime
+                ? formatDate(travel.departureDatetime)
+                : '';
+              const flightNumber = travel?.flightNumber || 'N/A';
+              const weight = request.weight || 0;
 
-            const pricePerKg =
-              typeof travel?.pricePerKg === 'string'
-                ? parseFloat(travel.pricePerKg)
-                : travel?.pricePerKg || 0;
+              const pricePerKg =
+                typeof travel?.pricePerKg === 'string'
+                  ? parseFloat(travel.pricePerKg)
+                  : travel?.pricePerKg || 0;
 
-            const price = Number((pricePerKg * weight).toFixed(0));
+              const price = Number((pricePerKg * weight).toFixed(0));
 
-            // Get currency symbol from request
-            const currencySymbol = request.currency?.symbol || travel?.currency?.symbol || '€';
+              // Get currency symbol from request
+              const currencySymbol = request.currency?.symbol || travel?.currency?.symbol || '€';
 
-            const displayUserName = formatDisplayName(displayUser?.fullName);
+              const displayUserName = formatDisplayName(displayUser?.fullName);
 
-            const displayUserAvatar = (displayUser as any)?.profilePictureUrl || '/favicon.ico';
+              const displayUserAvatar = (displayUser as any)?.profilePictureUrl || '/favicon.ico';
 
               return (
                 <ActionCard
-                key={request.id}
-                id={request.id}
-                user={{
-                  name: displayUserName,
-                  avatar: displayUserAvatar,
-                }}
-                image={request.travel?.airline?.logoUrl}
-                title={`${departureCity} → ${arrivalCity}`}
-                subtitle={t('profile.messages.reservedSpace')}
-                dateLabel={travelDate}
-                flightNumber={flightNumber}
-                weight={weight}
-                price={price}
-                priceSubtext={currencySymbol}
-                priceAboveActions
-                type="transporter" // For the proper airline logo styling
-                roleBadgeLabel={
-                  isCurrentUserRequester ? t('cards.action.buyer') : t('cards.action.seller')
-                }
-                roleBadgeTone={isCurrentUserRequester ? 'orange' : 'blue'}
-                unreadCount={request.unReadMessages || 0}
-                // Logic for Status Badges vs Buttons
-                statusBadge={
-                  request.currentStatus?.status === 'COMPLETED'
-                    ? t('common.completed')
-                    : request.currentStatus?.status === 'CANCELLATION_DISPUTED'
-                      ? t('profile.messages.cancellationDisputed')
-                    : request.currentStatus?.status === 'CANCELLED'
-                      ? t('common.cancel')
-                      : undefined
-                }
-                statusBadgeTone={
-                  request.currentStatus?.status === 'CANCELLATION_DISPUTED' ? 'red' : 'green'
-                }
-                cardTone={
-                  request.currentStatus?.status === 'CANCELLATION_DISPUTED' ? 'danger' : 'default'
-                }
-                primaryAction={
-                  request.currentStatus?.status === 'NEGOTIATING' &&
-                  requester?.id.toString() != currentUser?.id
-                    ? {
-                        label: t('profile.actions.confirmReservation'),
-                        onClick: () => handleAcceptRequest(request.id),
-                        loading: isActionLoading(request.id, 'accept'),
-                      }
-                    : request.currentStatus?.status === 'ACCEPTED' &&
-                        requester?.id.toString() === currentUser?.id
-                      ? (() => {
-                          // Check by calendar day only (ignore hour)
-                          const travelDate = travel?.departureDatetime
-                            ? new Date(travel.departureDatetime)
-                            : null;
-                          const today = new Date();
-                          const todayStart = new Date(
-                            today.getFullYear(),
-                            today.getMonth(),
-                            today.getDate()
-                          );
-                          const travelDay = travelDate
-                            ? new Date(
-                                travelDate.getFullYear(),
-                                travelDate.getMonth(),
-                                travelDate.getDate()
-                              )
-                            : null;
-                          const canComplete = travelDay ? todayStart >= travelDay : false;
+                  key={request.id}
+                  id={request.id}
+                  user={{
+                    name: displayUserName,
+                    avatar: displayUserAvatar,
+                  }}
+                  image={request.travel?.airline?.logoUrl}
+                  title={`${departureCity} → ${arrivalCity}`}
+                  subtitle={t('profile.messages.reservedSpace')}
+                  dateLabel={travelDate}
+                  flightNumber={flightNumber}
+                  weight={weight}
+                  price={price}
+                  priceSubtext={currencySymbol}
+                  priceAboveActions
+                  type="transporter" // For the proper airline logo styling
+                  roleBadgeLabel={
+                    isCurrentUserRequester ? t('cards.action.buyer') : t('cards.action.seller')
+                  }
+                  roleBadgeTone={isCurrentUserRequester ? 'orange' : 'blue'}
+                  unreadCount={request.unReadMessages || 0}
+                  // Logic for Status Badges vs Buttons
+                  statusBadge={
+                    request.currentStatus?.status === 'COMPLETED'
+                      ? t('common.completed')
+                      : request.currentStatus?.status === 'CANCELLATION_DISPUTED'
+                        ? t('profile.messages.cancellationDisputed')
+                        : request.currentStatus?.status === 'CANCELLED'
+                          ? t('common.cancel')
+                          : undefined
+                  }
+                  statusBadgeTone={
+                    request.currentStatus?.status === 'CANCELLATION_DISPUTED' ? 'red' : 'green'
+                  }
+                  cardTone={
+                    request.currentStatus?.status === 'CANCELLATION_DISPUTED' ? 'danger' : 'default'
+                  }
+                  primaryAction={
+                    request.currentStatus?.status === 'NEGOTIATING' &&
+                    requester?.id.toString() != currentUser?.id
+                      ? {
+                          label: t('profile.actions.confirmReservation'),
+                          onClick: () => handleAcceptRequest(request.id),
+                          loading: isActionLoading(request.id, 'accept'),
+                        }
+                      : request.currentStatus?.status === 'ACCEPTED' &&
+                          requester?.id.toString() === currentUser?.id
+                        ? (() => {
+                            // Check by calendar day only (ignore hour)
+                            const travelDate = travel?.departureDatetime
+                              ? new Date(travel.departureDatetime)
+                              : null;
+                            const today = new Date();
+                            const todayStart = new Date(
+                              today.getFullYear(),
+                              today.getMonth(),
+                              today.getDate()
+                            );
+                            const travelDay = travelDate
+                              ? new Date(
+                                  travelDate.getFullYear(),
+                                  travelDate.getMonth(),
+                                  travelDate.getDate()
+                                )
+                              : null;
+                            const canComplete = travelDay ? todayStart >= travelDay : false;
 
-                          return {
-                            label: t('profile.actions.confirmReception'),
-                            onClick: canComplete
-                              ? () => handleCompleteRequest(request.id)
-                              : () => setErrorMessage(t('profile.messages.impossibleFinish')),
-                            color: 'green' as const,
-                            loading: canComplete ? isActionLoading(request.id, 'complete') : false,
-                          };
-                        })()
-                      : request.currentStatus?.status === 'PENDING_CANCELLATION_CONFIRMATION'
-                        ? requester?.id.toString() === currentUser?.id
-                          ? {
+                            return {
                               label: t('profile.actions.confirmReception'),
-                              onClick: () => {},
+                              onClick: canComplete
+                                ? () => handleCompleteRequest(request.id)
+                                : () => setErrorMessage(t('profile.messages.impossibleFinish')),
                               color: 'green' as const,
-                              disabled: true,
-                            }
+                              loading: canComplete
+                                ? isActionLoading(request.id, 'complete')
+                                : false,
+                            };
+                          })()
+                        : request.currentStatus?.status === 'PENDING_CANCELLATION_CONFIRMATION'
+                          ? requester?.id.toString() === currentUser?.id
+                            ? {
+                                label: t('profile.actions.confirmReception'),
+                                onClick: () => {},
+                                color: 'green' as const,
+                                disabled: true,
+                              }
                             : {
                                 label: t('profile.actions.approve'),
                                 onClick: () => handleConfirmCancellation(request.id),
                                 color: 'green' as const,
                                 loading: isActionLoading(request.id, 'confirm-cancellation'),
                               }
-                        : undefined
-                }
-                secondaryAction={
-                  request.currentStatus?.status === 'NEGOTIATING' &&
-                  requester?.id.toString() != currentUser?.id
-                    ? {
-                        label: t('profile.actions.decline'),
-                        onClick: () => {
-                          setRequestToCancel(request);
-                          setCancelConfirmOpen(true);
-                        },
-                        color: 'red',
-                      }
-                    : request.currentStatus?.status === 'NEGOTIATING' &&
-                        requester?.id.toString() === currentUser?.id
+                          : undefined
+                  }
+                  secondaryAction={
+                    request.currentStatus?.status === 'NEGOTIATING' &&
+                    requester?.id.toString() != currentUser?.id
                       ? {
-                          label: t('profile.actions.cancel'),
+                          label: t('profile.actions.decline'),
                           onClick: () => {
                             setRequestToCancel(request);
                             setCancelConfirmOpen(true);
                           },
                           color: 'red',
                         }
-                      : request.currentStatus?.status === 'ACCEPTED' &&
+                      : request.currentStatus?.status === 'NEGOTIATING' &&
                           requester?.id.toString() === currentUser?.id
                         ? {
                             label: t('profile.actions.cancel'),
@@ -483,53 +479,62 @@ export const ReservationsSection = ({
                             },
                             color: 'red',
                           }
-                        : request.currentStatus?.status === 'PENDING_CANCELLATION_CONFIRMATION'
-                          ? requester?.id.toString() === currentUser?.id
-                            ? {
-                                label: t('profile.actions.cancel'),
-                                onClick: () => {},
-                                color: 'outline',
-                                disabled: true,
-                              }
-                            : {
-                                label: t('profile.actions.dispute'),
-                                onClick: () => handleDisputeCancellation(request.id),
-                                color: 'red',
-                                loading: isActionLoading(request.id, 'dispute-cancellation'),
-                              }
-                          : undefined
-                }
-                tertiaryAction={
-                  request.currentStatus?.status === 'COMPLETED' && request.canReview
-                    ? {
-                        label: t('profile.actions.rate'),
-                        onClick: () => handleOpenReview(request),
-                        color: 'orange',
-                      }
-                    : request.currentStatus?.status === 'COMPLETED' && !request.canReview
+                        : request.currentStatus?.status === 'ACCEPTED' &&
+                            requester?.id.toString() === currentUser?.id
+                          ? {
+                              label: t('profile.actions.cancel'),
+                              onClick: () => {
+                                setRequestToCancel(request);
+                                setCancelConfirmOpen(true);
+                              },
+                              color: 'red',
+                            }
+                          : request.currentStatus?.status === 'PENDING_CANCELLATION_CONFIRMATION'
+                            ? requester?.id.toString() === currentUser?.id
+                              ? {
+                                  label: t('profile.actions.cancel'),
+                                  onClick: () => {},
+                                  color: 'outline',
+                                  disabled: true,
+                                }
+                              : {
+                                  label: t('profile.actions.dispute'),
+                                  onClick: () => handleDisputeCancellation(request.id),
+                                  color: 'red',
+                                  loading: isActionLoading(request.id, 'dispute-cancellation'),
+                                }
+                            : undefined
+                  }
+                  tertiaryAction={
+                    request.currentStatus?.status === 'COMPLETED' && request.canReview
                       ? {
-                          label: t('profile.actions.rated'),
-                          onClick: () => {},
-                          color: 'gray',
-                          disabled: true,
+                          label: t('profile.actions.rate'),
+                          onClick: () => handleOpenReview(request),
+                          color: 'orange',
+                        }
+                      : request.currentStatus?.status === 'COMPLETED' && !request.canReview
+                        ? {
+                            label: t('profile.actions.rated'),
+                            onClick: () => {},
+                            color: 'gray',
+                            disabled: true,
+                          }
+                        : undefined
+                  }
+                  messageAction={
+                    // Show message button for all statuses except CANCELLED
+                    request.currentStatus?.status !== 'CANCELLED'
+                      ? {
+                          label: t('profile.actions.message'),
+                          onClick: () =>
+                            handleContactRequester(displayUserName, displayUserAvatar, request.id),
                         }
                       : undefined
-                }
-                messageAction={
-                  // Show message button for all statuses except CANCELLED
-                  request.currentStatus?.status !== 'CANCELLED'
-                    ? {
-                        label: t('profile.actions.message'),
-                        onClick: () =>
-                          handleContactRequester(displayUserName, displayUserAvatar, request.id),
-                      }
-                    : undefined
-                }
+                  }
                 />
               );
             })}
           </div>
-
         </>
       )}
 

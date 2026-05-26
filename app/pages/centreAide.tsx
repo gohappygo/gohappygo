@@ -15,7 +15,7 @@ const CentreAide = () => {
   const helpCards: HelpCard[] = [
     {
       to: '/aide/compte-inscription',
-      src: '/images/compt-et-inscription.png',
+      src: '/images/compt-et-inscription.webp',
       alt: 'Illustration Compte et Inscription',
       heading: (
         <>
@@ -25,7 +25,7 @@ const CentreAide = () => {
     },
     {
       to: '/aide/annonces',
-      src: '/images/publier-et-rechercher-annonce.png',
+      src: '/images/publier-et-rechercher-annonce.webp',
       alt: 'Illustration Publier et Rechercher une annonce',
       heading: (
         <>
@@ -35,7 +35,7 @@ const CentreAide = () => {
     },
     {
       to: '/aide/messagerie',
-      src: '/images/messagerie-et-communication.png',
+      src: '/images/messagerie-et-communication.webp',
       alt: 'Illustration Messagerie et Communication',
       heading: (
         <>
@@ -45,7 +45,7 @@ const CentreAide = () => {
     },
     {
       to: '/aide/confidentialite',
-      src: '/images/confidentialite-des-donnees.png',
+      src: '/images/confidentialite-des-donnees.webp',
       alt: 'Illustration Confidentialité des données',
       heading: (
         <>
@@ -55,13 +55,13 @@ const CentreAide = () => {
     },
     {
       to: '/aide/paiement-protection',
-      src: '/images/paiements-et-protection.png',
+      src: '/images/paiements-et-protection.webp',
       alt: 'Illustration Paiement et Protection',
       heading: <>Paiement &amp; Protection</>,
     },
     {
       to: '/aide/annulation-imprevus',
-      src: '/images/annulation&imprevus.png',
+      src: '/images/annulation&imprevus.webp',
       alt: 'Illustration Annulation et Imprévus',
       heading: (
         <>

@@ -27,36 +27,41 @@ export const TravelsSection = () => {
   const targetUserId = userId || currentUser?.id;
   const isOwnProfile = !userId || (currentUser && userId === currentUser.id?.toString());
 
-  const fetchTravels = useCallback(async (nextPage = 1, reset = false) => {
-    if (!targetUserId) return;
+  const fetchTravels = useCallback(
+    async (nextPage = 1, reset = false) => {
+      if (!targetUserId) return;
 
-    try {
-      if (reset) {
-        setLoading(true);
-      } else {
-        setLoadingMore(true);
+      try {
+        if (reset) {
+          setLoading(true);
+        } else {
+          setLoadingMore(true);
+        }
+
+        const response = await getUserTravels(Number(targetUserId), nextPage, 12);
+        const incoming = response.items || [];
+        const hasNextFromMeta = response.meta?.hasNextPage;
+        const currentPage = response.meta?.currentPage ?? response.page ?? nextPage;
+        const totalPages = response.meta?.totalPages ?? response.totalPages ?? 0;
+        const fallbackHasMore = incoming.length >= 10;
+
+        setTravels((prev) => (reset ? incoming : [...prev, ...incoming]));
+        setPage(nextPage);
+        setHasMore(
+          hasNextFromMeta ?? (totalPages > 0 ? currentPage < totalPages : fallbackHasMore)
+        );
+      } catch (error) {
+        console.error('Error fetching travels:', error);
+      } finally {
+        if (reset) {
+          setLoading(false);
+        } else {
+          setLoadingMore(false);
+        }
       }
-
-      const response = await getUserTravels(Number(targetUserId), nextPage, 12);
-      const incoming = response.items || [];
-      const hasNextFromMeta = response.meta?.hasNextPage;
-      const currentPage = response.meta?.currentPage ?? response.page ?? nextPage;
-      const totalPages = response.meta?.totalPages ?? response.totalPages ?? 0;
-      const fallbackHasMore = incoming.length >= 10;
-
-      setTravels((prev) => (reset ? incoming : [...prev, ...incoming]));
-      setPage(nextPage);
-      setHasMore(hasNextFromMeta ?? (totalPages > 0 ? currentPage < totalPages : fallbackHasMore));
-    } catch (error) {
-      console.error('Error fetching travels:', error);
-    } finally {
-      if (reset) {
-        setLoading(false);
-      } else {
-        setLoadingMore(false);
-      }
-    }
-  }, [targetUserId]);
+    },
+    [targetUserId]
+  );
 
   useEffect(() => {
     setTravels([]);
@@ -120,7 +125,7 @@ export const TravelsSection = () => {
           <div className="flex items-center justify-center h-64">
             <div className="text-center text-gray-500 py-8 flex flex-col items-center">
               <img
-                src="/images/noTravelDemandes.png"
+                src="/images/noTravelDemandes.webp"
                 alt={t('profile.messages.noTravelsFound')}
                 className="w-40 h-40 object-contain"
               />

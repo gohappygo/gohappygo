@@ -88,21 +88,21 @@ function CheckoutForm({
       <div className="flex items-center justify-center px-6 pt-4 mt-6">
         <div className="w-[20%]">
           <img
-            src="/images/paymentLogosCB.png"
+            src="/images/paymentLogosCB.webp"
             alt={t('common.accessibility.paymentMethods.cb')}
             className=" w-full"
           />
         </div>
         <div className="w-[20%]">
           <img
-            src="/images/paymentLogosVisa.png"
+            src="/images/paymentLogosVisa.webp"
             alt={t('common.accessibility.paymentMethods.visa')}
             className="w-full"
           />
         </div>
         <div className="w-[20%]">
           <img
-            src="/images/paymentLogosMasterCard.png"
+            src="/images/paymentLogosMasterCard.webp"
             alt={t('common.accessibility.paymentMethods.mastercard')}
             className="w-full"
           />
@@ -164,17 +164,17 @@ function CheckoutForm({
             !stripe || isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover'
           }`}
         >
-          {isSubmitting
-            ? (
-                <>
-                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-                  {t('dialogs.booking.submitting')}
-                </>
-              )
-            : t('dialogs.booking.payCta', {
-                amount: amount.toFixed(2),
-                currency: currencySymbol,
-              })}
+          {isSubmitting ? (
+            <>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+              {t('dialogs.booking.submitting')}
+            </>
+          ) : (
+            t('dialogs.booking.payCta', {
+              amount: amount.toFixed(2),
+              currency: currencySymbol,
+            })
+          )}
         </button>
       </div>
     </form>

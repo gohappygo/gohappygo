@@ -254,7 +254,7 @@ export const PaymentsSection = ({
           {transactions.length === 0 ? (
             <div className="text-center text-gray-500 py-8 flex flex-col items-center">
               <img
-                src="/images/noPaiements.png"
+                src="/images/noPaiements.webp"
                 alt={t('profile.messages.noPayements')}
                 className="w-40 h-40 object-contain"
               />

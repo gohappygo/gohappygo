@@ -60,7 +60,7 @@ export default function FeaturesSection() {
         </div>
         <div className="hidden md:flex absolute items-end mt-4  top-120 lg:top-95 left-[50%] transition-all duration-300 transform hover:scale-105">
           <img
-            src="/images/arrowPink.png"
+            src="/images/arrowPink.webp"
             alt={t('common.accessibility.airport')}
             className="w-35 h-15 object-cover"
           />
