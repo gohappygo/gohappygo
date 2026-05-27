@@ -173,7 +173,7 @@ export const ReviewsSection = () => {
           <div className="text-center">
             <div className="flex justify-center mb-4 items-center">
               <img
-                src="/images/noAvisIcon.png"
+                src="/images/noAvisIcon.webp"
                 alt={t('reviews.noReviewsYet')}
                 className="w-[20%] h-[20%]"
               />
@@ -267,7 +267,9 @@ export const ReviewsSection = () => {
             })}
           </div>
 
-          {loadingMore && <div className="text-center text-sm text-gray-500">{t('common.loading')}</div>}
+          {loadingMore && (
+            <div className="text-center text-sm text-gray-500">{t('common.loading')}</div>
+          )}
           <div ref={loadMoreRef} className="h-2" />
         </div>
       )}

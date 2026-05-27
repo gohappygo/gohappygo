@@ -76,71 +76,62 @@ export default function CustomsRestrictionsMap() {
 
   return (
     <section className="flex flex-col w-full max-w-5xl mx-auto px-4 py-6">
-      {/* THE MAP BOUNDING BOX */}
-      <div className="relative w-full aspect-21/9 max-h-85 sm:max-h-95 md:max-h-105 bg-gray-50/60 border border-gray-100 rounded-xl overflow-hidden flex items-center justify-center p-3 mb-8">
-        <img
-          src="/images/map.svg"
-          alt={t('customs.map.alt', 'World map showing customs restrictions by country')}
-          className="w-full h-full object-contain pointer-events-none select-none opacity-80"
-          style={{ filter: 'brightness(0.2)' }}
-        />
+      {/* THE MAP BOUNDING BOX (Responsive scrollable view on mobile devices) */}
+      <div className="w-full overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-800">
+        <div className="relative w-full min-w-[750px] md:min-w-0 aspect-[21/9] bg-gray-50/60 dark:bg-gray-900/20 border border-gray-100 dark:border-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-3 mb-6">
+          <img
+            src="/images/map.svg"
+            alt={t('customs.map.alt', 'World map showing customs restrictions by country')}
+            className="w-full h-full object-contain pointer-events-none select-none opacity-80"
+            style={{ filter: 'brightness(0.2)' }}
+          />
 
-        {activeCountries.map((country) => {
-          const isActive = selectedCountryCode === country.id;
-          const coords = customsCoordinates[country.id];
+          {activeCountries.map((country) => {
+            const isActive = selectedCountryCode === country.id;
+            const coords = customsCoordinates[country.id];
 
-          return (
-            <div
-              key={country.id}
-              onClick={() => setSelectedCountryCode(country.id)}
-              className="absolute cursor-pointer flex items-center justify-center group -translate-x-1/2 -translate-y-1/2"
-              style={{
-                top: coords.top,
-                left: coords.left,
-              }}
-              title={country.name}
-            >
-              {/* Glowing Dot Ring for Active State */}
+            return (
               <div
-                className={`transition-all duration-300 rounded-full flex items-center justify-center ${
-                  isActive
-                    ? 'w-7 h-7 bg-blue-500/20 shadow-xl'
-                    : 'w-5 h-5 bg-transparent group-hover:bg-blue-500/10'
-                }`}
+                key={country.id}
+                onClick={() => setSelectedCountryCode(country.id)}
+                className="absolute cursor-pointer flex flex-col items-center justify-center group -translate-x-1/2 -translate-y-1/2 select-none"
+                style={{
+                  top: coords.top,
+                  left: coords.left,
+                  zIndex: isActive ? 30 : 10,
+                }}
+                title={country.name}
               >
-                {/* Ping animation wrapper when active */}
-                {isActive && (
-                  <div
-                    className="absolute inset-0 rounded-full bg-blue-500/40 animate-ping"
-                    style={{ animationDuration: '3s' }}
-                  ></div>
-                )}
-
-                {/* Core Dot (Exactly mapped via Translate-x/y of the container) */}
+                {/* FLAG CAPSULE CONTROLLER (The main static dot button triggers) */}
                 <div
-                  className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 relative z-10 ${
+                  className={`transition-all duration-200 flex items-center justify-center bg-white dark:bg-gray-800 px-1 py-1 rounded-full border shadow-[0_2px_6px_rgba(0,0,0,0.15)] ${
                     isActive
-                      ? 'bg-blue-600 shadow-[0_0_10px_2px_rgba(59,130,246,0.9)] scale-110'
-                      : 'bg-blue-400'
+                      ? 'border-blue-600 ring-2 ring-blue-500/30 scale-110'
+                      : 'border-gray-200 hover:border-gray-400 hover:scale-105'
                   }`}
                 />
-              </div>
 
-              {/* Tooltip on active */}
-              {isActive && (
-                <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white dark:bg-gray-800 shadow-[0_4px_20px_rgba(0,0,0,0.08)] text-sm font-semibold px-3 py-1.5 rounded-lg border border-gray-100 dark:border-gray-700 text-gray-800 dark:text-gray-100 z-30 pointer-events-none animate-in fade-in slide-in-from-top-2">
-                  <span className="mr-2 text-lg leading-none">{country.flag}</span>
-                  {country.nameKey ? t(country.nameKey, country.name) : country.name}
-                </div>
-              )}
-            </div>
-          );
-        })}
+                {/* Styled Indicator Label Tooltip appearing underneath the flag label capsule */}
+                {isActive && (
+                  <div className="flex justify-center items-center gap-2 absolute top-full mt-1.5 whitespace-nowrap bg-blue-600 text-white shadow-md text-[11px] font-bold px-4 py-1 rounded pointer-events-none animate-in fade-in slide-in-from-top-1">
+                    {/* SVG Vector Flag Image Element (Replacing the original text emoji) */}
+                    <img
+                      src={`https://flagcdn.com/${country.id.toLowerCase()}.svg`}
+                      alt={`Flag of ${country.name}`}
+                      className="w-6 h-auto max-h-4 object-contain rounded-sm shadow-sm"
+                    />
+
+                    <span>{country.nameKey ? t(country.nameKey, country.name) : country.name}</span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
-      {/* THE DATA CONTAINER (Directly Below) */}
+      {/* THE DATA CONTAINER */}
       <div className="w-full bg-white rounded-xl border border-gray-100 p-2 shadow-sm transition-all duration-300 dark:bg-gray-900 dark:border-gray-800">
-        {/* Responsive Table Implementation avoiding severe squishing */}
         <div className="w-full overflow-x-auto">
           <table className="w-full text-sm text-left align-top min-w-225">
             <thead className="bg-gray-50/50 dark:bg-gray-800/40 text-xs uppercase font-semibold text-gray-500 dark:text-gray-400 tracking-wider">
@@ -166,7 +157,12 @@ export default function CustomsRestrictionsMap() {
               <tr>
                 <td className="px-5 py-6 align-top">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-3xl leading-none">{selectedCountry.flag}</span>
+                    {/* SVG Vector Flag also applied to the detailed bottom table description row */}
+                    <img
+                      src={`https://flagcdn.com/${selectedCountry.id.toLowerCase()}.svg`}
+                      alt=""
+                      className="w-7 h-auto max-h-5 object-contain rounded-sm border border-gray-100 shadow-sm mr-1"
+                    />
                     <span className="font-bold text-base whitespace-nowrap text-gray-900 dark:text-gray-100">
                       {selectedCountry.nameKey
                         ? t(selectedCountry.nameKey, selectedCountry.name)

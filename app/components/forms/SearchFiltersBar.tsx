@@ -236,7 +236,7 @@ function SearchFiltersBar(
               </div>
             ) : (
               <img
-                src="/images/searchFilterGoButton.png"
+                src="/images/searchFilterGoButton.webp"
                 className="w-16 h-16 md:w-20 md:h-20 object-cover rounded-full"
                 alt={t('common.search')}
               />

@@ -28,6 +28,7 @@ export default [
   route('/securite-et-accompagnement', 'pages/securite-et-accompagnement.tsx'),
   route('/impact-ecologique', 'pages/ecological-impact.tsx'),
   route('/faq', 'pages/faq.tsx'),
+  route('/centre-aide', 'pages/centreAide.tsx'),
   route('/what-is-happiness', 'pages/what-is-happiness.tsx'),
   route('/become-transporter', 'pages/become-transporter.tsx'),
 ] satisfies RouteConfig;

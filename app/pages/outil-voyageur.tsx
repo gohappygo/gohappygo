@@ -7,7 +7,7 @@ const OutilVoyageur = () => {
     <div className="min-h-screen bg-white flex flex-col relative overflow-hidden md:bg-[url('/images/footerLinksbackground.jpeg')] bg-no-repeat bg-cover bg-center">
       <Header />
 
-      <main className="relative grow w-full max-w-6xl mx-auto px-6 py-4 font-sans z-10 bg-[url('/images/footerLinksbackground.jpeg')] bg-no-repeat bg-cover md:bg-none">
+      <main className="relative grow w-full max-w-6xl mx-auto px-6 py-4 mb-16 font-sans z-10 bg-[url('/images/footerLinksbackground.jpeg')] bg-no-repeat bg-cover md:bg-none">
         {/* Header Section */}
         <header className="mb-20 max-w-4xl text-left">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-blue-600 leading-tight uppercase tracking-tight mb-6">
@@ -36,7 +36,7 @@ const OutilVoyageur = () => {
             >
               <img
                 className="w-55 h-55"
-                src="/images/bonnesPratiques-removebg-preview.png"
+                src="/images/bonnesPratiques-removebg-preview.webp"
                 alt="blue thumbs up with 3 stars at the top"
               />
             </Link>
@@ -60,7 +60,7 @@ const OutilVoyageur = () => {
             >
               <img
                 className="w-55 h-55"
-                src="/images/articlesInterdits-removebg-preview.png"
+                src="/images/articlesInterdits-removebg-preview.webp"
                 alt="forbidden blue cupcake"
               />
             </Link>
@@ -83,7 +83,7 @@ const OutilVoyageur = () => {
             >
               <img
                 className="w-55 h-55"
-                src="/images/securiteAccompagnements-removebg-preview.png"
+                src="/images/securiteAccompagnements-removebg-preview.webp"
                 alt="blue and red people holding"
               />
             </Link>
