@@ -66,7 +66,7 @@ export default function HeroSection() {
         <div className="hidden md:flex absolute top-18 justify-around gap-[5%] lg:gap-[45%] w-full ">
           <div className="flex flex-col items-center mt-4">
             <img
-              src="/images/arrowBlue.png"
+              src="/images/arrowBlue.webp"
               alt={t('home.heroAlt.arrow')}
               className="w-35 h-15 object-cover hover:scale-105 transition-transform duration-300"
             />
@@ -76,7 +76,7 @@ export default function HeroSection() {
           </div>
           <div className="flex flex-col lg:flex-row justify-center items-center  ">
             <img
-              src="/images/arrowYelow.png"
+              src="/images/arrowYelow.webp"
               alt={t('home.heroAlt.arrow')}
               className="w-20 h-30 ml-10 lg:ml-0 lg:w-25 lg:h-35 object-cover hover:scale-105 transition-transform duration-300"
             />
