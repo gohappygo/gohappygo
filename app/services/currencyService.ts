@@ -1,3 +1,5 @@
+import api from "./Api";
+
 export interface Currency {
   id: string;
   code: string;
@@ -36,38 +38,21 @@ export interface CurrencySearchResult {
   nextCursor?: string;
 }
 
-const API_BASE_URL = "https://api.gohappygo.fr/api/currency";
-
 export async function searchCurrencies(
   params: CurrencySearchParams
 ): Promise<CurrencySearchResult> {
   const { name = "", cursor, limit = 10 } = params;
 
   try {
-    // Build query parameters
-    const searchParams = new URLSearchParams();
-    searchParams.append("page", cursor || "1");
-    searchParams.append("limit", limit.toString());
-    searchParams.append("orderBy", "code:asc");
-
-    if (name.trim()) {
-      // The API might support search by name or code
-      searchParams.append("search", name.trim());
-    }
-
-    const response = await fetch(`${API_BASE_URL}?${searchParams.toString()}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+    const response = await api.get<CurrencyApiResponse>("/currency", {
+      params: {
+        page: cursor || "1",
+        limit,
+        orderBy: "code:asc",
+        search: name.trim() || undefined,
       },
     });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data: CurrencyApiResponse = await response.json();
+    const data = response.data;
 
     // Convert API response to our expected format
     const nextCursor = data.meta.hasNextPage
@@ -143,19 +128,8 @@ export async function getCurrencyByCode(
   code: string
 ): Promise<Currency | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}?code=${code}&limit=1`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data: CurrencyApiResponse = await response.json();
+    const response = await api.get<CurrencyApiResponse>("/currency", { params: { code, limit: 1 } });
+    const data = response.data;
     return data.items.length > 0 ? data.items[0] : null;
   } catch (error) {
     console.error("Error fetching currency by code:", error);
@@ -165,19 +139,8 @@ export async function getCurrencyByCode(
 
 export async function getAllCurrencies(): Promise<Currency[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}?limit=100&orderBy=code:asc`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data: CurrencyApiResponse = await response.json();
+    const response = await api.get<CurrencyApiResponse>("/currency", { params: { limit: 100, orderBy: "code:asc" } });
+    const data = response.data;
     return data.items;
   } catch (error) {
     console.error("Error fetching all currencies:", error);
