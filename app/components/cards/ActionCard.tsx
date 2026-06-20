@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface ActionCardProps {
@@ -37,6 +37,10 @@ interface ActionCardProps {
   statusBadge?: string;
   statusBadgeTone?: 'green' | 'red';
   cardTone?: 'default' | 'danger';
+  photoProofBadge?: {
+    label: string;
+    tone: 'warning' | 'success';
+  };
   messageAction?: {
     label: string;
     onClick: () => void;
@@ -70,6 +74,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
   statusBadge,
   statusBadgeTone,
   cardTone,
+  photoProofBadge,
   messageAction,
   tertiaryAction,
   priceAboveActions,
@@ -131,6 +136,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
               </span>
             </div>
             <button
+              type="button"
               className="relative px-3 py-1.5 md:px-5 md:py-2 border-2 border-blue-600 text-blue-600 rounded-xl text-[10px] md:text-xs font-bold hover:bg-blue-50 transition-colors shrink-0 cursor-pointer"
               onClick={messageAction?.onClick}
             >
@@ -179,11 +185,26 @@ const ActionCard: React.FC<ActionCardProps> = ({
             </span>
           </div>
 
+          {photoProofBadge && (
+            <div className="w-full flex justify-end mb-1">
+              <span
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold border shadow-sm ${
+                  photoProofBadge.tone === 'success'
+                    ? 'bg-green-50 text-green-600 border-green-200'
+                    : 'bg-orange-50 text-orange-600 border-orange-200'
+                }`}
+              >
+                {photoProofBadge.label}
+              </span>
+            </div>
+          )}
+
           <div className={`flex gap-2 ${hasTwoActions ? 'w-full' : ''}`}>
             {statusBadge ? (
               <div className="flex gap-2 items-center justify-end w-full">
                 {tertiaryAction && (
                   <button
+                    type="button"
                     onClick={tertiaryAction.onClick}
                     disabled={tertiaryAction.disabled || tertiaryAction.loading}
                     className={`px-4 py-2 rounded-xl font-bold text-xs shadow-lg transition-all active:scale-95 cursor-pointer ${
@@ -213,6 +234,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
               <>
                 {primaryAction && (
                   <button
+                    type="button"
                     onClick={primaryAction.onClick}
                     disabled={primaryAction.disabled || primaryAction.loading}
                     className={`px-3 py-2 md:px-4 md:py-2 text-white rounded-xl font-bold min-h-9 flex items-center justify-center ${
@@ -232,6 +254,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
                 )}
                 {secondaryAction && (
                   <button
+                    type="button"
                     onClick={secondaryAction.onClick}
                     disabled={secondaryAction.disabled || secondaryAction.loading}
                     className={`px-3 py-2 md:px-4 md:py-2 font-bold rounded-xl transition-colors border-2 whitespace-nowrap min-h-9 flex items-center justify-center ${

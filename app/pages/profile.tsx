@@ -160,7 +160,14 @@ export default function Profile() {
     {
       id: 'reservations',
       label: t('profile.sections.reservations'),
-      icon: <PaperAirplaneIcon className="h-5 w-5" />,
+      icon: (
+        <img
+          src="/images/reservations.jpeg"
+          alt=""
+          aria-hidden="true"
+          className="h-5 w-5 object-contain"
+        />
+      ),
       count: profileStats?.requestsAcceptedCount || 0,
     },
     {

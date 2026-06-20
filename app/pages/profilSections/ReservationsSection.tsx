@@ -401,6 +401,13 @@ export const ReservationsSection = ({
                   cardTone={
                     request.currentStatus?.status === 'CANCELLATION_DISPUTED' ? 'danger' : 'default'
                   }
+                  photoProofBadge={
+                    request.currentStatus?.status === 'ACCEPTED'
+                      ? request.hasMeetingProof || request.isPhotoTaken
+                        ? { label: 'Photo prise', tone: 'success' }
+                        : { label: 'Prendre la photo', tone: 'warning' }
+                      : undefined
+                  }
                   primaryAction={
                     request.currentStatus?.status === 'NEGOTIATING' &&
                     requester?.id.toString() != currentUser?.id

@@ -36,6 +36,10 @@ export interface RequestResponse {
   unReadMessages?: number;
   lastMessageDateTime?: string | null;
   canReview?: boolean;
+  hasMeetingProof?: boolean;
+  isPhotoTaken?: boolean;
+  meetingProofUploadedAt?: string | null;
+  meetingProofUploadedByUserId?: number | null;
   currency?: Currency;
 }
 

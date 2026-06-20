@@ -1,7 +1,6 @@
 import {
   ChatBubbleLeftRightIcon,
   MagnifyingGlassIcon,
-  PaperAirplaneIcon,
   PlusCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Link, useLocation } from 'react-router';
@@ -51,16 +50,24 @@ export default function MobileTabBar() {
         </Link>
 
         <Link
-          to="/profile?section=travels"
+          to="/profile?section=reservations"
           onClick={handleProtectedNavigation}
           className={`${linkBaseClass} ${
-            isActive((pathname, search) => pathname === '/profile' && search.includes('section=travels'))
+            isActive(
+              (pathname, search) =>
+                pathname === '/profile' && search.includes('section=reservations')
+            )
               ? 'bg-blue-50 text-blue-600'
               : 'text-gray-500'
           }`}
-          aria-label="Vos voyages"
+          aria-label="Mes réservations"
         >
-          <PaperAirplaneIcon className="h-6 w-6" />
+          <img
+            src="/images/reservations.jpeg"
+            alt=""
+            aria-hidden="true"
+            className="h-6 w-6 object-contain"
+          />
         </Link>
 
         <button
