@@ -90,6 +90,8 @@ const ActionCard: React.FC<ActionCardProps> = ({
   const isLongPrimaryLabel = (primaryAction?.label?.length || 0) > 18;
   const isLongSecondaryLabel = (secondaryAction?.label?.length || 0) > 18;
   const hasTwoActions = Boolean(primaryAction && secondaryAction);
+  const shouldHidePriceSubtext = priceSubtext?.trim().toLowerCase() === 'total';
+  const visiblePriceSubtext = shouldHidePriceSubtext ? '' : priceSubtext || t('cards.action.perKg');
   return (
     <div
       className={`bg-white rounded-2xl overflow-hidden p-2 shadow-lg hover:shadow-xl transition-shadow border flex flex-col h-full ${
@@ -181,10 +183,10 @@ const ActionCard: React.FC<ActionCardProps> = ({
           }`}
         >
           <div className="text-sm font-medium text-gray-900 mb-1">
-            {price}{' '}
-            <span className="text-sm text-gray-900">
-              {priceSubtext || t('cards.action.perKg')}
-            </span>
+            {price}
+            {!!visiblePriceSubtext && (
+              <span className="text-sm text-gray-900"> {visiblePriceSubtext}</span>
+            )}
           </div>
 
           {photoProofBadge && (

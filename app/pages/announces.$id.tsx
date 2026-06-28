@@ -1241,10 +1241,7 @@ export default function AnnounceDetail() {
                         </div>
 
                         <div className="mt-6 border-t border-gray-200 pt-4">
-                          <div className="flex items-center justify-between text-sm">
-                            <span className="text-gray-700 font-medium">
-                              {t('pages.announceDetail.booking.pricing.totalLabel')}
-                            </span>
+                          <div className="flex items-center justify-start text-sm">
                             <span className="font-bold text-lg text-gray-900">
                               {pricingData.totalAmount.toFixed(2)} {currencySymbol}
                             </span>
