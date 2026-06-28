@@ -120,6 +120,7 @@ export interface Review {
 
 export interface DemandTravelItem {
   id: number;
+  publicId?: string;
   type?: 'demand' | 'travel';
   title?: string;
   description: string;

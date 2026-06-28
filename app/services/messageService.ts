@@ -6,7 +6,7 @@ export interface SendMessageDto {
 }
 
 export interface SendPublicMessageDto {
-  announcementId: number;
+  publicId: string;
   announcementType: 'travel' | 'demand';
   message: string;
 }
@@ -125,7 +125,7 @@ export const sendPublicMessage = async (
   dto: SendPublicMessageDto
 ): Promise<SendPublicMessageResponse> => {
   try {
-    const response = await api.post('/message/send-public', dto);
+    const response = await api.post('/message/contact-announcer', dto);
     return response.data;
   } catch (error: any) {
     console.error('Error sending public message:', error);

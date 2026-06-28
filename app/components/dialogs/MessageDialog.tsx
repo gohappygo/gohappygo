@@ -1,11 +1,11 @@
+import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
+  type SendMessageDto,
   sendMessage,
   sendPublicMessage,
-  type SendMessageDto,
 } from '~/services/messageService';
-import { useTranslation } from 'react-i18next';
-import { XMarkIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 export default function MessageDialog({
   open,
@@ -14,7 +14,7 @@ export default function MessageDialog({
   hostName,
   hostAvatar,
   requestId,
-  announcementId,
+  publicId,
   announcementType,
   onSend,
 }: {
@@ -24,7 +24,7 @@ export default function MessageDialog({
   hostName: string;
   hostAvatar: string;
   requestId?: number;
-  announcementId?: number;
+  publicId?: string;
   announcementType?: 'travel' | 'demand';
   onSend?: (message: string) => void;
 }) {
@@ -63,21 +63,38 @@ export default function MessageDialog({
           content: message.trim(),
         };
         await sendMessage(dto);
-      } else if (announcementId && announcementType) {
+      } else if (publicId && announcementType) {
         await sendPublicMessage({
-          announcementId,
+          publicId,
           announcementType,
           message: message.trim(),
         });
+      } else {
+        throw new Error(t('dialogs.message.error'));
       }
 
       // Call the callback if provided
       onSend?.(message.trim());
       setMessage('');
       onClose();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error sending message:', error);
-      setError(error?.response?.data?.message || t('dialogs.message.error'));
+      const errorMessage =
+        typeof error === 'object' &&
+        error !== null &&
+        'response' in error &&
+        typeof error.response === 'object' &&
+        error.response !== null &&
+        'data' in error.response &&
+        typeof error.response.data === 'object' &&
+        error.response.data !== null &&
+        'message' in error.response.data &&
+        typeof error.response.data.message === 'string'
+          ? error.response.data.message
+          : error instanceof Error
+            ? error.message
+            : t('dialogs.message.error');
+      setError(errorMessage);
     } finally {
       setSending(false);
     }
@@ -86,7 +103,12 @@ export default function MessageDialog({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Overlay */}
-      <div className="fixed inset-0 bg-black/40" onClick={sending ? undefined : onClose} />
+      <button
+        type="button"
+        aria-label={t('common.close')}
+        className="fixed inset-0 bg-black/40"
+        onClick={sending ? undefined : onClose}
+      />
 
       {/* Modal Container */}
       <div className="relative z-10 w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/10">
@@ -121,6 +143,7 @@ export default function MessageDialog({
             )}
 
             <button
+              type="button"
               onClick={handleSendMessage}
               disabled={!message.trim() || sending}
               className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-[#2d6a74] py-3 text-white font-semibold hover:bg-[#25575f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
@@ -140,6 +163,7 @@ export default function MessageDialog({
           <div className="relative w-full md:w-[380px] bg-white p-6 md:p-8 md border-gray-100">
             {/* Close Button positioned in the right panel as per image */}
             <button
+              type="button"
               onClick={onClose}
               aria-label={t('common.close')}
               disabled={sending}

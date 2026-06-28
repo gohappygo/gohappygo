@@ -1396,7 +1396,7 @@ export default function AnnounceDetail() {
         title={`${listing.departureAirport?.name} → ${listing.arrivalAirport?.name}`}
         hostName={userName}
         hostAvatar={listing.user?.profilePictureUrl || '/favicon.ico'}
-        announcementId={Number(listing.id)}
+        publicId={listing.publicId}
         announcementType={type === 'demand' ? 'demand' : 'travel'}
         onSend={(msg) => {
           console.log('Message sent:', msg);
