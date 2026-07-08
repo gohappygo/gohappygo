@@ -29,9 +29,6 @@ export default function EditPackageDialog({
   const [currency, setCurrency] = useState<Currency | null>(null);
   const [flightNumber, setFlightNumber] = useState('');
   const [travelDate, setTravelDate] = useState('');
-  const [packageNature, setPackageNature] = useState<
-    'FRAGILE' | 'URGENT' | 'STANDARD' | 'MORE_THAN_3000'
-  >('STANDARD');
 
   // API state
   const [submitting, setSubmitting] = useState(false);
@@ -88,10 +85,6 @@ export default function EditPackageDialog({
       }
     }
 
-    // Set package nature - map from backend values
-    const backendPackageKind = (demand as any).packageKind || 'STANDARD';
-    setPackageNature(backendPackageKind);
-
     // Reset other states
     setSubmitting(false);
     setError(null);
@@ -140,7 +133,6 @@ export default function EditPackageDialog({
         weight: parseFloat(weight),
         pricePerKg: parseFloat(pricePerKilo),
         currencyId: parseInt(currency.id),
-        packageKind: packageNature,
       };
 
       const result = await updateDemand(demand.id, updateData);
@@ -264,46 +256,6 @@ export default function EditPackageDialog({
                   {t('common.characterCount', { count: baggageDescription.length, max: 500 })}
                 </div>
               </Field>
-
-              <div>
-                <div className="mb-2 text-sm font-semibold text-gray-900">
-                  {t('dialogs.createPackage.packageNature')}
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <label className="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-700">
-                    <input
-                      type="radio"
-                      checked={packageNature === 'STANDARD'}
-                      onChange={() => setPackageNature('STANDARD')}
-                    />
-                    {t('common.packageNature.STANDARD')}
-                  </label>
-                  <label className="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-700">
-                    <input
-                      type="radio"
-                      checked={packageNature === 'FRAGILE'}
-                      onChange={() => setPackageNature('FRAGILE')}
-                    />
-                    {t('common.packageNature.FRAGILE')}
-                  </label>
-                  <label className="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-700">
-                    <input
-                      type="radio"
-                      checked={packageNature === 'URGENT'}
-                      onChange={() => setPackageNature('URGENT')}
-                    />
-                    {t('common.packageNature.URGENT')}
-                  </label>
-                  <label className="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-700">
-                    <input
-                      type="radio"
-                      checked={packageNature === 'MORE_THAN_3000'}
-                      onChange={() => setPackageNature('MORE_THAN_3000')}
-                    />
-                    {t('common.packageNature.MORE_THAN_3000')}
-                  </label>
-                </div>
-              </div>
 
               <Field label={t('dialogs.createAnnounce.weight')}>
                 <input

@@ -9,7 +9,6 @@ export interface CreateDemandData {
   weight: number;
   pricePerKg: number;
   currencyId: number;
-  packageKind: string;
   image1: File;
   image2: File;
   image3: File;
@@ -28,7 +27,6 @@ export const createDemand = async (data: CreateDemandData) => {
     formData.append("weight", data.weight.toString());
     formData.append("pricePerKg", data.pricePerKg.toString());
     formData.append("currencyId", data.currencyId.toString());
-    formData.append("packageKind", data.packageKind);
 
     // Add the three required images
     formData.append("image1", data.image1);
@@ -57,7 +55,6 @@ export interface UpdateDemandData {
   weight?: number;
   pricePerKg?: number;
   currencyId?: number;
-  packageKind?: string;
 }
 
 export const updateDemand = async (demandId: number, data: UpdateDemandData) => {
@@ -74,7 +71,6 @@ export const updateDemand = async (demandId: number, data: UpdateDemandData) => 
     if (data.weight !== undefined) jsonData.weight = data.weight;
     if (data.pricePerKg !== undefined) jsonData.pricePerKg = data.pricePerKg;
     if (data.currencyId !== undefined) jsonData.currencyId = data.currencyId;
-    if (data.packageKind !== undefined) jsonData.packageKind = data.packageKind;
 
     // Note: Images cannot be updated via PATCH endpoint - only JSON data
     const response = await api.patch(`/demand/${demandId}`, jsonData, {

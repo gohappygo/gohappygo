@@ -73,7 +73,7 @@ export default function RegisterDialog({
       const response = await signInWithGoogle(idToken);
 
       if (response.needsRegistrationCompletion) {
-        setMessage('Connexion Google reussie. Completez votre onboarding.');
+        setMessage('Connexion Google reussie. Finalisez votre inscription.');
         setStep(3);
       } else {
         onClose();
@@ -96,7 +96,7 @@ export default function RegisterDialog({
       const response = await signInWithFacebook(idToken);
 
       if (response.needsRegistrationCompletion) {
-        setMessage('Connexion Facebook reussie. Completez votre onboarding.');
+        setMessage('Connexion Facebook reussie. Finalisez votre inscription.');
         setStep(3);
       } else {
         onClose();
@@ -258,7 +258,7 @@ export default function RegisterDialog({
                   ? t('dialogs.register.title')
                   : step === 2
                     ? t('dialogs.register.verificationTitle')
-                    : 'Completer votre onboarding'}
+                    : 'Finaliser votre inscription'}
               </h1>
               <p className="text-sm sm text-gray-600">
                 {step === 1

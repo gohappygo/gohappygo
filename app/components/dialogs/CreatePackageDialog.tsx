@@ -37,7 +37,6 @@ export default function CreatePackageDialog({
   const [currency, setCurrency] = useState<Currency | null>(null);
   const [flightNumber, setFlightNumber] = useState('');
   const [travelDate, setTravelDate] = useState('');
-  const [packageNature, setPackageNature] = useState<'FRAGILE' | 'URGENT' | 'STANDARD'>('STANDARD');
 
   const today = new Date().toISOString().split('T')[0];
 
@@ -66,7 +65,6 @@ export default function CreatePackageDialog({
     setCurrency(defaultCurrency);
     setFlightNumber('');
     setTravelDate('');
-    setPackageNature('STANDARD');
     setSubmitting(false);
     setError(null);
     setSuccess(null);
@@ -203,7 +201,6 @@ export default function CreatePackageDialog({
         weight: parseFloat(weight),
         pricePerKg: parseFloat(pricePerKilo),
         currencyId: parseInt(currency.id),
-        packageKind: packageNature,
         image1: photos[0],
         image2: photos[1],
         image3: photos[2],
@@ -405,37 +402,6 @@ export default function CreatePackageDialog({
                   )}
                 </Field>
 
-                <div>
-                  <div className="mb-2 text-sm font-semibold text-gray-900">
-                    {t('dialogs.createPackage.packageNature')}
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <label className="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-700">
-                      <input
-                        type="radio"
-                        checked={packageNature === 'STANDARD'}
-                        onChange={() => setPackageNature('STANDARD')}
-                      />
-                      {t('common.packageNature.STANDARD')}
-                    </label>
-                    <label className="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-700">
-                      <input
-                        type="radio"
-                        checked={packageNature === 'FRAGILE'}
-                        onChange={() => setPackageNature('FRAGILE')}
-                      />
-                      {t('common.packageNature.FRAGILE')}
-                    </label>
-                    <label className="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-700">
-                      <input
-                        type="radio"
-                        checked={packageNature === 'URGENT'}
-                        onChange={() => setPackageNature('URGENT')}
-                      />
-                      {t('common.packageNature.URGENT')}
-                    </label>
-                  </div>
-                </div>
               </div>
             )}
 
