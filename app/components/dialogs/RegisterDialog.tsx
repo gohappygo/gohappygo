@@ -590,7 +590,7 @@ export default function RegisterDialog({
                       defaultCountry={(selectedCountry?.code.toLowerCase() as any) || 'fr'}
                       value={form.phoneNumber}
                       onChange={(phone) => setForm((p) => ({ ...p, phoneNumber: phone }))}
-                      inputClassName="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus transition-colors"
+                      inputClassName="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white focus:ring-2 focus:ring-green-500 focus transition-colors"
                       countrySelectorStyleProps={{
                         className:
                           'border border-gray-300 rounded-l-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus pointer-events-none opacity-75',
@@ -602,7 +602,6 @@ export default function RegisterDialog({
                       disableCountryGuess
                       forceDialCode
                     />
-                    <p className="text-xs text-gray-500 mt-1">{t('dialogs.register.phoneHelper')}</p>
                   </div>
                 </>
               )}
