@@ -399,6 +399,7 @@
         "weightInvalid": "Please enter a valid weight"
       },
       "maxDeliveryDate": "Max delivery date",
+      "currencyLabel": "Currency",
       "packageNature": "Package nature",
       "step1": "General",
       "step1Subtitle": "Select basic settings",

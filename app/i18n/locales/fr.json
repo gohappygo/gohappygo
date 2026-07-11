@@ -399,6 +399,7 @@
         "weightInvalid": "Veuillez saisir un poids valide"
       },
       "maxDeliveryDate": "Date max de livraison",
+      "currencyLabel": "Devise",
       "packageNature": "Nature du bagage",
       "step1": "Général",
       "step1Subtitle": "Sélectionnez les paramètres de base",
