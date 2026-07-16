@@ -44,28 +44,28 @@ jobs:
       - name: Package static build
         run: tar -czf gohappygo-front.tar.gz -C build/client .
 
-      - name: Install SSH tools
+      - name: Configure SSH
+        env:
+          CLOUDPANEL_SSH_PRIVATE_KEY: ${{ secrets.CLOUDPANEL_SSH_PRIVATE_KEY }}
         run: |
-          sudo apt-get update
-          sudo apt-get install -y sshpass
+          mkdir -p ~/.ssh
+          printf '%s\n' "$CLOUDPANEL_SSH_PRIVATE_KEY" > ~/.ssh/cloudpanel_deploy_key
+          chmod 600 ~/.ssh/cloudpanel_deploy_key
+          ssh-keyscan -p "$CLOUDPANEL_PORT" "$CLOUDPANEL_HOST" >> ~/.ssh/known_hosts
 
       - name: Upload artifact to CloudPanel
-        env:
-          SSHPASS: ${{ secrets.CLOUDPANEL_SSH_PASSWORD }}
         run: |
-          sshpass -e scp \
+          scp \
+            -i ~/.ssh/cloudpanel_deploy_key \
             -P "$CLOUDPANEL_PORT" \
-            -o StrictHostKeyChecking=accept-new \
             gohappygo-front.tar.gz \
             "$CLOUDPANEL_USER@$CLOUDPANEL_HOST:$CLOUDPANEL_REMOTE_TMP"
 
       - name: Activate release on CloudPanel
-        env:
-          SSHPASS: ${{ secrets.CLOUDPANEL_SSH_PASSWORD }}
         run: |
-          sshpass -e ssh \
+          ssh \
+            -i ~/.ssh/cloudpanel_deploy_key \
             -p "$CLOUDPANEL_PORT" \
-            -o StrictHostKeyChecking=accept-new \
             "$CLOUDPANEL_USER@$CLOUDPANEL_HOST" \
             "set -eu
              TARGET_DIR='$CLOUDPANEL_TARGET_DIR'
