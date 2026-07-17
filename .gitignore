@@ -7,6 +7,9 @@
 
 .VScodeCounter/
 .env
+.env.local
+.env.production
+.env.*.local
 *.apk
 *.aab
 
