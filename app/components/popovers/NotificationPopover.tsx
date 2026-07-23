@@ -420,16 +420,20 @@ export default function NotificationPopover({
   };
 
   const handleMarkAsRead = async (id: number) => {
+    const previousNotifications = notifications;
+    setNotifications((prev) => {
+      const target = prev.find((n) => n.id === id);
+      if (target && !target.isRead) {
+        onCountChange?.(Math.max(0, prev.filter((n) => !n.isRead).length - 1));
+      }
+      return prev.filter((n) => n.id !== id);
+    });
     try {
       await notificationService.markAsRead(id);
-      setNotifications((prev) => {
-        const updated = prev.map((n) => (n.id === id ? { ...n, isRead: true } : n));
-        const unreadCount = updated.filter((n) => !n.isRead).length;
-        onCountChange?.(unreadCount);
-        return updated;
-      });
     } catch (error) {
       console.error('Failed to mark notification as read:', error);
+      setNotifications(previousNotifications);
+      onCountChange?.(previousNotifications.filter((n) => !n.isRead).length);
     }
   };
 
@@ -448,12 +452,15 @@ export default function NotificationPopover({
   };
 
   const handleMarkAllAsRead = async () => {
+    const previousNotifications = notifications;
+    setNotifications([]);
+    onCountChange?.(0);
     try {
       await notificationService.markAllAsRead();
-      setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
-      onCountChange?.(0);
     } catch (error) {
       console.error('Failed to mark all as read:', error);
+      setNotifications(previousNotifications);
+      onCountChange?.(previousNotifications.filter((n) => !n.isRead).length);
     }
   };
 

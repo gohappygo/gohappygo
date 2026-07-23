@@ -657,7 +657,7 @@
         "closeLabel": "Fermer",
         "empty": "Aucune notification",
         "loading": "Chargement...",
-        "markAllAsRead": "✓ Tout marquer comme lu",
+        "markAllAsRead": "Tout marquer comme lu",
         "timeAgo": {
           "ago": "il y a {{count}} {{units}}",
           "justNow": "à l'instant",
@@ -1295,7 +1295,7 @@
       "actions": {
         "clearRead": "Effacer les lues",
         "delete": "Supprimer",
-        "markAllRead": "Tout marquer lu",
+        "markAllRead": "Tout marquer comme lu",
         "markAsRead": "Marquer comme lu"
       },
       "allSeen": "Vous avez vu toutes vos notifications",

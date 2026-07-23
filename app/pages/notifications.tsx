@@ -78,20 +78,27 @@ export default function NotificationsPage() {
   }, [loadingMore, hasMore, currentPage]);
 
   const handleMarkAsRead = async (id: number) => {
+    const previousNotifications = notifications;
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
     try {
       await notificationService.markAsRead(id);
-      setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)));
     } catch (error) {
       console.error('Failed to mark notification as read:', error);
+      setNotifications(previousNotifications);
     }
   };
 
   const handleMarkAllAsRead = async () => {
+    const previousNotifications = notifications;
+    const previousHasMore = hasMore;
+    setNotifications([]);
+    setHasMore(false);
     try {
       await notificationService.markAllAsRead();
-      setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
     } catch (error) {
       console.error('Failed to mark all as read:', error);
+      setNotifications(previousNotifications);
+      setHasMore(previousHasMore);
     }
   };
 
