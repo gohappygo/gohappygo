@@ -4,6 +4,7 @@ import {
   PlusCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Link, useLocation } from 'react-router';
+import ReservationIcon from '~/components/icons/ReservationIcon';
 import { useAuthStore } from '~/store/auth';
 
 const linkBaseClass =
@@ -62,12 +63,7 @@ export default function MobileTabBar() {
           }`}
           aria-label="Mes réservations"
         >
-          <img
-            src="/images/reservations.jpeg"
-            alt=""
-            aria-hidden="true"
-            className="h-6 w-6 object-contain"
-          />
+          <ReservationIcon className="h-6 w-6" />
         </Link>
 
         <button

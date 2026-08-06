@@ -281,7 +281,7 @@ export default function LoginDialog({
 
             {/* Lien vers inscription */}
             <div className="mt-4 md:mt-6 text-center">
-              <span className="text-xs md text-gray-600">{t('dialogs.login.noAccount')} </span>
+              <span className="text-xs md text-gray-900">{t('dialogs.login.noAccount')} </span>
               <button
                 onClick={onSwitchToRegister}
                 className="text-xs md text-blue-600 hover font-medium cursor-pointer"

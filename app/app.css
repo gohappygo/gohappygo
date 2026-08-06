@@ -13,6 +13,11 @@
     @apply bg-white;
   }
 
+  /* Zoom global du site à 80% */
+  body {
+    zoom: 80%;
+  }
+
   /* Application automatique des règles de typographie Inter */
   h1 {
     font-family: 'Inter', sans-serif;

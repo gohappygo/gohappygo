@@ -625,6 +625,7 @@
       "messages": "My Messages",
       "profile": "My Profile",
       "register": "Register",
+      "reservations": "My Reservations",
       "travelerTools": "Traveler tools",
       "travels": "My Travels",
       "wishes": "My Travel Wishes"
@@ -1543,6 +1544,7 @@
       "firstName": "First name",
       "firstNameNote": "(Only your first name appears on the platform)",
       "lastName": "Last name",
+      "nameImmutable": "Your identity has been verified: first and last name can no longer be changed.",
       "newPasswordLabel": "New password",
       "newPasswordPlaceholder": "Enter your new password",
       "passwordUpdate": "Update password",
@@ -1566,6 +1568,7 @@
       "uploadProfilePicture": "Upload profile picture"
     },
     "editProfile": "Edit profile",
+    "checkOnApp": "Check on the app",
     "messages": {
       "addBio": "Add a bio to tell others about yourself",
       "cancelDemandBody": "Are you sure you want to cancel this travel demand? This action cannot be undone.",

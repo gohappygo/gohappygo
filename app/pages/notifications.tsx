@@ -103,20 +103,29 @@ export default function NotificationsPage() {
   };
 
   const handleDeleteNotification = async (id: number) => {
+    const previousNotifications = notifications;
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
     try {
       await notificationService.deleteNotification(id);
-      setNotifications((prev) => prev.filter((n) => n.id !== id));
     } catch (error) {
       console.error('Failed to delete notification:', error);
+      setNotifications(previousNotifications);
     }
   };
 
   const handleClearRead = async () => {
+    const previousNotifications = notifications;
+    const readNotifications = notifications.filter((n) => n.isRead);
+    setNotifications((prev) => prev.filter((n) => !n.isRead));
     try {
       await notificationService.clearReadNotifications();
-      setNotifications((prev) => prev.filter((n) => !n.isRead));
     } catch (error) {
-      console.error('Failed to clear read notifications:', error);
+      try {
+        await Promise.all(readNotifications.map((notification) => notificationService.deleteNotification(notification.id)));
+      } catch (fallbackError) {
+        console.error('Failed to clear read notifications:', error, fallbackError);
+        setNotifications(previousNotifications);
+      }
     }
   };
 

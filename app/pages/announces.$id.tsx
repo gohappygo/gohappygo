@@ -771,7 +771,7 @@ export default function AnnounceDetail() {
                       <>
                         <span className="font-medium">
                           {t('pages.announceDetail.flightNumber')}{' '}
-                          {listing.flightNumber.toUpperCase()}
+                          {String(listing.flightNumber || '').toUpperCase()}
                         </span>
                         {listing.airline?.name && (
                           <span className="text-gray-600">{listing.airline.name}</span>

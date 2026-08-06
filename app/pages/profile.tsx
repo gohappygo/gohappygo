@@ -18,6 +18,7 @@ import {
 import { getMe, type GetMeResponse } from '~/services/authService';
 import { getOnboardingLink } from '~/services/stripeService';
 import { getUnreadCount } from '~/services/messageService';
+import ReservationIcon from '~/components/icons/ReservationIcon';
 import { ReservationsSection } from './profilSections/ReservationsSection';
 import { ReviewsSection } from './profilSections/ReviewsSection';
 import { TravelRequestsSection } from './profilSections/TravelRequestsSection';
@@ -27,6 +28,8 @@ import { FavoritesSection } from './profilSections/FavoritesSection';
 import { MessagesSection } from './profilSections/MessagesSection';
 import type { ProfileSection } from './profilSections/types';
 import { useAuthStore } from '~/store/auth';
+import { useIsNativeApp } from '~/hooks/useIsNativeApp';
+import AppDownloadPopover from '~/components/popovers/AppDownloadPopover';
 
 export default function Profile() {
   const { t, i18n } = useTranslation();
@@ -56,6 +59,9 @@ export default function Profile() {
   const [processingOnboarding, setProcessingOnboarding] = useState(false);
   const [totalUnreadCount, setTotalUnreadCount] = useState(0);
   const contentSectionRef = useRef<HTMLElement | null>(null);
+  const isNativeApp = useIsNativeApp();
+  const [appDownloadOpen, setAppDownloadOpen] = useState(false);
+  const appDownloadBtnRef = useRef<HTMLElement>({} as HTMLElement);
 
   useEffect(() => {
     const legacySection = searchParams.get('section');
@@ -148,6 +154,9 @@ export default function Profile() {
   // Use profileUser data instead of currentUser for display
   const displayUser = profileUser || currentUser;
 
+  // Identité déjà vérifiée -> le bouton "Vérifier sur l'appli" est grisé
+  const isIdentityVerified = Boolean(profileUser?.isVerified ?? currentUser?.isVerified);
+
   useEffect(() => {
     if (activeSection !== 'messages' || !contentSectionRef.current) return;
 
@@ -160,14 +169,7 @@ export default function Profile() {
     {
       id: 'reservations',
       label: t('profile.sections.reservations'),
-      icon: (
-        <img
-          src="/images/reservations.jpeg"
-          alt=""
-          aria-hidden="true"
-          className="h-5 w-5 object-contain"
-        />
-      ),
+      icon: <ReservationIcon className="h-5 w-5" />,
       count: profileStats?.requestsAcceptedCount || 0,
     },
     {
@@ -369,6 +371,33 @@ export default function Profile() {
                 >
                   {t('profile.editProfile')}
                 </button>
+              )}
+
+              {/* Vérifier sur l'appli - web uniquement */}
+              {isOwnProfile && !isNativeApp && (
+                <div className="relative mt-3">
+                  <button
+                    onClick={() => setAppDownloadOpen((v) => !v)}
+                    disabled={isIdentityVerified}
+                    ref={(el) => {
+                      (appDownloadBtnRef as any).current = el;
+                    }}
+                    className={`w-full rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+                      isIdentityVerified
+                        ? 'bg-gray-100 border border-gray-300 text-gray-400 cursor-not-allowed'
+                        : 'bg-white border border-blue-500 text-blue-500 hover:bg-blue-50 cursor-pointer'
+                    }`}
+                  >
+                    {t('profile.checkOnApp')}
+                  </button>
+                  <AppDownloadPopover
+                    open={appDownloadOpen && !isIdentityVerified}
+                    onClose={() => setAppDownloadOpen(false)}
+                    pinned={false}
+                    onTogglePin={() => {}}
+                    triggerRef={appDownloadBtnRef}
+                  />
+                </div>
               )}
             </div>
 

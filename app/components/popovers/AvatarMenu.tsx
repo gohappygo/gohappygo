@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import { LogIn, UserPlus } from 'lucide-react';
+import ReservationIcon from '~/components/icons/ReservationIcon';
 
 export default function AvatarMenu({
   open,
@@ -113,6 +114,16 @@ export default function AvatarMenu({
                 />
               </svg>
               {t('header.avatarMenu.profile')}
+            </Link>
+
+            <Link
+              to="/profile?section=reservations"
+              onClick={onClose}
+              className="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover transition-colors duration-150"
+              role="menuitem"
+            >
+              <ReservationIcon className="w-5 h-5 mr-3 text-gray-500" />
+              {t('header.avatarMenu.reservations')}
             </Link>
 
             <Link

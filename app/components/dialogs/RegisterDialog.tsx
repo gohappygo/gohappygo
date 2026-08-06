@@ -691,7 +691,7 @@ export default function RegisterDialog({
 
                 {/* Lien vers connexion */}
                 <div className="mt-4 sm:mt-6 text-center">
-                  <span className="text-xs sm text-gray-600">
+                  <span className="text-xs sm text-gray-900">
                     {t('dialogs.register.hasAccount')}{' '}
                   </span>
                   <button

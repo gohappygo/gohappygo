@@ -7,6 +7,7 @@ export interface Notification {
   title: string;
   message: string;
   data?: any;
+  readAt?: string | null;
   isRead: boolean;
   createdAt: string;
   updatedAt: string;
@@ -32,19 +33,31 @@ export interface FindNotificationsQuery {
   page?: number;
   limit?: number;
   isRead?: boolean;
+  unreadOnly?: boolean;
   type?: string;
 }
+
+const normalizeNotification = (notification: Notification): Notification => ({
+  ...notification,
+  isRead: notification.isRead ?? Boolean(notification.readAt),
+});
+
+const normalizePaginatedNotifications = (response: PaginatedNotifications): PaginatedNotifications => ({
+  ...response,
+  items: response.items.map(normalizeNotification),
+});
 
 export const notificationService = {
   async getNotifications(query?: FindNotificationsQuery): Promise<PaginatedNotifications> {
     const params = new URLSearchParams();
     if (query?.page) params.append('page', query.page.toString());
     if (query?.limit) params.append('limit', query.limit.toString());
-    if (query?.isRead !== undefined) params.append('isRead', query.isRead.toString());
+    if (query?.unreadOnly !== undefined) params.append('unreadOnly', query.unreadOnly.toString());
+    if (query?.isRead !== undefined) params.append('unreadOnly', (!query.isRead).toString());
     if (query?.type) params.append('type', query.type);
 
     const response = await api.get(`/notification?${params.toString()}`);
-    return response.data;
+    return normalizePaginatedNotifications(response.data);
   },
 
   async getNotificationCounts(): Promise<NotificationCounts> {
@@ -54,7 +67,7 @@ export const notificationService = {
 
   async markAsRead(id: number): Promise<Notification> {
     const response = await api.patch(`/notification/${id}/read`);
-    return response.data;
+    return normalizeNotification(response.data);
   },
 
   async markAllAsRead(): Promise<{ affected: number }> {

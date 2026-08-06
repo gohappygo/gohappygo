@@ -625,6 +625,7 @@
       "messages": "Mes Messages",
       "profile": "Mon Profil",
       "register": "Inscription",
+      "reservations": "Mes Réservations",
       "travelerTools": "Outils voyageurs",
       "travels": "Mes Voyages",
       "wishes": "Mes Souhaits de Voyages"
@@ -1556,6 +1557,7 @@
       "firstName": "Prénom",
       "firstNameNote": "(Seul votre prénom apparaît sur la plateforme)",
       "lastName": "Nom de famille",
+      "nameImmutable": "Votre identité a été vérifiée : le nom et le prénom ne peuvent plus être modifiés.",
       "newPasswordLabel": "Nouveau mot de passe",
       "newPasswordPlaceholder": "Entrez votre nouveau mot de passe",
       "passwordUpdate": "Mettre à jour le mot de passe",
@@ -1579,6 +1581,7 @@
       "uploadProfilePicture": "Téléverser une photo de profil"
     },
     "editProfile": "Modifier le profil",
+    "checkOnApp": "Vérifier sur l'appli",
     "messages": {
       "addBio": "Ajoutez une bio pour vous présenter",
       "cancelDemandBody": "Êtes-vous sûr de vouloir annuler cette demande de voyage ? Cette action ne peut pas être annulée.",

@@ -40,6 +40,9 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
     new: false,
     confirm: false,
   });
+  const [isIdentityVerified, setIsIdentityVerified] = useState<boolean>(
+    Boolean(user?.isVerified)
+  );
   const [profileImage, setProfileImage] = useState<string | null>(user?.profilePictureUrl || null);
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -68,6 +71,7 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
             aboutMe: userData?.bio || user.bio || '',
             phoneNumber: userData?.phone || user?.phone || '',
           });
+          setIsIdentityVerified(Boolean(userData?.isVerified ?? user.isVerified));
         } catch (error) {
           console.error('Error fetching user data:', error);
           setFormData({
@@ -76,6 +80,7 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
             aboutMe: user.bio || '',
             phoneNumber: user?.phone || '',
           });
+          setIsIdentityVerified(Boolean(user.isVerified));
         }
       };
 
@@ -125,8 +130,9 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
 
     try {
       const result = await updateProfile({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
+        // Une fois l'identite verifiee (KYC Didit), le nom n'est plus modifiable
+        firstName: isIdentityVerified ? undefined : formData.firstName,
+        lastName: isIdentityVerified ? undefined : formData.lastName,
         bio: formData.aboutMe,
         profilePicture: profileImageFile || undefined,
       });
@@ -263,7 +269,12 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
                       placeholder={t('profile.dialog.firstName')}
                       value={formData.firstName}
                       onChange={(e) => handleInputChange('firstName', e.target.value)}
-                      className="text-gray-500 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus"
+                      disabled={isIdentityVerified}
+                      className={
+                        isIdentityVerified
+                          ? 'text-gray-400 w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed'
+                          : 'text-gray-500 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus'
+                      }
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       {t('profile.dialog.firstNameNote')}
@@ -277,8 +288,18 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
                       placeholder={t('profile.dialog.lastName')}
                       value={formData.lastName}
                       onChange={(e) => handleInputChange('lastName', e.target.value)}
-                      className="text-gray-500 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus"
+                      disabled={isIdentityVerified}
+                      className={
+                        isIdentityVerified
+                          ? 'text-gray-400 w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed'
+                          : 'text-gray-500 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus'
+                      }
                     />
+                    {isIdentityVerified && (
+                      <p className="text-xs text-gray-500 mt-1">
+                        {t('profile.dialog.nameImmutable')}
+                      </p>
+                    )}
                   </div>
 
                   {/* Phone Number - Disabled */}
