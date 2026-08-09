@@ -1569,6 +1569,8 @@
     },
     "editProfile": "Edit profile",
     "checkOnApp": "Check on the app",
+    "verifyIdentityOnApp": "Let's verify your identity on the app",
+    "identityVerified": "Identity verified",
     "messages": {
       "addBio": "Add a bio to tell others about yourself",
       "cancelDemandBody": "Are you sure you want to cancel this travel demand? This action cannot be undone.",

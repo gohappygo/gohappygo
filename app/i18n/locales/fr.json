@@ -1582,6 +1582,8 @@
     },
     "editProfile": "Modifier le profil",
     "checkOnApp": "Vérifier sur l'appli",
+    "verifyIdentityOnApp": "Vérifions votre identité sur l’appli",
+    "identityVerified": "Identité vérifiée",
     "messages": {
       "addBio": "Ajoutez une bio pour vous présenter",
       "cancelDemandBody": "Êtes-vous sûr de vouloir annuler cette demande de voyage ? Cette action ne peut pas être annulée.",

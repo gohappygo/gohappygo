@@ -388,7 +388,9 @@ export default function Profile() {
                         : 'bg-white border border-blue-500 text-blue-500 hover:bg-blue-50 cursor-pointer'
                     }`}
                   >
-                    {t('profile.checkOnApp')}
+                    {isIdentityVerified
+                      ? t('profile.identityVerified')
+                      : t('profile.verifyIdentityOnApp')}
                   </button>
                   <AppDownloadPopover
                     open={appDownloadOpen && !isIdentityVerified}
