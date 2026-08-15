@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import i18n from '~/i18n';
@@ -49,7 +49,7 @@ function formatDate(dateString: string): string {
   });
 }
 
-function getNotificationIcon(notificationType: string) {
+export function getNotificationIcon(notificationType: string) {
   const icons = {
     // Request notifications
     REQUEST_SUBMITTED: {
@@ -393,27 +393,55 @@ export default function NotificationPopover({
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(false);
+  const hiddenNotificationIdsRef = useRef<Set<number>>(new Set());
+
+  const loadNotifications = useCallback(async (silent: boolean = false) => {
+    try {
+      if (!silent) setLoading(true);
+      const [response, counts] = await Promise.all([
+        notificationService.getNotifications({ limit: 10, unreadOnly: true }),
+        notificationService.getNotificationCounts().catch(() => null),
+      ]);
+      const visibleItems = response.items.filter(
+        (notification) => !hiddenNotificationIdsRef.current.has(notification.id)
+      );
+      setNotifications(visibleItems);
+      if (counts) onCountChange?.(counts.unreadCount ?? counts.unread ?? 0);
+    } catch (error) {
+      console.error('Failed to load notifications:', error);
+    } finally {
+      if (!silent) setLoading(false);
+    }
+  }, [onCountChange]);
 
   useEffect(() => {
     if (open) {
       loadNotifications();
     }
-  }, [open]);
+  }, [open, loadNotifications]);
 
-  const loadNotifications = async () => {
-    try {
-      setLoading(true);
-      const response = await notificationService.getNotifications({ limit: 10 });
-      setNotifications(response.items);
-    } catch (error) {
-      console.error('Failed to load notifications:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    if (!open) return;
+
+    const refreshSilently = () => {
+      if (document.hidden) return;
+      void loadNotifications(true);
+    };
+
+    const interval = window.setInterval(refreshSilently, 5000);
+    window.addEventListener('focus', refreshSilently);
+    document.addEventListener('visibilitychange', refreshSilently);
+
+    return () => {
+      window.clearInterval(interval);
+      window.removeEventListener('focus', refreshSilently);
+      document.removeEventListener('visibilitychange', refreshSilently);
+    };
+  }, [open, loadNotifications]);
 
   const handleMarkAsRead = async (id: number) => {
     const previousNotifications = notifications;
+    hiddenNotificationIdsRef.current.add(id);
     setNotifications((prev) => {
       const target = prev.find((n) => n.id === id);
       if (target && !target.isRead) {
@@ -425,6 +453,7 @@ export default function NotificationPopover({
       await notificationService.markAsRead(id);
     } catch (error) {
       console.error('Failed to mark notification as read:', error);
+      hiddenNotificationIdsRef.current.delete(id);
       setNotifications(previousNotifications);
       onCountChange?.(previousNotifications.filter((n) => !n.isRead).length);
     }
@@ -446,12 +475,15 @@ export default function NotificationPopover({
 
   const handleMarkAllAsRead = async () => {
     const previousNotifications = notifications;
+    const previousHiddenNotificationIds = new Set(hiddenNotificationIdsRef.current);
+    notifications.forEach((notification) => hiddenNotificationIdsRef.current.add(notification.id));
     setNotifications([]);
     onCountChange?.(0);
     try {
       await notificationService.markAllAsRead();
     } catch (error) {
       console.error('Failed to mark all as read:', error);
+      hiddenNotificationIdsRef.current = previousHiddenNotificationIds;
       setNotifications(previousNotifications);
       onCountChange?.(previousNotifications.filter((n) => !n.isRead).length);
     }

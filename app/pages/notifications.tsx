@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link } from 'react-router';
 import Header from '~/components/layout/Header';
 import FooterMinimal from '~/components/layout/FooterMinimal';
+import { getNotificationIcon } from '~/components/popovers/NotificationPopover';
 import { notificationService, type Notification } from '~/services/notificationService';
 import { useInfiniteScroll } from '~/hooks/useInfiniteScroll';
 import { useTranslation } from 'react-i18next';
@@ -31,16 +32,12 @@ export default function NotificationsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
+  const hiddenNotificationIdsRef = useRef<Set<number>>(new Set());
 
-  // Load initial notifications
-  useEffect(() => {
-    loadNotifications(1, true);
-  }, [filter]);
-
-  const loadNotifications = async (page: number, reset: boolean = false) => {
+  const loadNotifications = useCallback(async (page: number, reset: boolean = false, silent: boolean = false) => {
     try {
       if (reset) {
-        setLoading(true);
+        if (!silent) setLoading(true);
         setCurrentPage(1);
       }
 
@@ -51,10 +48,14 @@ export default function NotificationsPage() {
 
       const response = await notificationService.getNotifications(query);
 
+      const visibleItems = response.items.filter(
+        (notification) => !hiddenNotificationIdsRef.current.has(notification.id)
+      );
+
       if (reset) {
-        setNotifications(response.items);
+        setNotifications(visibleItems);
       } else {
-        setNotifications((prev) => [...prev, ...response.items]);
+        setNotifications((prev) => [...prev, ...visibleItems]);
       }
 
       // Calculate if there are more pages
@@ -67,7 +68,29 @@ export default function NotificationsPage() {
       setLoading(false);
       setLoadingMore(false);
     }
-  };
+  }, [filter, t]);
+
+  // Load initial notifications
+  useEffect(() => {
+    loadNotifications(1, true);
+  }, [loadNotifications]);
+
+  useEffect(() => {
+    const refreshSilently = () => {
+      if (document.hidden) return;
+      void loadNotifications(1, true, true);
+    };
+
+    const interval = window.setInterval(refreshSilently, 5000);
+    window.addEventListener('focus', refreshSilently);
+    document.addEventListener('visibilitychange', refreshSilently);
+
+    return () => {
+      window.clearInterval(interval);
+      window.removeEventListener('focus', refreshSilently);
+      document.removeEventListener('visibilitychange', refreshSilently);
+    };
+  }, [loadNotifications]);
 
   const loadMore = useCallback(async () => {
     if (loadingMore || !hasMore) return;
@@ -79,11 +102,13 @@ export default function NotificationsPage() {
 
   const handleMarkAsRead = async (id: number) => {
     const previousNotifications = notifications;
+    hiddenNotificationIdsRef.current.add(id);
     setNotifications((prev) => prev.filter((n) => n.id !== id));
     try {
       await notificationService.markAsRead(id);
     } catch (error) {
       console.error('Failed to mark notification as read:', error);
+      hiddenNotificationIdsRef.current.delete(id);
       setNotifications(previousNotifications);
     }
   };
@@ -91,12 +116,15 @@ export default function NotificationsPage() {
   const handleMarkAllAsRead = async () => {
     const previousNotifications = notifications;
     const previousHasMore = hasMore;
+    const previousHiddenNotificationIds = new Set(hiddenNotificationIdsRef.current);
+    notifications.forEach((notification) => hiddenNotificationIdsRef.current.add(notification.id));
     setNotifications([]);
     setHasMore(false);
     try {
       await notificationService.markAllAsRead();
     } catch (error) {
       console.error('Failed to mark all as read:', error);
+      hiddenNotificationIdsRef.current = previousHiddenNotificationIds;
       setNotifications(previousNotifications);
       setHasMore(previousHasMore);
     }
@@ -104,28 +132,14 @@ export default function NotificationsPage() {
 
   const handleDeleteNotification = async (id: number) => {
     const previousNotifications = notifications;
+    hiddenNotificationIdsRef.current.add(id);
     setNotifications((prev) => prev.filter((n) => n.id !== id));
     try {
       await notificationService.deleteNotification(id);
     } catch (error) {
       console.error('Failed to delete notification:', error);
+      hiddenNotificationIdsRef.current.delete(id);
       setNotifications(previousNotifications);
-    }
-  };
-
-  const handleClearRead = async () => {
-    const previousNotifications = notifications;
-    const readNotifications = notifications.filter((n) => n.isRead);
-    setNotifications((prev) => prev.filter((n) => !n.isRead));
-    try {
-      await notificationService.clearReadNotifications();
-    } catch (error) {
-      try {
-        await Promise.all(readNotifications.map((notification) => notificationService.deleteNotification(notification.id)));
-      } catch (fallbackError) {
-        console.error('Failed to clear read notifications:', error, fallbackError);
-        setNotifications(previousNotifications);
-      }
     }
   };
 
@@ -189,12 +203,6 @@ export default function NotificationsPage() {
                   {t('pages.notifications.actions.markAllRead')}
                 </button>
               )}
-              <button
-                onClick={handleClearRead}
-                className="px-4 py-2 rounded-lg text-sm font-medium text-red-600 hover/20 transition-colors"
-              >
-                {t('pages.notifications.actions.clearRead')}
-              </button>
             </div>
           </div>
         </div>
@@ -248,56 +256,66 @@ export default function NotificationsPage() {
         ) : (
           <>
             <div className="space-y-3">
-              {notifications.map((notification) => (
-                <div
-                  key={notification.id}
-                  className={`bg-white rounded-xl border transition-all hover:shadow-md ${
-                    !notification.isRead ? 'border-blue-200 bg-blue-50/30/10' : 'border-gray-200'
-                  }`}
-                >
-                  <div className="p-4 sm:p-6">
-                    <div className="flex items-start gap-4">
-                      {/* Unread indicator */}
-                      <div className="flex-shrink-0 mt-1">
-                        <div
-                          className={`w-3 h-3 rounded-full ${
-                            !notification.isRead ? 'bg-blue-600' : 'bg-gray-300'
-                          }`}
-                        />
-                      </div>
+              {notifications.map((notification) => {
+                const iconData = getNotificationIcon(notification.notificationType || 'DEFAULT');
 
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between gap-4 mb-2">
-                          <h3 className="font-semibold text-gray-900">{notification.title}</h3>
-                          <span className="text-xs text-gray-500 whitespace-nowrap">
-                            {formatTimeAgo(notification.createdAt, t)}
-                          </span>
+                return (
+                  <div
+                    key={notification.id}
+                    className={`bg-white rounded-xl border transition-all hover:shadow-md ${
+                      !notification.isRead ? 'border-blue-200 bg-blue-50/30/10' : 'border-gray-200'
+                    }`}
+                  >
+                    <div className="p-4 sm:p-6">
+                      <div className="flex items-start gap-4">
+                        {/* Unread indicator */}
+                        <div className="flex-shrink-0 mt-1">
+                          <div
+                            className={`w-3 h-3 rounded-full ${
+                              !notification.isRead ? 'bg-blue-600' : 'bg-gray-300'
+                            }`}
+                          />
                         </div>
-                        <p className="text-sm text-gray-600 mb-3">{notification.message}</p>
 
-                        {/* Actions */}
-                        <div className="flex items-center gap-3">
-                          {!notification.isRead && (
+                        <div
+                          className={`shrink-0 w-10 h-10 rounded-xl ${iconData.bg} ${iconData.color} flex items-center justify-center shadow-sm`}
+                        >
+                          {iconData.svg}
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-4 mb-2">
+                            <h3 className="font-semibold text-gray-900">{notification.title}</h3>
+                            <span className="text-xs text-gray-500 whitespace-nowrap">
+                              {formatTimeAgo(notification.createdAt, t)}
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-600 mb-3">{notification.message}</p>
+
+                          {/* Actions */}
+                          <div className="flex items-center gap-3">
+                            {!notification.isRead && (
+                              <button
+                                onClick={() => handleMarkAsRead(notification.id)}
+                                className="text-xs text-blue-600 hover font-medium"
+                              >
+                                {t('pages.notifications.actions.markAsRead')}
+                              </button>
+                            )}
                             <button
-                              onClick={() => handleMarkAsRead(notification.id)}
-                              className="text-xs text-blue-600 hover font-medium"
+                              onClick={() => handleDeleteNotification(notification.id)}
+                              className="text-xs text-red-600 hover font-medium"
                             >
-                              {t('pages.notifications.actions.markAsRead')}
+                              {t('pages.notifications.actions.delete')}
                             </button>
-                          )}
-                          <button
-                            onClick={() => handleDeleteNotification(notification.id)}
-                            className="text-xs text-red-600 hover font-medium"
-                          >
-                            {t('pages.notifications.actions.delete')}
-                          </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Infinite scroll sentinel */}

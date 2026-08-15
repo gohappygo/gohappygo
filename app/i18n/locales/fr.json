@@ -217,6 +217,7 @@
     "HR": "Croatie",
     "HU": "Hongrie",
     "IE": "Irlande",
+    "IS": "Islande",
     "IT": "Italie",
     "JP": "Japon",
     "LI": "Liechtenstein",
@@ -1294,7 +1295,7 @@
     },
     "notifications": {
       "actions": {
-        "clearRead": "Effacer les lues",
+        "clearRead": "Tout marquer comme lu",
         "delete": "Supprimer",
         "markAllRead": "Tout marquer comme lu",
         "markAsRead": "Marquer comme lu"

@@ -76,8 +76,14 @@ export default function Header() {
         }
       };
       loadUnreadCount();
-      const interval = setInterval(loadUnreadCount, 30000); // Refresh every 30 seconds
-      return () => clearInterval(interval);
+      const interval = window.setInterval(loadUnreadCount, 5000);
+      window.addEventListener('focus', loadUnreadCount);
+      document.addEventListener('visibilitychange', loadUnreadCount);
+      return () => {
+        window.clearInterval(interval);
+        window.removeEventListener('focus', loadUnreadCount);
+        document.removeEventListener('visibilitychange', loadUnreadCount);
+      };
     } else {
       console.log('User not logged in, skipping notification count load');
     }
