@@ -156,17 +156,10 @@ export function getNotificationIcon(notificationType: string) {
     // Travel/Demand notifications
     TRAVEL_PUBLISHED: {
       svg: (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-          />
-        </svg>
+        <img src="/pouces-vers-le-haut.svg" alt="" aria-hidden="true" className="w-5 h-5 object-contain" />
       ),
-      color: 'text-blue-600',
-      bg: 'bg-blue-50',
+      color: 'text-purple-600',
+      bg: 'bg-purple-50',
     },
     DEMAND_PUBLISHED: {
       svg: (
@@ -182,12 +175,12 @@ export function getNotificationIcon(notificationType: string) {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M13 10V3L4 14h7v7l9-11h-7z"
+            d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"
           />
         </svg>
       ),
-      color: 'text-yellow-600',
-      bg: 'bg-yellow-50',
+      color: 'text-indigo-600',
+      bg: 'bg-indigo-50',
     },
     DEMAND_MATCHED: {
       svg: (
@@ -196,12 +189,12 @@ export function getNotificationIcon(notificationType: string) {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M13 10V3L4 14h7v7l9-11h-7z"
+            d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"
           />
         </svg>
       ),
-      color: 'text-yellow-600',
-      bg: 'bg-yellow-50',
+      color: 'text-indigo-600',
+      bg: 'bg-indigo-50',
     },
 
     // Payment notifications

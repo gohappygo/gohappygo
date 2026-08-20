@@ -160,29 +160,44 @@ export default function MessageDialog({
           </div>
 
           {/* Right Column: Safety Information */}
-          <div className="relative w-full md:w-[380px] bg-white p-6 md:p-8 md border-gray-100">
+          <div className="relative w-full md:w-[380px] overflow-hidden p-6 md:p-8">
+            {/* Background color */}
+            <div className="absolute inset-0 bg-[#055A98]" />
+            {/* Background illustration */}
+            <img
+              src="/images/securiteAccompagnements-removebg-preview.webp"
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full object-contain p-6 opacity-90"
+            />
+            {/* Scrim for text contrast */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+
             {/* Close Button positioned in the right panel as per image */}
             <button
               type="button"
               onClick={onClose}
               aria-label={t('common.close')}
               disabled={sending}
-              className="absolute top-4 right-4 text-gray-400 hover transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+              className="absolute top-4 right-4 z-20 rounded-full bg-black/20 p-1 text-white hover:text-white/80 transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
             >
               <XMarkIcon className="h-6 w-6" />
             </button>
 
-            <div className="mt-2 flex flex-col gap-6">
+            <div className="relative z-20 mt-2 flex flex-col gap-6">
               {/* Warning Icon */}
               <div className="text-red-500">
                 <ExclamationTriangleIcon className="h-9 w-9" />
               </div>
 
               {/* Safety Text */}
-              <div className="space-y-6 text-[15px] leading-relaxed text-gray-800 font-semibold">
+              <div className="space-y-6 text-[15px] leading-relaxed text-white font-semibold">
+                <h3 className="text-lg font-bold text-white mb-1">
+                  {t('dialogs.message.safety.title')}
+                </h3>
                 <p>
                   {t('dialogs.message.safety.stayOnPlatform').split('GoHappyGo')[0]}
-                  <span className="font-semibold text-blue-600 hover:underline cursor-pointer">
+                  <span className="font-semibold text-blue-300 hover:underline cursor-pointer">
                     GoHappyGo
                   </span>
                   {t('dialogs.message.safety.stayOnPlatform').split('GoHappyGo')[1]}
