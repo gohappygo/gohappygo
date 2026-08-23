@@ -448,7 +448,7 @@
       "register": "S'inscrire",
       "rememberMe": "Se souvenir de moi",
       "submitting": "Connexion…",
-      "subtitle": "et profitez de toutes les possibilités",
+      "subtitle": "et partagez votre voyage, multipliez les bonheurs",
       "title": "Connexion"
     },
     "message": {
@@ -490,7 +490,7 @@
       "resendCode": "Renvoyer le code",
       "submit": "Soumettre",
       "submitting": "En cours…",
-      "subtitle": "Inscrivez-vous et profitez de toutes les possibilités",
+      "subtitle": "Inscrivez-vous et partagez votre voyage, multipliez les bonheurs",
       "termsAnd": "et les",
       "termsOfUse": "Conditions d'utilisation",
       "termsPrefix": "En vous inscrivant, vous acceptez la",
@@ -1556,7 +1556,7 @@
         "title": "Suppression du compte"
       },
       "firstName": "Prénom",
-      "firstNameNote": "(Seul votre prénom apparaît sur la plateforme)",
+      "firstNameNote": "(Uniquement votre prénom apparaît sur la plateforme)",
       "lastName": "Nom de famille",
       "nameImmutable": "Votre identité a été vérifiée : le nom et le prénom ne peuvent plus être modifiés.",
       "newPasswordLabel": "Nouveau mot de passe",
