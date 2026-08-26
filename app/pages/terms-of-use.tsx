@@ -14,7 +14,7 @@ export default function TermsOfUse() {
             Entrée en vigueur : 22 août 2026
           </p>
 
-          <div className="mt-8 space-y-4 text-gray-700 leading-relaxed">
+          <div className="mt-8 space-y-4 text-gray-700 leading-relaxed text-justify">
             <h2 className="text-xl font-bold text-gray-900">Préambule</h2>
             <p>
               Les présentes Conditions Générales d&apos;Utilisation et de Vente (ci-après les «
@@ -50,7 +50,7 @@ export default function TermsOfUse() {
             </p>
           </div>
 
-          <div className="mt-10 space-y-8 text-gray-700 leading-relaxed">
+          <div className="mt-10 space-y-8 text-gray-700 leading-relaxed text-justify">
             <article>
               <h2 className="text-xl font-bold text-gray-900">Article 1 — Définitions</h2>
               <dl className="mt-3 space-y-2">

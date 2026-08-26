@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
             Entrée en vigueur : 22 août 2026 — Version harmonisée avec les CGU/CGV
           </p>
 
-          <div className="mt-10 space-y-8 text-gray-700 leading-relaxed">
+          <div className="mt-10 space-y-8 text-gray-700 leading-relaxed text-justify">
             <article>
               <h2 className="text-xl font-bold text-gray-900">
                 1. Objet de la politique et responsable du traitement
