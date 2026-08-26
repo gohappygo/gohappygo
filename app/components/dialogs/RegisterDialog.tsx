@@ -511,11 +511,11 @@ export default function RegisterDialog({
                     />
                     <label htmlFor="terms" className="ml-2 text-xs sm text-gray-600">
                       {t('dialogs.register.termsPrefix')}{' '}
-                      <Link to="/privacy" className="text-green-600 hover underline">
+                      <Link to="/privacy-policy" className="text-green-600 hover underline">
                         {t('dialogs.register.privacyPolicy')}
                       </Link>{' '}
                       {t('dialogs.register.termsAnd')}{' '}
-                      <Link to="/terms" className="text-green-600 hover underline">
+                      <Link to="/terms-of-use" className="text-green-600 hover underline">
                         {t('dialogs.register.termsOfUse')}
                       </Link>
                       .
