@@ -263,7 +263,7 @@
       "payCta": "Pay {{amount}} {{currency}}",
       "securedBy": "Secure payment by",
       "submitting": "Processing...",
-      "tagline": "Be a carrier of happiness"
+      "tagline": "Be a carrier of joy"
     },
     "cookieConsent": {
       "accept": "Accept",
@@ -273,9 +273,9 @@
     },
     "createAlert": {
       "alertType": {
-        "both": "Trips and requests",
+        "both": "Journeys and requests",
         "demandOnly": "Requests only",
-        "travelOnly": "Trips only"
+        "travelOnly": "Journeys only"
       },
       "alertTypeLabel": "Alert type",
       "arrivalAirportLabel": "Arrival airport *",
@@ -347,7 +347,7 @@
       "paymentEmailLabel": "Payment email (Stripe)",
       "paymentEmailPlaceholder": "name@email.com",
       "photos": "Photos",
-      "photosHelper": "Upload at least 2 photos of your trip",
+      "photosHelper": "Upload at least 2 photos of your journey",
       "photosUploadCta": "Click to upload files ({{count}}/{{max}})",
       "pricePerKilo": "Price per kilo",
       "pricePerKiloPlaceholder": "Enter your price per kilo",
@@ -448,7 +448,7 @@
       "register": "Register",
       "rememberMe": "Remember me",
       "submitting": "Logging in…",
-      "subtitle": "and share your trip, multiply the happiness",
+      "subtitle": "and Share your journey, Multiply the Joy",
       "title": "Login"
     },
     "message": {
@@ -456,7 +456,7 @@
       "placeholder": "Your message here...",
       "safety": {
         "avoidScams": "To avoid scams, never click on payment or transfer links shared by other members.",
-        "stayOnPlatform": "To ensure your safety, always stay on GoHappyGo until the end of your trip.",
+        "stayOnPlatform": "To ensure your safety, always stay on GoHappyGo until the end of your journey.",
         "title": "Safety Information"
       },
       "send": "Send message",
@@ -490,7 +490,7 @@
       "resendCode": "Resend the code",
       "submit": "Submit",
       "submitting": "In progress...",
-      "subtitle": "and share your trip, multiply the happiness",
+      "subtitle": "and Share your journey, Multiply the Joy",
       "termsAnd": "and the",
       "termsOfUse": "Terms of Use",
       "termsPrefix": "By registering, you accept the",
@@ -523,17 +523,17 @@
     },
     "success": {
       "goToDashboard": "Go to Dashboard",
-      "happinessIsSimple": "Happiness is simple",
+      "happinessIsSimple": "Joy is simple",
       "infoFilled": "Information Filled",
       "paymentsActivated": "Payments Activated",
-      "readyToGiveReceive": "You are ready to give and receive Happiness.",
+      "readyToGiveReceive": "You are ready to give and receive Joy.",
       "steps": {
         "earn": {
-          "desc": "Start earning money from your trips.",
+          "desc": "Start earning money from your journeys.",
           "title": "Earn income"
         },
         "find": {
-          "desc": "Search for a trip to the same destination.",
+          "desc": "Search for a journey to the same destination.",
           "title": "Find a HappyTraveler"
         },
         "publish": {
@@ -558,7 +558,7 @@
       "title": "Account"
     },
     "copyright": "All rights reserved.",
-    "description": "Be a happiness carrier",
+    "description": "Be a joy carrier",
     "discover": {
       "announcements": "Announcements",
       "howItWorks": "How it works ?",
@@ -571,13 +571,13 @@
       "insuranceProtection": "Insurance and Protection",
       "securityRules": "Security rules",
       "goodPractices": "Good practices",
-      "title": "Give Happiness"
+      "title": "Give Joy"
     },
     "knowUs": {
       "ecologicalImpact": "Ecological impact",
       "howItWorks": "How does it work ?",
       "title": "To know us better",
-      "whatIsHappiness": "What is Happiness ?"
+      "whatIsHappiness": "What is Joy ?"
     },
     "legal": {
       "pricingPolicy": "Pricing Policy",
@@ -642,11 +642,11 @@
       "announceType": {
         "ariaLabel": "Announcement types",
         "package": {
-          "desc": "Request a baggage trip",
+          "desc": "Request a baggage journey",
           "title": "Package"
         },
         "travel": {
-          "desc": "Post a trip to carry packages",
+          "desc": "Post a journey to carry packages",
           "title": "Travel"
         }
       },
@@ -684,11 +684,11 @@
   },
   "home": {
     "becomeTransporter": {
-      "title": "Become a <span className=\"text-blue-600\">HappyTraveler</span>, and give happiness to other Travelers"
+      "title": "Become a <span className=\"text-blue-600\">HappyTraveler</span>, and give joy to other Travelers"
     },
     "features": {
       "profitability": {
-        "description": "Make an economical trip by earning money with your unused baggage allowance while meeting new people.",
+        "description": "Make an economical journey by earning money with your unused baggage allowance while meeting new people.",
         "title": "Profit from your travels"
       },
       "security": {
@@ -697,7 +697,7 @@
       },
       "simplicity": {
         "description": "Installing the GoHappyGo app is a revolution. It's simple and beneficial for all travelers. Join a thriving community for happy and ecological mobility.",
-        "title": "Happiness is simple"
+        "title": "Joy is simple"
       },
       "subtitle": "A simple and secure solution for your shipments",
       "title": "Why choose GoHappyGo ?",
@@ -717,7 +717,7 @@
       "subtitle": "Have your excess baggage checked in by other travelers on the same flight as you, for the same destination",
       "title": "Ship your packages safely",
       "titlePart1": "Carry as much luggage as you wish with",
-      "titlePart2": "during your trip",
+      "titlePart2": "during your journey",
       "toPlaceholder": "Arrival airport"
     },
     "heroAlt": {
@@ -746,7 +746,7 @@
     },
     "meta": {
       "description": "Two needs, one mutual aid: travelers with fewer kilos help those who have more. Ship at low prices while travelers monetize their free space, in any security and simplicity.",
-      "title": "GoHappyGo - Make more than a trip, Make happy luggage"
+      "title": "GoHappyGo - Make more than a journey, Make happy luggage"
     },
     "packageCategories": {
       "categories": {
@@ -763,7 +763,7 @@
     },
     "popularRoutes": {
       "startingFrom": "Starting from",
-      "title": "Most popular <span className=\"text-blue-600\">Trips</span>"
+      "title": "Most popular <span className=\"text-blue-600\">Journeys</span>"
     },
     "recommendations": {
       "advantageousRates": "Advantageous rates",
@@ -778,7 +778,7 @@
       "title": "Our",
       "urgentPackages": "Urgent packages",
       "watchVideo": "Watch video",
-      "whyHappy": "Why I give happiness ?",
+      "whyHappy": "Why I give joy ?",
       "yourSecurityPriority": "Your security is our priority"
     },
     "reviews": {
@@ -792,12 +792,12 @@
       },
       "france": {
         "name": "Sophie M.",
-        "review": "I'm a mother of 4 children; I was able to bring plenty of things for the 'little' family on our trip without breaking the bank"
+        "review": "I'm a mother of 4 children; I was able to bring plenty of things for the 'little' family on our journey without breaking the bank"
       },
       "noReviews": "You don't have any reviews yet",
       "south_africa": {
         "name": "Theresa L.",
-        "review": "I treated myself to a restaurant with GoHappyGo earnings. Yes, I gave happiness, and I received a lot in return"
+        "review": "I treated myself to a restaurant with GoHappyGo earnings. Yes, I gave joy, and I received a lot in return"
       },
       "title": "User testimonials",
       "usa_east": {
@@ -889,7 +889,7 @@
         "invalidType": "Invalid announcement type",
         "invalidWeight": "Invalid weight",
         "loginRequired": "Login required",
-        "loginToBook": "You must be logged in to book a trip.",
+        "loginToBook": "You must be logged in to book a journey.",
         "loginToFavorite": "You must be logged in to add to favorites.",
         "onlyTravelBooking": "You can only book travels."
       },
@@ -942,7 +942,7 @@
       "flightNumber": "Flight No",
       "message": "Message",
       "meta": {
-        "description": "Discover this {{typeLabel}} on GoHappyGo. make more than a trip.",
+        "description": "Discover this {{typeLabel}} on GoHappyGo. make more than a journey.",
         "keywords": "luggage transport, travel, {{typeKey}}, GoHappyGo",
         "title": "{{type}} #{{id}} - GoHappyGo"
       },
@@ -989,11 +989,11 @@
       "weightKg": "Weight (kg)"
     },
     "becomeTransporter": {
-      "footer": "BE A HAPPINESS CARRIER.",
+      "footer": "BE A JOY CARRIER.",
       "header": "BE A HAPPYTRAVELER,<br><span>SIMPLY BE HAPPY</span>",
       "section1": {
         "intro": [
-          "We believe that traveling can be more than just a trip.",
+          "We believe that traveling can be more than just a journey.",
           "We believe that every journey is an opportunity.",
           "An opportunity to help.",
           "An opportunity to share.",
@@ -1035,7 +1035,7 @@
           "We carry more than luggage.",
           "We carry kindness.",
           "We carry trust.",
-          "We carry happiness."
+          "We carry joy."
         ],
         "title": "BEING A HAPPYTRAVELER,"
       }
@@ -1098,7 +1098,7 @@
           "items": ["Dedicated vehicles", "Sorting centers", "Extra packaging", "Indirect routes"],
           "highlightTitle": "Gohappygo adopts a different logic:",
           "highlights": [
-            "Zero extra trip",
+            "Zero extra journey",
             "Zero heavy infrastructure",
             "Zero superfluous packaging"
           ],
@@ -1121,7 +1121,7 @@
           "footerText": "Because traveling better is not traveling less — it is traveling more intelligently. 💙🌍"
         }
       ],
-      "title": "YOUR TRIP, YOUR LUGGAGE...<br><span>HAS A STRONG ECOLOGICAL</span><br><span>IMPACT</span>"
+      "title": "YOUR JOURNEY, YOUR LUGGAGE...<br><span>HAS A STRONG ECOLOGICAL</span><br><span>IMPACT</span>"
     },
     "faqPage": {
       "questions": [
@@ -1139,7 +1139,7 @@
         },
         {
           "question": "Who Chooses The Luggage Carrier ?",
-          "answer": "Whether booking or offering luggage space, one can freely choose their HappyTraveler, after consulting their profile, and exchanging with them. Cancellation is possible at any time before the trip. Any transaction must start and end on Gohappygo to benefit from our legal protection."
+          "answer": "Whether booking or offering luggage space, one can freely choose their HappyTraveler, after consulting their profile, and exchanging with them. Cancellation is possible at any time before the journey. Any transaction must start and end on Gohappygo to benefit from our legal protection."
         },
         {
           "question": "How Is The Meeting Traceability Ensured ?",
@@ -1150,16 +1150,16 @@
           "answer": "Only luggage authorized by regulations (suitcases, personal bags, non-dangerous effects) can be entrusted via Gohappygo."
         },
         {
-          "question": "What Happens In Case Of Problem During The Trip ?",
+          "question": "What Happens In Case Of Problem During The Journey ?",
           "answer": "Gohappygo is a secure framework, and of traceability. The platform provides 24/7 technical and legal assistance, regardless of location on the globe."
         },
         {
           "question": "How Does Payment Work ?",
-          "answer": "Payment is 100% secure and held in escrow by the platform throughout the trip and automatically transferred upon validation by the 2 HappyTravelers."
+          "answer": "Payment is 100% secure and held in escrow by the platform throughout the journey and automatically transferred upon validation by the 2 HappyTravelers."
         },
         {
           "question": "Can I Both Book And Offer Luggage Space ?",
-          "answer": "Yes. Gohappygo allows you to take on both roles, depending on your needs and trips."
+          "answer": "Yes. Gohappygo allows you to take on both roles, depending on your needs and journeys."
         },
         {
           "question": "How To Contact Gohappygo ?",
@@ -1213,11 +1213,11 @@
     "howItWorks": {
       "steps": [
         {
-          "title": "I SIGN UP & I PUBLISH MY TRIP",
+          "title": "I SIGN UP & I PUBLISH MY JOURNEY",
           "items": [
             "Account creation",
             "Mandatory identity check",
-            "Publication of an announcement/trip wish"
+            "Publication of an announcement/journey wish"
           ],
           "description": "It all starts with a verified profile and a shared route. Your data is treated strictly confidentially."
         },
@@ -1371,7 +1371,7 @@
     },
     "stripeOnboarding": {
       "badges": {
-        "happiness": "Happiness is simple",
+        "happiness": "Joy is simple",
         "info": "Information Filled",
         "payments": "Payments Activated",
         "verified": "Account Verified"
@@ -1381,18 +1381,18 @@
       "steps": {
         "earn": {
           "desc": "Start earning money from your travels.",
-          "title": "Earn income/Give Happiness"
+          "title": "Earn income/Give Joy"
         },
         "publish": {
           "desc": "Post an announcement or a travel request.",
           "title": "Publish an announcement"
         },
         "search": {
-          "desc": "for a trip on the same plane for the same destination",
+          "desc": "for a journey on the same plane for the same destination",
           "title": "Find/Search a HappyTraveler"
         }
       },
-      "subtitle": "You are ready to give and receive Happiness.",
+      "subtitle": "You are ready to give and receive Joy.",
       "title": "Stripe Configuration Completed!"
     },
     "support": {
@@ -1466,13 +1466,13 @@
       "title": "HappyVoyageurs"
     },
     "whatIsHappiness": {
-      "footer": "BE A HAPPINESS CARRIER.\nFOR OTHERS. FOR YOU. FOR TRAVELING DIFFERENTLY.",
+      "footer": "BE A JOY CARRIER.\nFOR OTHERS. FOR YOU. FOR TRAVELING DIFFERENTLY.",
       "section1": {
-        "content": "Happiness is not just arriving at the destination. It's knowing that, during your journey, <b>you helped someone.</b>",
-        "footer": "At GoHappyGo, every trip can become <b>a good and beautiful action.</b>",
+        "content": "Joy is not just arriving at the destination. It's knowing that, during your journey, <b>you helped someone.</b>",
+        "footer": "At GoHappyGo, every journey can become <b>a good and beautiful action.</b>",
         "items": [
           "A package that arrives on time",
-          "A lighter trip for someone else",
+          "A lighter journey for someone else",
           "Avoided stress",
           "A smile at the end of the road"
         ],
@@ -1480,21 +1480,21 @@
       },
       "section2": {
         "content": "By using GoHappyGo, you are not just a user. You are part of a <b>supportive community of travelers</b> who:",
-        "footer": "Happiness is often born when one feels <b>useful, connected and engaged.</b>",
+        "footer": "Joy is often born when one feels <b>useful, connected and engaged.</b>",
         "items": [
           "Help each other naturally",
           "Optimize what already exists",
           "Give meaning to their travels"
         ],
-        "title": "The happiness of being part of something bigger"
+        "title": "The joy of being part of something bigger"
       },
       "section3": {
         "content": "Carrying a package is not much. But for someone else, it is sometimes:",
-        "footer": "Happiness is these <b>ordinary little gestures</b> that create extraordinary effects.",
-        "items": ["A solution to a problem", "A more serene trip", "Regained confidence"],
+        "footer": "Joy is these <b>ordinary little gestures</b> that create extraordinary effects.",
+        "items": ["A solution to a problem", "A more serene journey", "Regained confidence"],
         "title": "Small gestures. Big effects."
       },
-      "title": "HAPPINESS,<br><span> IT'S ALSO SHARED!</span>"
+      "title": "JOY,<br><span> IT'S ALSO SHARED!</span>"
     }
   },
   "profile": {
@@ -1684,7 +1684,7 @@
       "myReceivedReviews": "My received reviews",
       "myTravels": "My travels",
       "reservationsCompleted": "Completed reservations",
-      "reservationsPendingDelivery": "Reservations pending delivery",
+      "reservationsPendingDelivery": "Reservations in progress",
       "reservationsToConfirm": "Reservations to confirm",
       "sellSpace": "Sell space"
     },
@@ -1756,8 +1756,8 @@
       "title": "TOOLS FOR THE HAPPYTRAVELERS"
     },
     "main": {
-      "subtitle": "Gain confidence and happiness",
-      "description": "You will find here all the essential resources to travel serenely, save time and avoid the unexpected, while giving happiness...",
+      "subtitle": "Gain confidence and joy",
+      "description": "You will find here all the essential resources to travel serenely, save time and avoid the unexpected, while giving joy...",
       "sections": {
         "goodPractices": {
           "title": "Good Practices",
@@ -1769,7 +1769,7 @@
         },
         "security": {
           "title": "Security and Accompanying",
-          "description": "Access all the guarantees for a smooth, secure and reassuring experience at each stage of your trip."
+          "description": "Access all the guarantees for a smooth, secure and reassuring experience at each stage of your journey."
         }
       }
     },
@@ -1782,7 +1782,7 @@
       "intro": "You met at the airport, took your selfie together, it's not over yet..",
       "checkIn": {
         "title": "Check-in together one after another",
-        "description": "It is recommended that both travelers report together to the check-in counter and check in their baggage one after another. This step confirms the trip, and secures, strengthens the traceability of the transaction until boarding."
+        "description": "It is recommended that both travelers report together to the check-in counter and check in their baggage one after another. This step confirms the journey, and secures, strengthens the traceability of the transaction until boarding."
       },
       "payment": {
         "title": "Secure payment",
@@ -1818,7 +1818,7 @@
         },
         "customs": {
           "title": "Check the customs rules",
-          "description": "Before your trip, take the time to consult the customs regulations applicable in your country of destination. Restrictions vary by country: some products may be prohibited or subject to declaration, such as alcohol, medicines or certain foods. Find the main information in our section ",
+          "description": "Before your journey, take the time to consult the customs regulations applicable in your country of destination. Restrictions vary by country: some products may be prohibited or subject to declaration, such as alcohol, medicines or certain foods. Find the main information in our section ",
           "link": "\"Forbidden / regulated articles\""
         },
         "messaging": {
@@ -1838,12 +1838,12 @@
   },
   "announces": {
     "descriptions": {
-      "1": "Business trip, space available in my suitcase for your packages",
+      "1": "Business journey, space available in my suitcase for your packages",
       "2": "Vacation in Japan, I can transport your packages with pleasure",
       "3": "Exchange student, plenty of space available",
       "4": "Weekend in Barcelona, free space in my luggage",
       "5": "Professional conference, secure transport guaranteed",
-      "6": "Personal trip, flexible on types of packages",
+      "6": "Personal journey, flexible on types of packages",
       "7": "Need to transport a leather bag",
       "8": "Looking for transport for flat shoes",
       "9": "Transport needed for travel bag"
@@ -2002,10 +2002,10 @@
     }
   },
   "seo": {
-    "description": "Make more than a trip, make happy luggage! GoHappyGo is the reference platform for making more than a trip. Find reliable travelers or offer your services during your travels. Economical, secure and ecological.",
+    "description": "Make more than a journey, make happy luggage! GoHappyGo is the reference platform for making more than a journey. Find reliable travelers or offer your services during your travels. Economical, secure and ecological.",
     "keywords": "luggage transport, travel, traveler, delivery, travel luggage, collaborative transport, travel package, luggage transporter, international delivery, GoHappyGo",
-    "ogDescription": "🧳 Make more than a trip, Make happy luggage! Choose to travel differently, Share your baggage allowance, and make a Useful trip",
+    "ogDescription": "🧳 Make more than a journey, Make happy luggage! Choose to travel differently, Share your baggage allowance, and make a Useful journey",
     "ogImageAlt": "GoHappyGo - Luggage transport platform",
-    "title": "GoHappyGo - make more than a trip"
+    "title": "GoHappyGo - make more than a journey"
   }
 }

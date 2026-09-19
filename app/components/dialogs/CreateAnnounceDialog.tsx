@@ -822,7 +822,7 @@ export default function CreateAnnounceDialog({
                     }
                   }}
                 >
-                  ‹ {t('common.back')}
+                  &lt; {t('common.back')}
                 </button>
               </div>
               {step < 3 ? (
@@ -849,7 +849,7 @@ export default function CreateAnnounceDialog({
                         : 'bg-gray-300 cursor-not-allowed'
                     }`}
                   >
-                    {t('common.next')} ›
+                    {t('common.next')} &gt;
                   </button>
                 </div>
               ) : (

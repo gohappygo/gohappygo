@@ -3,9 +3,9 @@ import Footer from '../components/layout/Footer';
 
 export default function TermsOfUse() {
   return (
-    <div className="min-h-screen bg-white md:bg-[url('/images/footerLinksbackground.jpeg')] bg-no-repeat bg-cover bg-center bg-fixed">
+    <div className="min-h-screen bg-white md:bg-[linear-gradient(rgba(255,255,255,0.85),rgba(255,255,255,0.85)),url('/images/footerLinksbackground.jpeg')] bg-no-repeat bg-cover bg-center bg-fixed">
       <Header />
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 bg-[url('/images/footerLinksbackground.jpeg')] bg-no-repeat bg-cover bg-fixed md:bg-none">
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 bg-[linear-gradient(rgba(255,255,255,0.85),rgba(255,255,255,0.85)),url('/images/footerLinksbackground.jpeg')] bg-no-repeat bg-cover bg-fixed md:bg-none">
         <section className="max-w-3xl mx-auto">
           <h1 className="text-3xl font-bold text-blue-600">
             Conditions Générales d&apos;Utilisation et de Vente
