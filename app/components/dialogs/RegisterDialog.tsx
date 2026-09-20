@@ -622,10 +622,10 @@ export default function RegisterDialog({
                       : 'Terminer mon inscription'}
               </button>
 
-              {(step === 2 || step === 3) && (
+              {step === 2 && (
                 <button
                   type="button"
-                  onClick={() => setStep(step === 3 ? 2 : 1)}
+                  onClick={() => setStep(1)}
                   className="w-full inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 sm:py-2.5 text-xs sm font-medium text-gray-700 hover cursor-pointer"
                 >
                   {t('dialogs.register.back')}
