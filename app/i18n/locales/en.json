@@ -1395,6 +1395,17 @@
       "subtitle": "You are ready to give and receive Joy.",
       "title": "Stripe Configuration Completed!"
     },
+    "kycReturn": {
+      "title": "Identity verification",
+      "checking": "We are checking the result with Didit...",
+      "approved": "Your identity is verified.",
+      "pending": "Your verification is being processed.",
+      "rejected": "Your verification was rejected. You can restart it from your profile.",
+      "failed": "Unable to confirm your verification right now.",
+      "unauthenticated": "Sign in again to view your verification result.",
+      "profile": "Back to my profile",
+      "home": "Back to home"
+    },
     "support": {
       "contactMethods": {
         "email": "Email",

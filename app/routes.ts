@@ -1,4 +1,4 @@
-import { type RouteConfig, index, route } from '@react-router/dev/routes';
+import { index, type RouteConfig, route } from '@react-router/dev/routes';
 
 export default [
   index('pages/home.tsx'),
@@ -20,6 +20,8 @@ export default [
   route('/download-app', 'pages/download-app.tsx'),
   route('/notifications', 'pages/notifications.tsx'),
   route('/stripe-onboarding', 'pages/stripe-onboarding.tsx'),
+  route('/kyc/return', 'pages/kyc-return.tsx'),
+  route('/connect/kyc/return', 'pages/kyc-mobile-return.tsx'),
   route('/support', 'pages/support.tsx'),
   route('/requests/:id/confirm-cancellation', 'pages/request-confirm-cancellation.tsx'),
   route('/requests/:id/dispute-cancellation', 'pages/request-dispute-cancellation.tsx'),

@@ -1404,6 +1404,17 @@
       "subtitle": "Vous êtes prêt(e) à donner et recevoir du Bonheur.",
       "title": "Configuration Stripe Terminé !"
     },
+    "kycReturn": {
+      "title": "Vérification de votre identité",
+      "checking": "Nous vérifions le résultat auprès de Didit...",
+      "approved": "Votre identité est vérifiée.",
+      "pending": "Votre vérification est en cours de traitement.",
+      "rejected": "Votre vérification a été rejetée. Vous pouvez la relancer depuis votre profil.",
+      "failed": "Impossible de confirmer votre vérification pour le moment.",
+      "unauthenticated": "Reconnectez-vous pour consulter le résultat de votre vérification.",
+      "profile": "Retour à mon profil",
+      "home": "Retour à l'accueil"
+    },
     "support": {
       "contactMethods": {
         "email": "Email",
