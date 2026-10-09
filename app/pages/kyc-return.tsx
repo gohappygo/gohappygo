@@ -7,7 +7,7 @@ import { getDiditKycStatus, type KycStatus } from '~/services/kycService';
 
 type ReturnStatus = KycStatus | 'checking' | 'unauthenticated';
 
-export default function KycReturn() {
+export default function KycReturn({ openAppUrl }: { openAppUrl?: string } = {}) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [status, setStatus] = useState<ReturnStatus>('checking');
@@ -60,6 +60,14 @@ export default function KycReturn() {
         <p className="mt-3 text-sm leading-6 text-gray-600" aria-live="polite">
           {t(messageKey)}
         </p>
+        {openAppUrl && (
+          <a
+            href={openAppUrl}
+            className="mt-7 block w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+          >
+            {t('pages.kycReturn.openApp')}
+          </a>
+        )}
         {!isChecking && (
           <button
             type="button"

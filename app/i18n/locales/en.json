@@ -1404,6 +1404,7 @@
       "failed": "Unable to confirm your verification right now.",
       "unauthenticated": "Sign in again to view your verification result.",
       "profile": "Back to my profile",
+      "openApp": "Open the GoHappyGo app",
       "home": "Back to home"
     },
     "support": {

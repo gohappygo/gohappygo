@@ -1413,6 +1413,7 @@
       "failed": "Impossible de confirmer votre vérification pour le moment.",
       "unauthenticated": "Reconnectez-vous pour consulter le résultat de votre vérification.",
       "profile": "Retour à mon profil",
+      "openApp": "Ouvrir l'application GoHappyGo",
       "home": "Retour à l'accueil"
     },
     "support": {
