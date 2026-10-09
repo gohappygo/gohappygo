@@ -7,6 +7,7 @@ import {
   ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
 import { useAuth } from '~/hooks/useAuth';
+import { updatePhone } from '~/services/authService';
 import { useTranslation } from 'react-i18next';
 
 interface ProfileDialogProps {
@@ -43,6 +44,7 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
   const [isIdentityVerified, setIsIdentityVerified] = useState<boolean>(
     Boolean(user?.isVerified)
   );
+  const [savedPhone, setSavedPhone] = useState<string>(user?.phone || '');
   const [profileImage, setProfileImage] = useState<string | null>(user?.profilePictureUrl || null);
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -71,6 +73,7 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
             aboutMe: userData?.bio || user.bio || '',
             phoneNumber: userData?.phone || user?.phone || '',
           });
+          setSavedPhone(userData?.phone || user?.phone || '');
           setIsIdentityVerified(Boolean(userData?.isVerified ?? user.isVerified));
         } catch (error) {
           console.error('Error fetching user data:', error);
@@ -80,6 +83,7 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
             aboutMe: user.bio || '',
             phoneNumber: user?.phone || '',
           });
+          setSavedPhone(user?.phone || '');
           setIsIdentityVerified(Boolean(user.isVerified));
         }
       };
@@ -129,6 +133,13 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
     setSuccess(null);
 
     try {
+      // Didit verifie le telephone avec l'identite : modifiable seulement avant
+      const nextPhone = formData.phoneNumber.trim();
+      if (!isIdentityVerified && nextPhone && nextPhone !== savedPhone) {
+        await updatePhone(savedPhone, nextPhone);
+        setSavedPhone(nextPhone);
+      }
+
       const result = await updateProfile({
         // Une fois l'identite verifiee (KYC Didit), le nom n'est plus modifiable
         firstName: isIdentityVerified ? undefined : formData.firstName,
@@ -302,17 +313,24 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
                     )}
                   </div>
 
-                  {/* Phone Number - Disabled */}
+                  {/* Phone Number - editable until identity is verified (Didit verifies it) */}
                   <div>
                     <input
                       type="tel"
                       placeholder={t('profile.dialog.phoneNumber')}
                       value={formData.phoneNumber}
-                      disabled
-                      className="text-gray-400 w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+                      onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
+                      disabled={isIdentityVerified}
+                      className={
+                        isIdentityVerified
+                          ? 'text-gray-400 w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed'
+                          : 'text-gray-500 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+                      }
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                      {t('profile.dialog.phoneImmutable')}
+                      {isIdentityVerified
+                        ? t('profile.dialog.phoneImmutable')
+                        : t('profile.dialog.phoneHint')}
                     </p>
                   </div>
 

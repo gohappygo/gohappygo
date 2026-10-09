@@ -1303,6 +1303,11 @@ export default function AnnounceDetail() {
                         return;
                       }
 
+                      if (!currentUser?.isVerified) {
+                        navigate('/profile');
+                        return;
+                      }
+
                       setBookOpen(true);
                     }}
                     disabled={
@@ -1342,6 +1347,11 @@ export default function AnnounceDetail() {
                       onClick={() => {
                         if (!isLoggedIn) {
                           openRegister();
+                          return;
+                        }
+
+                        if (!currentUser?.isVerified) {
+                          navigate('/profile');
                           return;
                         }
 

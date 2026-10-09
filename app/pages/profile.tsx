@@ -440,13 +440,13 @@ export default function Profile() {
             {isOwnProfile && (
               <div className="space-y-3">
                 <button
-                  onClick={() => setCreateAnnounceDialogOpen(true)}
+                  onClick={() => isIdentityVerified && setCreateAnnounceDialogOpen(true)}
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-xl font-medium text-sm transition-colors shadow-lg hover:shadow-xl cursor-pointer"
                 >
                   {t('profile.actions.proposeSpace')}
                 </button>
                 <button
-                  onClick={() => setCreatePackageDialogOpen(true)}
+                  onClick={() => isIdentityVerified && setCreatePackageDialogOpen(true)}
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-xl font-medium text-sm transition-colors shadow-lg hover:shadow-xl cursor-pointer"
                 >
                   {t('profile.actions.findSpace')}

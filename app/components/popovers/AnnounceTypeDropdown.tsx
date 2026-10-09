@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
 import { useAuthStore, type AuthState } from '~/store/auth';
 
 interface AnnounceType {
@@ -22,7 +23,9 @@ export default function AnnounceTypeDropdown({
 }: AnnounceTypeDropdownProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const isLoggedIn = useAuthStore((s: AuthState) => s.isLoggedIn);
+  const currentUser = useAuthStore((s: AuthState) => s.user);
   // useEffect(() => {
   //   if (!open) return;
   //   const onKey = (e: KeyboardEvent) => {
@@ -95,6 +98,11 @@ export default function AnnounceTypeDropdown({
               if (!isLoggedIn) {
                 window.dispatchEvent(new Event('open-login-dialog'));
                 onClose();
+                return;
+              }
+              if (!currentUser?.isVerified) {
+                onClose();
+                navigate('/profile');
                 return;
               }
               onSelectType(type.id as 'travel' | 'package');
