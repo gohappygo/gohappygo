@@ -448,7 +448,7 @@
       "register": "S'inscrire",
       "rememberMe": "Se souvenir de moi",
       "submitting": "Connexion…",
-      "subtitle": "et partagez votre voyage, multipliez les bonheurs",
+      "subtitle": "et Partagez votre voyage, Multipliez les Bonheurs",
       "title": "Connexion"
     },
     "message": {
@@ -490,7 +490,7 @@
       "resendCode": "Renvoyer le code",
       "submit": "Soumettre",
       "submitting": "En cours…",
-      "subtitle": "et partagez votre voyage, multipliez les bonheurs",
+      "subtitle": "et Partagez votre voyage, Multipliez les Bonheurs",
       "termsAnd": "et les",
       "termsOfUse": "Conditions d'utilisation",
       "termsPrefix": "En vous inscrivant, vous acceptez la",
@@ -1404,6 +1404,17 @@
       "subtitle": "Vous êtes prêt(e) à donner et recevoir du Bonheur.",
       "title": "Configuration Stripe Terminé !"
     },
+    "kycReturn": {
+      "title": "Vérification de votre identité",
+      "checking": "Nous vérifions le résultat auprès de Didit...",
+      "approved": "Votre identité est vérifiée.",
+      "pending": "Votre vérification est en cours de traitement.",
+      "rejected": "Votre vérification a été rejetée. Vous pouvez la relancer depuis votre profil.",
+      "failed": "Impossible de confirmer votre vérification pour le moment.",
+      "unauthenticated": "Reconnectez-vous pour consulter le résultat de votre vérification.",
+      "profile": "Retour à mon profil",
+      "home": "Retour à l'accueil"
+    },
     "support": {
       "contactMethods": {
         "email": "Email",
@@ -1565,7 +1576,8 @@
       "passwordUpdateError": "Erreur lors du changement de mot de passe",
       "passwordUpdateSuccess": "Mot de passe modifié avec succès!",
       "passwordUpdating": "Mise à jour en cours...",
-      "phoneImmutable": "Le numéro de téléphone ne peut pas être modifié",
+      "phoneImmutable": "Votre identité est vérifiée : le numéro de téléphone ne peut plus être modifié.",
+      "phoneHint": "Modifiable jusqu'à la vérification de votre identité (format international, ex : +33612345678).",
       "phoneNote": "(Nous vous enverrons un code pour confirmer votre numéro.)",
       "phoneNumber": "Numéro de téléphone",
       "saveChanges": "Sauvegarder les modifications",
@@ -1697,7 +1709,7 @@
       "myReceivedReviews": "Mes avis reçus",
       "myTravels": "Mes voyages",
       "reservationsCompleted": "Réservations terminées",
-      "reservationsPendingDelivery": "Réservations en attente de livraison",
+      "reservationsPendingDelivery": "En cours",
       "reservationsToConfirm": "Réservations à confirmer",
       "sellSpace": "Vendre de l'espace"
     },

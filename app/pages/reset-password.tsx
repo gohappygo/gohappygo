@@ -18,6 +18,34 @@ export default function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const passwordRequirements = [
+    {
+      key: 'minLength',
+      isMet: password.length >= 8,
+      label: t('dialogs.register.validation.minLength'),
+    },
+    {
+      key: 'uppercase',
+      isMet: /[A-Z]/.test(password),
+      label: t('dialogs.register.validation.uppercase'),
+    },
+    {
+      key: 'lowercase',
+      isMet: /[a-z]/.test(password),
+      label: t('dialogs.register.validation.lowercase'),
+    },
+    {
+      key: 'number',
+      isMet: /[0-9]/.test(password),
+      label: t('dialogs.register.validation.number'),
+    },
+    {
+      key: 'special',
+      isMet: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+      label: t('dialogs.register.validation.special'),
+    },
+  ];
+
   useEffect(() => {
     const codeParam = searchParams.get('code');
     if (codeParam) {
@@ -35,8 +63,9 @@ export default function ResetPassword() {
       return;
     }
 
-    if (password.length < 8) {
-      setError(t('pages.resetPassword.errors.passwordLength'));
+    const unmetRequirement = passwordRequirements.find((requirement) => !requirement.isMet);
+    if (unmetRequirement) {
+      setError(unmetRequirement.label);
       return;
     }
 
@@ -158,6 +187,21 @@ export default function ResetPassword() {
                       </svg>
                     )}
                   </button>
+                </div>
+                <div className="mt-2 space-y-1" aria-live="polite">
+                  {passwordRequirements.map((requirement) => (
+                    <p
+                      key={requirement.key}
+                      className={`flex items-center text-xs ${
+                        requirement.isMet ? 'text-green-600' : 'text-gray-500'
+                      }`}
+                    >
+                      <span className="mr-1" aria-hidden="true">
+                        {requirement.isMet ? '✓' : '○'}
+                      </span>
+                      {requirement.label}
+                    </p>
+                  ))}
                 </div>
               </div>
 

@@ -153,6 +153,16 @@ export const changePassword = async (data: ChangePasswordData) => {
   }
 };
 
+export const updatePhone = async (oldPhoneNumber: string, newPhoneNumber: string) => {
+  try {
+    const response = await api.put(`/user/update-phone`, { oldPhoneNumber, newPhoneNumber });
+    return response.data;
+  } catch (error: any) {
+    const message = error?.response?.data?.message;
+    throw new Error(Array.isArray(message) ? message.join('\n') : message || error?.message);
+  }
+};
+
 export const getMe = async (userId?: string | number): Promise<GetMeResponse | null> => {
   try {
     const params = userId ? { userId } : {};

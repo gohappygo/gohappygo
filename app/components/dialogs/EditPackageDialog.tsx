@@ -305,7 +305,7 @@ export default function EditPackageDialog({
                   className="rounded-xl bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 hover cursor-pointer"
                   onClick={onClose}
                 >
-                  ‹ {t('common.back')}
+                  &lt; {t('common.back')}
                 </button>
               </div>
               <button

@@ -530,7 +530,7 @@ export default function CreatePackageDialog({
                   className="rounded-xl bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 hover cursor-pointer"
                   onClick={() => (currentStep > 1 ? prevStep() : onClose())}
                 >
-                  ‹ {t('common.back')}
+                  &lt; {t('common.back')}
                 </button>
               </div>
               {currentStep < 2 ? (
@@ -550,7 +550,7 @@ export default function CreatePackageDialog({
                         : 'bg-gray-300 cursor-not-allowed'
                     }`}
                   >
-                    {t('common.next')} ›
+                    {t('common.next')} &gt;
                   </button>
                 </div>
               ) : (

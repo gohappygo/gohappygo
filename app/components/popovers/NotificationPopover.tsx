@@ -77,8 +77,8 @@ export function getNotificationIcon(notificationType: string) {
           />
         </svg>
       ),
-      color: 'text-green-600',
-      bg: 'bg-green-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
     REQUEST_REJECTED: {
       svg: (
@@ -91,8 +91,8 @@ export function getNotificationIcon(notificationType: string) {
           />
         </svg>
       ),
-      color: 'text-red-600',
-      bg: 'bg-red-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
     REQUEST_COMPLETED: {
       svg: (
@@ -105,8 +105,8 @@ export function getNotificationIcon(notificationType: string) {
           />
         </svg>
       ),
-      color: 'text-green-600',
-      bg: 'bg-green-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
     REQUEST_CANCELLED: {
       svg: (
@@ -119,8 +119,8 @@ export function getNotificationIcon(notificationType: string) {
           />
         </svg>
       ),
-      color: 'text-gray-600',
-      bg: 'bg-gray-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
     REQUEST_DELIVERED: {
       svg: (
@@ -133,8 +133,8 @@ export function getNotificationIcon(notificationType: string) {
           />
         </svg>
       ),
-      color: 'text-green-600',
-      bg: 'bg-green-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
 
     // Review notifications
@@ -149,8 +149,8 @@ export function getNotificationIcon(notificationType: string) {
           />
         </svg>
       ),
-      color: 'text-amber-600',
-      bg: 'bg-amber-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
 
     // Travel/Demand notifications
@@ -166,8 +166,8 @@ export function getNotificationIcon(notificationType: string) {
           <path d="m390.558 129.754c.225 5.376 4.653 9.583 9.984 9.583.141 0 .282-.003.424-.009l23.754-.992c5.519-.23 9.805-4.891 9.574-10.409s-4.901-9.795-10.408-9.574l-23.754.992c-5.518.231-9.804 4.891-9.574 10.409z" />
         </svg>
       ),
-      color: 'text-purple-600',
-      bg: 'bg-purple-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
     DEMAND_PUBLISHED: {
       svg: (
@@ -181,8 +181,8 @@ export function getNotificationIcon(notificationType: string) {
           <path d="m390.558 129.754c.225 5.376 4.653 9.583 9.984 9.583.141 0 .282-.003.424-.009l23.754-.992c5.519-.23 9.805-4.891 9.574-10.409s-4.901-9.795-10.408-9.574l-23.754.992c-5.518.231-9.804 4.891-9.574 10.409z" />
         </svg>
       ),
-      color: 'text-purple-600',
-      bg: 'bg-purple-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
     TRAVEL_MATCHED: {
       svg: (
@@ -195,8 +195,8 @@ export function getNotificationIcon(notificationType: string) {
           />
         </svg>
       ),
-      color: 'text-indigo-600',
-      bg: 'bg-indigo-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
     DEMAND_MATCHED: {
       svg: (
@@ -209,8 +209,8 @@ export function getNotificationIcon(notificationType: string) {
           />
         </svg>
       ),
-      color: 'text-indigo-600',
-      bg: 'bg-indigo-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
 
     // Payment notifications
@@ -225,8 +225,8 @@ export function getNotificationIcon(notificationType: string) {
           />
         </svg>
       ),
-      color: 'text-emerald-600',
-      bg: 'bg-emerald-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
     PAYMENT_COMPLETED: {
       svg: (
@@ -239,8 +239,8 @@ export function getNotificationIcon(notificationType: string) {
           />
         </svg>
       ),
-      color: 'text-green-600',
-      bg: 'bg-green-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
     TRANSACTION_CREATED: {
       svg: (
@@ -269,8 +269,8 @@ export function getNotificationIcon(notificationType: string) {
           />
         </svg>
       ),
-      color: 'text-green-600',
-      bg: 'bg-green-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
     ACCOUNT_VERIFICATION_FAILED: {
       svg: (
@@ -283,8 +283,8 @@ export function getNotificationIcon(notificationType: string) {
           />
         </svg>
       ),
-      color: 'text-red-600',
-      bg: 'bg-red-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
     VERIFICATION_DOCUMENTS_RECEIVED: {
       svg: (
@@ -313,8 +313,8 @@ export function getNotificationIcon(notificationType: string) {
           />
         </svg>
       ),
-      color: 'text-indigo-600',
-      bg: 'bg-indigo-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
 
     // Default
@@ -329,8 +329,8 @@ export function getNotificationIcon(notificationType: string) {
           />
         </svg>
       ),
-      color: 'text-indigo-600',
-      bg: 'bg-indigo-50',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
   };
 
