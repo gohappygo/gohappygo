@@ -116,11 +116,11 @@ export default function LoginDialog({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div
         ref={ref}
-        className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] overflow-y-auto"
+        className="relative w-full max-w-4xl max-h-[95vh] bg-white rounded-2xl shadow-2xl overflow-hidden"
       >
         <div className="flex flex-col md:flex-row">
           {/* Côté gauche - Formulaire */}
-          <div className="w-full md:w-1/2 p-6 md:p-8">
+          <div className="w-full md:w-1/2 max-h-[95vh] overflow-y-auto p-6 md:p-8">
             <div className="mb-6 md:mb-8">
               <h1 className="text-2xl md font-bold text-gray-900 mb-2">
                 {t('dialogs.login.title')}
