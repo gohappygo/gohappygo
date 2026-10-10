@@ -1,6 +1,12 @@
 import api from './Api';
 
-export type KycStatus = 'uninitiated' | 'pending' | 'approved' | 'rejected' | 'failed';
+export type KycStatus =
+  | 'uninitiated'
+  | 'pending'
+  | 'in_review'
+  | 'approved'
+  | 'rejected'
+  | 'failed';
 
 export type KycStatusResponse = {
   kycStatus: KycStatus;
