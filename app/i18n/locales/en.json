@@ -137,7 +137,8 @@
     "fillAllFields": "Please fill in all required fields to proceed",
     "loading": "Loading...",
     "loadingStates": {
-      "creating": "Creating..."
+      "creating": "Creating...",
+      "updating": "Updating..."
     },
     "new": "New",
     "next": "Next",
