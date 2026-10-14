@@ -1596,6 +1596,7 @@
       "title": "Profile",
       "updateError": "Error while updating profile",
       "updateSuccess": "Profile updated successfully!",
+      "photoHint": "Click the photo to change it.",
       "uploadProfilePicture": "Upload profile picture"
     },
     "editProfile": "Edit profile",

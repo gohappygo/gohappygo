@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import {
   XMarkIcon,
+  CameraIcon,
   PhotoIcon,
   EyeIcon,
   EyeSlashIcon,
@@ -253,14 +254,17 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
                           className="w-24 h-24 rounded-full object-cover"
                         />
                       ) : (
-                        <div className="text-center">
-                          <PhotoIcon className="h-8 w-8 text-gray-400 mx-auto mb-1" />
-                          <p className="text-xs text-gray-500">
-                            {t('profile.dialog.uploadProfilePicture')}
-                          </p>
-                        </div>
+                        <PhotoIcon className="h-9 w-9 text-gray-400" />
                       )}
                     </div>
+                    <button
+                      type="button"
+                      aria-label={t('profile.dialog.photoHint')}
+                      onClick={() => fileInputRef.current?.click()}
+                      className="absolute bottom-1 right-0 flex h-[30px] w-[30px] items-center justify-center rounded-full border-2 border-white bg-blue-600 text-white cursor-pointer hover:bg-blue-700"
+                    >
+                      <CameraIcon className="h-[18px] w-[18px]" />
+                    </button>
                     <input
                       ref={fileInputRef}
                       type="file"
@@ -269,6 +273,9 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
                       className="hidden"
                     />
                   </div>
+                  <p className="mt-2 text-xs font-bold text-slate-500">
+                    {t('profile.dialog.photoHint')}
+                  </p>
                 </div>
 
                 {/* Form Fields */}

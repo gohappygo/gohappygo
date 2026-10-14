@@ -12,7 +12,7 @@
       "airline": "Compagnie aérienne",
       "flight": "Vol",
       "lowestPrice": "Prix le plus bas",
-      "transportRequest": "Demande de Voyage",
+      "transportRequest": "Demande de voyage",
       "travelAd": "Annonce de voyage",
       "travelDate": "Date du voyage",
       "verifiedProfile": "Profil vérifié"
@@ -407,7 +407,7 @@
       "step1Subtitle": "Sélectionnez les paramètres de base",
       "step2": "Photos & Prix",
       "step2Subtitle": "Ajoutez des photos et définissez le prix",
-      "success": "Demande de voyage créée avec succès!",
+      "success": "Demande de voyage créée avec succès.",
       "title": "Je souhaite trouver un espace bagage",
       "weight": "Poids (kg)"
     },
@@ -416,7 +416,7 @@
       "title": "Modifier l'annonce de voyage"
     },
     "editPackage": {
-      "success": "Demande de voyage mise à jour avec succès!",
+      "success": "Demande mise à jour.",
       "title": "Modifier la demande de voyage"
     },
     "emailVerification": {
@@ -630,7 +630,7 @@
       "reservations": "Mes Réservations",
       "travelerTools": "Outils voyageurs",
       "travels": "Mes Voyages",
-      "wishes": "Mes Souhaits de Voyages"
+      "wishes": "Mes demandes de voyages"
     },
     "downloadApp": "Téléchargez l'appli +",
     "downloadAppButton": "Télécharger l'appli",
@@ -975,7 +975,7 @@
         "airline": "Compagnie aérienne",
         "lowestPrice": "Prix le plus bas",
         "oldest": "Plus ancien",
-        "transportRequest": "Demande de Voyage",
+        "transportRequest": "Demande de voyage",
         "travelAd": "Annonce de voyage",
         "verified": "Profil vérifié"
       },
@@ -1609,6 +1609,7 @@
       "title": "Profil",
       "updateError": "Erreur lors de la mise à jour du profil",
       "updateSuccess": "Profil mis à jour avec succès!",
+      "photoHint": "Cliquez sur la photo pour la modifier.",
       "uploadProfilePicture": "Téléverser une photo de profil"
     },
     "editProfile": "Modifier le profil",
@@ -1646,8 +1647,8 @@
       "messagesTitle": "Messages",
       "noBio": "Aucune bio fournie",
       "noConversations": "Aucune conversation",
-      "noDemandsFound": "Aucune demande trouvée",
-      "noDemandsFoundSubImageText": "Vos prochains Souhaits de Voyages apparaîtront ici...",
+      "noDemandsFound": "Aucune demande de voyage pour le moment",
+      "noDemandsFoundSubImageText": "Vos prochaines demandes de voyages apparaîtront ici...",
       "noFavorites": "Aucun favori pour le moment",
       "noFavoritesSubImageText": "Vos prochains Favoris apparaîtront ici...",
       "noPayments": "Aucun paiement",
@@ -1707,7 +1708,7 @@
       "payments": "Porte-monnaie",
       "reservations": "Mes Réservations",
       "reviews": "Mes Avis",
-      "travelRequests": "Mes Souhaits de Voyages",
+      "travelRequests": "Mes demandes de voyages",
       "travels": "Mes Voyages"
     },
     "stats": {
