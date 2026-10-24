@@ -20,6 +20,7 @@ interface Conversation {
     senderId: number;
   };
   lastMessageDateTime?: string | null;
+  updatedAt?: string;
   unreadCount: number;
   travel: {
     departureAirport?: { name: string };
@@ -56,10 +57,11 @@ export default function ConversationList({
   const token = useAuthStore((state) => state.token);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
+  // Same ordering as the mobile app: latest message, falling back to last update
   const sortConversationsByLatestMessage = (items: Conversation[]) => {
     return [...items].sort((a, b) => {
-      const aTime = a.lastMessageDateTime ? new Date(a.lastMessageDateTime).getTime() : 0;
-      const bTime = b.lastMessageDateTime ? new Date(b.lastMessageDateTime).getTime() : 0;
+      const aTime = new Date(a.lastMessageDateTime || a.updatedAt || 0).getTime();
+      const bTime = new Date(b.lastMessageDateTime || b.updatedAt || 0).getTime();
       return bTime - aTime;
     });
   };
@@ -71,27 +73,24 @@ export default function ConversationList({
           return request.requester && request.travel;
         })
         .map((request) => {
-          let otherUser;
+          // Same logic as the mobile app (messages.tsx getOtherUser)
+          const requester = request.requester as any;
+          const owner = request.travel?.owner || request.travel?.user;
+          const isRequester = String(requester?.id) === String(user?.id);
+          const other = isRequester ? owner : requester;
 
-          if (request.requester.id === Number(user?.id)) {
-            otherUser = {
-              id: request.travel!.owner!.id,
-              name: `${request.travel!.owner!.fullName}`,
-              avatar: (request.travel!.owner as any)?.profilePictureUrl || '/favicon.ico',
-            };
-          } else {
-            otherUser = {
-              id: request.requester!.id,
-              name: `${request.requester!.fullName}`,
-              avatar: (request.requester as any)?.profilePictureUrl || '/favicon.ico',
-            };
-          }
+          const otherUser = {
+            id: other?.id,
+            name: other?.fullName || t('profile.messages.userFallback'),
+            avatar: other?.profilePictureUrl || '/favicon.ico',
+          };
 
           return {
             id: request.id,
             requestId: request.id,
             otherUser,
             lastMessageDateTime: request.lastMessageDateTime || null,
+            updatedAt: request.updatedAt,
             unreadCount: request.unReadMessages || 0,
             travel: {
               departureAirport: request.travel?.departureAirport,
@@ -99,9 +98,6 @@ export default function ConversationList({
               flightNumber: request.travel?.flightNumber,
             },
           };
-        })
-        .filter((conversation) => {
-          return conversation.otherUser.id !== Number(user?.id);
         })
     );
   };
@@ -152,9 +148,9 @@ export default function ConversationList({
     onSelectConversation(conversation);
   }, [onConversationRead, onSelectConversation]);
 
-  const loadConversations = useCallback(async () => {
+  const loadConversations = useCallback(async (showLoading = true) => {
     try {
-      setLoading(true);
+      if (showLoading) setLoading(true);
 
       const requestsResponse = await getRequests(1, 1000);
       const requests = requestsResponse.items || [];
@@ -269,7 +265,7 @@ export default function ConversationList({
 
         refreshTimer = setTimeout(async () => {
           try {
-            await loadConversations();
+            await loadConversations(false);
           } catch (error) {
             console.error('Error refreshing conversations after request update:', error);
           }
@@ -283,7 +279,7 @@ export default function ConversationList({
       }
       socket.disconnect();
     };
-  }, [isLoggedIn, token, selectedConversationId, user?.id, t]);
+  }, [isLoggedIn, token, selectedConversationId, user?.id, t, loadConversations]);
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);

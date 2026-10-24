@@ -42,9 +42,15 @@ export default function CreateAlertDialog({
       let dateValue = '';
       if (initialData.date) {
         try {
-          const date = new Date(initialData.date);
-          // Format to date only (YYYY-MM-DD)
-          dateValue = date.toISOString().slice(0, 10);
+          if (/^\d{4}-\d{2}-\d{2}/.test(initialData.date)) {
+            // Already a calendar date: keep it, no timezone conversion
+            dateValue = initialData.date.slice(0, 10);
+          } else {
+            const date = new Date(initialData.date);
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            dateValue = `${date.getFullYear()}-${month}-${day}`;
+          }
         } catch (error) {
           console.error('Error parsing date:', error);
         }
@@ -77,9 +83,8 @@ export default function CreateAlertDialog({
         alertType: formData.alertType,
         departureAirportId: formData.departureAirportId,
         arrivalAirportId: formData.arrivalAirportId,
-        travelDateTime: formData.travelDateTime
-          ? new Date(formData.travelDateTime + 'T00:00:00').toISOString()
-          : undefined,
+        // Date only (YYYY-MM-DD): never convert to UTC, it can shift the day
+        travelDateTime: formData.travelDateTime || undefined,
         flightNumber: formData.flightNumber || undefined,
       };
 

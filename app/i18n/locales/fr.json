@@ -1567,10 +1567,8 @@
       "currentPasswordLabel": "Mot de passe actuel",
       "currentPasswordPlaceholder": "Entrez votre mot de passe actuel",
       "dataInfo": {
-        "downloadCta": "Télécharger mes données",
         "line1": "• Vos données personnelles seront supprimées dans les 30 jours",
         "line2": "• Les messages et transactions seront anonymisés",
-        "line3": "• Vous pouvez télécharger vos données avant suppression",
         "title": "Informations sur les données"
       },
       "deleteAccount": {
@@ -1621,6 +1619,23 @@
       "cancelDemandBody": "Êtes-vous sûr de vouloir annuler cette demande de voyage ? Cette action ne peut pas être annulée.",
       "cancelDemandTitle": "Annuler la demande",
       "cancelReservationBody": "Êtes-vous sûr de vouloir annuler cette réservation ? Le montant du voyage sera remboursé, mais les frais de plateforme seront conservés.",
+      "confirmDialog": {
+        "complete": {
+          "title": "Confirmer la réception ?",
+          "message": "Les fonds seront libérés au voyageur. Cette action est irréversible.",
+          "confirm": "Oui, confirmer"
+        },
+        "approveCancellation": {
+          "title": "Approuver l'annulation ?",
+          "message": "La réservation sera définitivement annulée. Cette action est irréversible.",
+          "confirm": "Oui, approuver"
+        },
+        "disputeCancellation": {
+          "title": "Refuser l'annulation ?",
+          "message": "Vous allez refuser cette annulation et ouvrir un litige. Cette action est irréversible.",
+          "confirm": "Oui, refuser"
+        }
+      },
       "cancelReservationTitle": "Annuler la réservation",
       "cancelTravelBody": "Êtes-vous sûr de vouloir annuler ce voyage ?",
       "cancelTravelTitle": "Annuler le voyage",
@@ -1664,6 +1679,7 @@
       "reservedSpace": "Espace réservé",
       "selectConversation": "Sélectionnez une conversation",
       "selectConversationDesc": "Choisissez une conversation dans la liste pour commencer à discuter",
+      "userFallback": "Utilisateur GoHappyGo",
       "time": {
         "daysAgo": "Il y a {{count}}j",
         "hoursAgo": "Il y a {{count}}h",

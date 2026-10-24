@@ -37,6 +37,12 @@ export const ReservationsSection = ({
   const [messageDialogOpen, setMessageDialogOpen] = useState(false);
   const [cancelConfirmOpen, setCancelConfirmOpen] = useState(false);
   const [requestToCancel, setRequestToCancel] = useState<RequestResponse | null>(null);
+  const [pendingConfirm, setPendingConfirm] = useState<{
+    title: string;
+    message: string;
+    confirmText: string;
+    action: () => void | Promise<void>;
+  } | null>(null);
   const [selectedRequester, setSelectedRequester] = useState<{
     name: string;
     avatar: string;
@@ -229,6 +235,18 @@ export const ReservationsSection = ({
       setActionLoadingKey(null);
     }
   };
+
+  // Irreversible actions ask for a visual confirmation before running
+  const askConfirmation = (
+    kind: 'complete' | 'approveCancellation' | 'disputeCancellation',
+    action: () => void | Promise<void>
+  ) =>
+    setPendingConfirm({
+      title: t(`profile.messages.confirmDialog.${kind}.title`),
+      message: t(`profile.messages.confirmDialog.${kind}.message`),
+      confirmText: t(`profile.messages.confirmDialog.${kind}.confirm`),
+      action,
+    });
 
   const handleContactRequester = (
     requesterName: string,
@@ -452,7 +470,10 @@ export const ReservationsSection = ({
                             return {
                               label: t('profile.actions.confirmReception'),
                               onClick: canComplete
-                                ? () => handleCompleteRequest(request.id)
+                                ? () =>
+                                    askConfirmation('complete', () =>
+                                      handleCompleteRequest(request.id)
+                                    )
                                 : () => setErrorMessage(t('profile.messages.impossibleFinish')),
                               color: 'green' as const,
                               loading: canComplete
@@ -470,7 +491,10 @@ export const ReservationsSection = ({
                               }
                             : {
                                 label: t('profile.actions.approve'),
-                                onClick: () => handleConfirmCancellation(request.id),
+                                onClick: () =>
+                                  askConfirmation('approveCancellation', () =>
+                                    handleConfirmCancellation(request.id)
+                                  ),
                                 color: 'green' as const,
                                 loading: isActionLoading(request.id, 'confirm-cancellation'),
                               }
@@ -517,7 +541,10 @@ export const ReservationsSection = ({
                                 }
                               : {
                                   label: t('profile.actions.dispute'),
-                                  onClick: () => handleDisputeCancellation(request.id),
+                                  onClick: () =>
+                                    askConfirmation('disputeCancellation', () =>
+                                      handleDisputeCancellation(request.id)
+                                    ),
                                   color: 'red',
                                   loading: isActionLoading(request.id, 'dispute-cancellation'),
                                 }
@@ -600,6 +627,22 @@ export const ReservationsSection = ({
         cancelText={t('profile.messages.keep')}
         type="danger"
         isSubmitting={!!requestToCancel && isActionLoading(requestToCancel.id, 'cancel')}
+      />
+
+      {/* Irreversible action confirmation */}
+      <ConfirmCancelDialog
+        open={!!pendingConfirm}
+        onClose={() => setPendingConfirm(null)}
+        onConfirm={() => {
+          const action = pendingConfirm?.action;
+          setPendingConfirm(null);
+          void action?.();
+        }}
+        title={pendingConfirm?.title ?? ''}
+        message={pendingConfirm?.message ?? ''}
+        confirmText={pendingConfirm?.confirmText}
+        cancelText={t('profile.messages.keep')}
+        type="danger"
       />
 
       {/* Review Dialog */}

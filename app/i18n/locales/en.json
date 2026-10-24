@@ -1554,10 +1554,8 @@
       "currentPasswordLabel": "Current password",
       "currentPasswordPlaceholder": "Enter your current password",
       "dataInfo": {
-        "downloadCta": "Download my data",
         "line1": "• Your personal data will be deleted within 30 days",
         "line2": "• Messages and transactions will be anonymized",
-        "line3": "• You can download your data before deletion",
         "title": "Data information"
       },
       "deleteAccount": {
@@ -1608,6 +1606,23 @@
       "cancelDemandBody": "Are you sure you want to cancel this travel demand? This action cannot be undone.",
       "cancelDemandTitle": "Cancel demand",
       "cancelReservationBody": "Are you sure you want to cancel this reservation? The travel amount will be refunded, but platform fees will be retained.",
+      "confirmDialog": {
+        "complete": {
+          "title": "Confirm reception?",
+          "message": "The funds will be released to the traveler. This action cannot be undone.",
+          "confirm": "Yes, confirm"
+        },
+        "approveCancellation": {
+          "title": "Approve the cancellation?",
+          "message": "The reservation will be permanently cancelled. This action cannot be undone.",
+          "confirm": "Yes, approve"
+        },
+        "disputeCancellation": {
+          "title": "Reject the cancellation?",
+          "message": "You are about to reject this cancellation and open a dispute. This action cannot be undone.",
+          "confirm": "Yes, reject"
+        }
+      },
       "cancelReservationTitle": "Cancel reservation",
       "cancelTravelBody": "Are you sure you want to cancel this travel?",
       "cancelTravelTitle": "Cancel travel",
@@ -1651,6 +1666,7 @@
       "reservedSpace": "Reserved space",
       "selectConversation": "Select a conversation",
       "selectConversationDesc": "Choose a conversation from the list to start chatting",
+      "userFallback": "GoHappyGo user",
       "time": {
         "daysAgo": "{{count}}d ago",
         "hoursAgo": "{{count}}h ago",

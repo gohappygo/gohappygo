@@ -617,11 +617,7 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
                   <div className="space-y-2 text-sm text-gray-600">
                     <p>{t('profile.dialog.dataInfo.line1')}</p>
                     <p>{t('profile.dialog.dataInfo.line2')}</p>
-                    <p>{t('profile.dialog.dataInfo.line3')}</p>
                   </div>
-                  <button className="mt-3 text-sm text-blue-600 hover cursor-pointer">
-                    {t('profile.dialog.dataInfo.downloadCta')}
-                  </button>
                 </div>
               </div>
             )}
