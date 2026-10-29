@@ -574,13 +574,13 @@ export const ReservationsSection = ({
                             : undefined
                   }
                   tertiaryAction={
-                    request.currentStatus?.status === 'COMPLETED' && request.canReview
+                    ['COMPLETED', 'RESOLVED'].includes(request.currentStatus?.status ?? '') && request.canReview
                       ? {
                           label: t('profile.actions.rate'),
                           onClick: () => handleOpenReview(request),
                           color: 'orange',
                         }
-                      : request.currentStatus?.status === 'COMPLETED' && !request.canReview
+                      : ['COMPLETED', 'RESOLVED'].includes(request.currentStatus?.status ?? '') && !request.canReview
                         ? {
                             label: t('profile.actions.rated'),
                             onClick: () => {},
