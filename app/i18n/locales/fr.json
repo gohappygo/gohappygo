@@ -963,7 +963,7 @@
       "yourAnnounce": "Votre annonce"
     },
     "announces": {
-      "alertDescription": "Activez une alerte, nous vous préviendrons dès qu'une offre correspond.",
+      "alertDescription": "Activez une alerte, nous vous préviendrons dès qu’une annonce correspond à votre recherche",
       "allLoaded": "Vous avez vu toutes les annonces disponibles",
       "clearAll": "Tout effacer",
       "createAlert": "Activer une alerte",
