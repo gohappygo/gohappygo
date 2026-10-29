@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router';
 import { io, type Socket } from 'socket.io-client';
@@ -33,6 +33,7 @@ export const ReservationsSection = ({
     completed: [],
   });
   const [loading, setLoading] = useState(true);
+  const refreshing = useRef(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [messageDialogOpen, setMessageDialogOpen] = useState(false);
   const [cancelConfirmOpen, setCancelConfirmOpen] = useState(false);
@@ -90,8 +91,10 @@ export const ReservationsSection = ({
     [tabStatusFilterMap]
   );
 
-  const fetchAllTabRequests = useCallback(async () => {
-    setLoading(true);
+  const fetchAllTabRequests = useCallback(async (showLoading = true) => {
+    if (refreshing.current) return;
+    refreshing.current = true;
+    if (showLoading) setLoading(true);
     try {
       await Promise.all([
         fetchRequestsForTab('pending'),
@@ -99,13 +102,29 @@ export const ReservationsSection = ({
         fetchRequestsForTab('completed'),
       ]);
     } finally {
-      setLoading(false);
+      refreshing.current = false;
+      if (showLoading) setLoading(false);
     }
   }, [fetchRequestsForTab]);
 
   useEffect(() => {
-    fetchAllTabRequests();
+    void fetchAllTabRequests();
   }, [fetchAllTabRequests]);
+
+  useEffect(() => {
+    if (!isOwnProfile || !isLoggedIn) return;
+    const refresh = () => {
+      if (document.visibilityState === 'visible') void fetchAllTabRequests(false);
+    };
+    const interval = window.setInterval(refresh, 15000);
+    window.addEventListener('focus', refresh);
+    document.addEventListener('visibilitychange', refresh);
+    return () => {
+      window.clearInterval(interval);
+      window.removeEventListener('focus', refresh);
+      document.removeEventListener('visibilitychange', refresh);
+    };
+  }, [isOwnProfile, isLoggedIn, fetchAllTabRequests]);
 
   useEffect(() => {
     if (
@@ -137,7 +156,7 @@ export const ReservationsSection = ({
         }
 
         refreshTimer = setTimeout(() => {
-          fetchAllTabRequests();
+          void fetchAllTabRequests(false);
         }, 350);
       }
     );
@@ -416,7 +435,9 @@ export const ReservationsSection = ({
                   unreadCount={request.unReadMessages || 0}
                   // Logic for Status Badges vs Buttons
                   statusBadge={
-                    request.currentStatus?.status === 'COMPLETED'
+                    request.currentStatus?.status === 'RESOLVED'
+                      ? t('profile.messages.disputeResolved')
+                      : request.currentStatus?.status === 'COMPLETED'
                       ? t('common.completed')
                       : request.currentStatus?.status === 'CANCELLATION_DISPUTED'
                         ? t('profile.messages.cancellationDisputed')
@@ -469,7 +490,9 @@ export const ReservationsSection = ({
 
                             return {
                               label: t('profile.actions.confirmReception'),
-                              onClick: canComplete
+                              onClick: !(request.hasMeetingProof || request.isPhotoTaken)
+                                ? () => setErrorMessage(t('profile.messages.selfieRequired'))
+                                : canComplete
                                 ? () =>
                                     askConfirmation('complete', () =>
                                       handleCompleteRequest(request.id)
@@ -589,7 +612,7 @@ export const ReservationsSection = ({
           open={!!errorMessage}
           onClose={() => setErrorMessage(null)}
           onConfirm={() => setErrorMessage(null)}
-          title={t('common.error')}
+          title={t('profile.messages.unavailableTitle')}
           message={errorMessage}
           confirmText={t('common.ok')}
           cancelText=""
@@ -623,8 +646,8 @@ export const ReservationsSection = ({
         onConfirm={handleCancelRequest}
         title={t('profile.messages.cancelReservationTitle')}
         message={t('profile.messages.cancelReservationBody')}
-        confirmText={t('profile.messages.confirmCancel')}
-        cancelText={t('profile.messages.keep')}
+        confirmText={t('profile.messages.cancelReservationConfirm')}
+        cancelText={t('profile.messages.keepReservation')}
         type="danger"
         isSubmitting={!!requestToCancel && isActionLoading(requestToCancel.id, 'cancel')}
       />

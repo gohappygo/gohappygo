@@ -1618,7 +1618,12 @@
       "addBio": "Ajoutez une bio pour vous présenter",
       "cancelDemandBody": "Êtes-vous sûr de vouloir annuler cette demande de voyage ? Cette action ne peut pas être annulée.",
       "cancelDemandTitle": "Annuler la demande",
-      "cancelReservationBody": "Êtes-vous sûr de vouloir annuler cette réservation ? Le montant du voyage sera remboursé, mais les frais de plateforme seront conservés.",
+      "cancelReservationBody": "Le montant du voyage vous sera remboursé, mais les frais de service GoHappyGo ne seront pas remboursés.",
+      "cancelReservationConfirm": "Annuler",
+      "keepReservation": "Conserver la réservation",
+      "selfieRequired": "Vous devez prendre un selfie à 2 avant de confirmer la réception.",
+      "disputeResolved": "Litige résolu",
+      "unavailableTitle": "Indisponible pour le moment",
       "confirmDialog": {
         "complete": {
           "title": "Confirmer la réception ?",
@@ -1636,7 +1641,7 @@
           "confirm": "Oui, refuser"
         }
       },
-      "cancelReservationTitle": "Annuler la réservation",
+      "cancelReservationTitle": "Annuler la réservation ?",
       "cancelTravelBody": "Êtes-vous sûr de vouloir annuler ce voyage ?",
       "cancelTravelTitle": "Annuler le voyage",
       "confirmCancel": "Oui, annuler",

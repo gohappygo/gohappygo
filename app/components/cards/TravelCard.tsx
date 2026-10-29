@@ -49,7 +49,7 @@ export default function TravelCard({
           alt={fullName}
           className={`${
             type === 'transporter'
-              ? 'max-h-full h-52 p-5 object-contain max-w-full'
+              ? 'w-full h-full p-5 object-contain object-center'
               : 'object-cover min-w-100 min-h-100'
           } m-auto`}
         />

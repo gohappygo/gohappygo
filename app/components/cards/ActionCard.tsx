@@ -144,9 +144,9 @@ const ActionCard: React.FC<ActionCardProps> = ({
           alt={title}
           className={`${
             type === 'transporter'
-              ? 'max-h-full h-40 md:h-52 p-4 md:p-5 object-contain'
+              ? 'w-full h-full p-4 md:p-5 object-contain object-center'
               : 'object-cover w-full h-full'
-          } m-auto transition-transform duration-300 hover:scale-105`}
+          } m-auto`}
           onError={(e) => (e.currentTarget.src = '/favicon.ico')}
         />
         {(type || roleBadgeLabel) && (

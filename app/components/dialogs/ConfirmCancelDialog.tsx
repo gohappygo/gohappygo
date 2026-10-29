@@ -28,7 +28,7 @@ export default function ConfirmCancelDialog({
   const { t } = useTranslation();
 
   const finalConfirmText = confirmText || t('common.confirm');
-  const finalCancelText = cancelText || t('common.cancel');
+  const finalCancelText = cancelText ?? t('common.cancel');
 
   useEffect(() => {
     if (!open) return;
@@ -76,7 +76,7 @@ export default function ConfirmCancelDialog({
       <div className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/10">
         <div className="p-6">
           {/* Icon */}
-          <div className="flex items-center justify-center w-12 h-12 mx-auto mb-4 rounded-full bg-red-100">
+          <div className="flex items-center justify-center mx-auto mb-4">
             <ExclamationTriangleIcon className={`w-6 h-6 ${getIconColor()}`} />
           </div>
 

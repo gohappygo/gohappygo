@@ -1605,7 +1605,12 @@
       "addBio": "Add a bio to tell others about yourself",
       "cancelDemandBody": "Are you sure you want to cancel this travel demand? This action cannot be undone.",
       "cancelDemandTitle": "Cancel demand",
-      "cancelReservationBody": "Are you sure you want to cancel this reservation? The travel amount will be refunded, but platform fees will be retained.",
+      "cancelReservationBody": "The travel amount will be refunded to you, but GoHappyGo service fees will not be refunded.",
+      "cancelReservationConfirm": "Cancel",
+      "keepReservation": "Keep the reservation",
+      "selfieRequired": "You must take a selfie together before confirming receipt.",
+      "disputeResolved": "Dispute resolved",
+      "unavailableTitle": "Unavailable for now",
       "confirmDialog": {
         "complete": {
           "title": "Confirm reception?",
@@ -1623,7 +1628,7 @@
           "confirm": "Yes, reject"
         }
       },
-      "cancelReservationTitle": "Cancel reservation",
+      "cancelReservationTitle": "Cancel the reservation?",
       "cancelTravelBody": "Are you sure you want to cancel this travel?",
       "cancelTravelTitle": "Cancel travel",
       "confirmCancel": "Yes, cancel",
