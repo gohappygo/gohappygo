@@ -498,7 +498,7 @@ export const ReservationsSection = ({
                                       handleCompleteRequest(request.id)
                                     )
                                 : () => setErrorMessage(t('profile.messages.impossibleFinish')),
-                              color: 'green' as const,
+                              color: 'blue' as const,
                               loading: canComplete
                                 ? isActionLoading(request.id, 'complete')
                                 : false,
@@ -509,7 +509,7 @@ export const ReservationsSection = ({
                             ? {
                                 label: t('profile.actions.confirmReception'),
                                 onClick: () => {},
-                                color: 'green' as const,
+                                color: 'blue' as const,
                                 disabled: true,
                               }
                             : {

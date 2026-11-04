@@ -442,8 +442,8 @@ export default function Annonces() {
                 {/* Empty state illustration */}
                 <div className="mb-8">
                   <svg
-                    width="200"
-                    height="200"
+                    width="170"
+                    height="170"
                     viewBox="0 0 120 120"
                     fill="none"
                     className="text-blue-600"
@@ -456,14 +456,14 @@ export default function Annonces() {
                       height="50"
                       rx="8"
                       stroke="currentColor"
-                      strokeWidth="2"
+                      strokeWidth="1.5"
                       fill="none"
                     />
                     {/* Suitcase handle */}
                     <path
                       d="M45 45V35C45 30 48 27 53 27H67C72 27 75 30 75 35V45"
                       stroke="currentColor"
-                      strokeWidth="2"
+                      strokeWidth="1.5"
                       fill="none"
                     />
                     {/* Suitcase lock */}
@@ -474,7 +474,7 @@ export default function Annonces() {
                     <path
                       d="M45 85C45 85 52 80 60 80C68 80 75 85 75 85"
                       stroke="currentColor"
-                      strokeWidth="2"
+                      strokeWidth="1.5"
                       fill="none"
                       strokeLinecap="round"
                     />

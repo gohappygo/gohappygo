@@ -630,7 +630,7 @@
       "reservations": "Mes Réservations",
       "travelerTools": "Outils voyageurs",
       "travels": "Mes Voyages",
-      "wishes": "Mes demandes de voyages"
+      "wishes": "Mes demandes de Voyage"
     },
     "downloadApp": "Téléchargez l'appli +",
     "downloadAppButton": "Télécharger l'appli",
@@ -702,7 +702,7 @@
       },
       "subtitle": "Une solution simple et sécurisée pour vos envois",
       "title": "Pourquoi choisir GoHappyGo ?",
-      "verifiedTickets": "Billets d'avion vérifiés et bien plus encore"
+      "verifiedTickets": "Identités vérifiées et selfie à 2 lors de la rencontre sur l’appli"
     },
     "hero": {
       "datePlaceholder": "Quand ?",
@@ -715,7 +715,7 @@
       "searchFlight": "Vol",
       "searchFrom": "Départ",
       "searchTo": "Arrivée",
-      "subtitle": "Faites enregistrer vos excédents de bagages par d'autres voyageurs sur le même vol que vous, pour la même destination",
+      "subtitle": "Faites VOYAGER vos excédents de bagages par d'autres voyageurs sur le même vol que vous, pour la même destination",
       "title": "Emportez autant de bagages que vous le désirez avec GoHappyGo lors de votre voyage",
       "titlePart1": "Emportez autant de bagages que vous le désirez avec",
       "titlePart2": "lors de votre voyage",
@@ -1668,7 +1668,7 @@
       "noBio": "Aucune bio fournie",
       "noConversations": "Aucune conversation",
       "noDemandsFound": "Aucune demande de voyage pour le moment",
-      "noDemandsFoundSubImageText": "Vos prochaines demandes de voyages apparaîtront ici...",
+      "noDemandsFoundSubImageText": "Vos prochaines demandes de voyage apparaîtront ici...",
       "noFavorites": "Aucun favori pour le moment",
       "noFavoritesSubImageText": "Vos prochains Favoris apparaîtront ici...",
       "noPayments": "Aucun paiement",
@@ -1729,7 +1729,7 @@
       "payments": "Porte-monnaie",
       "reservations": "Mes Réservations",
       "reviews": "Mes Avis",
-      "travelRequests": "Mes demandes de voyages",
+      "travelRequests": "Mes demandes de Voyage",
       "travels": "Mes Voyages"
     },
     "stats": {
@@ -1761,7 +1761,7 @@
     "clothing": "Vêtements",
     "electronics": "Électronique",
     "medications": "Médicaments",
-    "title": "Demandes de voyage",
+    "title": "Demandes de Voyage",
     "urgentDocuments": "Colis urgent - Documents"
   },
   "reviews": {
