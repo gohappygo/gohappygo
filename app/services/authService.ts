@@ -60,7 +60,10 @@ export const registerWithEmail = async (
   }
 };
 
-export const completeRegistration = async (countryCode: string, phoneNumber: string) => {
+export const completeRegistration = async (
+  countryCode: string,
+  phoneNumber: string,
+): Promise<LoginResponse> => {
   try {
     const response = await api.post(`/auth/complete-registration`, {
       countryCode,
@@ -219,6 +222,7 @@ export const getStripeRequirements = async (): Promise<StripeRequirements> => {
 export type LoginResponse = {
   access_token: string;
   refresh_token?: string;
+  needsRegistrationCompletion?: boolean;
   user?: {
     profilePictureUrl?: string;
     id: string | number;
@@ -321,6 +325,7 @@ export type GetMeResponse = {
   isDeactivated: boolean;
   isEmailVerified?: boolean;
   isPhoneVerified: boolean;
+  needsRegistrationCompletion?: boolean;
   isVerified: boolean;
   isAwaitingVerification: boolean;
   recentCurrency?: any;

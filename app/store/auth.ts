@@ -43,6 +43,7 @@ export type AuthState = {
     role?: UserRole;
     isEmailVerified?: boolean;
     isPhoneVerified?: boolean;
+    needsRegistrationCompletion?: boolean;
     isVerified?: boolean;
     isAwaitingVerification?: boolean;
     recentCurrency?: Currency | null;

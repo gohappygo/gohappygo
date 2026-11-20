@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useAuthStore, type AuthState } from '../store/auth';
+import { getCookie } from '../utils/cookies';
 import {
   login as apiLogin,
   registerWithEmail as apiRegisterWithEmail,
@@ -45,6 +46,8 @@ export const useAuth = () => {
               role: res.user.role,
               isEmailVerified: res.user.isEmailVerified,
               isPhoneVerified: res.user.isPhoneVerified,
+              needsRegistrationCompletion:
+                res.needsRegistrationCompletion ?? res.user.stripeAccountId === null,
               isVerified: res.user.isVerified,
               isAwaitingVerification: res.user.isAwaitingVerification,
               recentCurrency: res.user.recentCurrency,
@@ -108,18 +111,34 @@ export const useAuth = () => {
   );
 
   const completeRegistration = useCallback(async (countryCode: string, phoneNumber: string) => {
+    const userId = useAuthStore.getState().user?.id;
     try {
       const res = await apiCompleteRegistration(countryCode, phoneNumber);
+      const { user, token, isLoggedIn } = useAuthStore.getState();
 
-      return {
-        success: true,
-        message: res.message || 'Profil complete avec succes.',
-      };
+      if (isLoggedIn && user && user.id === userId) {
+        const nextToken = res.access_token || token;
+        if (nextToken) {
+          const updatedUser = {
+            ...user,
+            phone: res.user?.phone ?? phoneNumber,
+            stripeAccountId: res.user?.stripeAccountId ?? user.stripeAccountId,
+            stripeAccountStatus: res.user?.stripeAccountStatus ?? user.stripeAccountStatus,
+            needsRegistrationCompletion: false,
+          };
+          storeLogin(nextToken, updatedUser, res.refresh_token);
+          try {
+            if (res.access_token) window.localStorage.setItem('auth_token', res.access_token);
+          } catch (error) {
+            console.warn('Could not store token in localStorage:', error);
+          }
+        }
+      }
     } catch (error) {
       console.error('Complete registration error:', error);
       throw error;
     }
-  }, []);
+  }, [storeLogin]);
 
   const signInWithGoogle = useCallback(async (idToken: string) => {
     try {
@@ -143,6 +162,8 @@ export const useAuth = () => {
             role: res.user.role,
             isEmailVerified: res.user.isEmailVerified,
             isPhoneVerified: res.user.isPhoneVerified,
+            needsRegistrationCompletion:
+              res.needsRegistrationCompletion ?? res.user.stripeAccountId === null,
             isVerified: res.user.isVerified,
             isAwaitingVerification: res.user.isAwaitingVerification,
             recentCurrency: res.user.recentCurrency,
@@ -166,7 +187,8 @@ export const useAuth = () => {
 
       return {
         success: true,
-        needsRegistrationCompletion: !!res.needsRegistrationCompletion,
+        needsRegistrationCompletion: 'needsRegistrationCompletion' in composedUser &&
+          composedUser.needsRegistrationCompletion,
       };
     } catch (error) {
       console.error('Google sign-in error:', error);
@@ -196,6 +218,8 @@ export const useAuth = () => {
             role: res.user.role,
             isEmailVerified: res.user.isEmailVerified,
             isPhoneVerified: res.user.isPhoneVerified,
+            needsRegistrationCompletion:
+              res.needsRegistrationCompletion ?? res.user.stripeAccountId === null,
             isVerified: res.user.isVerified,
             isAwaitingVerification: res.user.isAwaitingVerification,
             recentCurrency: res.user.recentCurrency,
@@ -219,7 +243,8 @@ export const useAuth = () => {
 
       return {
         success: true,
-        needsRegistrationCompletion: !!res.needsRegistrationCompletion,
+        needsRegistrationCompletion: 'needsRegistrationCompletion' in composedUser &&
+          composedUser.needsRegistrationCompletion,
       };
     } catch (error) {
       console.error('Facebook sign-in error:', error);
@@ -253,6 +278,8 @@ export const useAuth = () => {
             isEmailVerified: res.user.isEmailVerified,
             isPhoneVerified: res.user.isPhoneVerified,
             isVerified: res.user.isVerified,
+            needsRegistrationCompletion:
+              res.needsRegistrationCompletion ?? res.user.stripeAccountId === null,
             isAwaitingVerification: res.user.isAwaitingVerification,
             recentCurrency: res.user.recentCurrency,
             createdAt: res.user.createdAt ? new Date(res.user.createdAt) : undefined,
@@ -315,18 +342,10 @@ export const useAuth = () => {
 
   const authenticate = useCallback(async () => {
     try {
-      // First try to get token from localStorage
-      const token = window.localStorage.getItem('auth_token');
-      // if (!token) {
-      //   // If no token, try hydrating from cookies as fallback
-      //   hydrateFromCookies();
-      //   return;
-      // }
-
-      // If we have a token, verify it with the server
       const userData = await apiGetMe();
+      const token = getCookie('auth_token') ?? window.localStorage.getItem('auth_token');
 
-      if (userData) {
+      if (userData && token) {
         const composedUser = {
           id: String(userData.id),
           name:
@@ -341,6 +360,8 @@ export const useAuth = () => {
           role: userData.role,
           isEmailVerified: userData.isEmailVerified,
           isPhoneVerified: userData.isPhoneVerified,
+          needsRegistrationCompletion:
+            userData.needsRegistrationCompletion ?? userData.stripeAccountId === null,
           isVerified: userData.isVerified,
           isAwaitingVerification: userData.isAwaitingVerification,
           recentCurrency: userData.recentCurrency,
@@ -350,7 +371,7 @@ export const useAuth = () => {
           stripeAccountStatus: userData.stripeAccountStatus,
         };
 
-        storeLogin(token!, composedUser);
+        storeLogin(token, composedUser);
       } else {
         // If API call fails, remove invalid token and fallback to cookies
         window.localStorage.removeItem('auth_token');

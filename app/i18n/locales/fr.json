@@ -470,6 +470,15 @@
     },
     "register": {
       "back": "Retour",
+      "completion": {
+        "title": "Finaliser votre inscription",
+        "subtitle": "Renseignez votre pays de résidence et votre numéro de téléphone pour compléter votre profil.",
+        "submit": "Terminer mon inscription",
+        "later": "Plus tard",
+        "invalidPhone": "Saisissez un numéro de téléphone valide avec son indicatif.",
+        "phoneAlreadyUsed": "Ce numéro de téléphone est déjà utilisé.",
+        "error": "Impossible de compléter votre profil. Veuillez réessayer."
+      },
       "confirmPassword": "Confirmer le mot de passe",
       "countryLabel": "Pays de résidence",
       "countryPlaceholder": "Sélectionnez votre pays",

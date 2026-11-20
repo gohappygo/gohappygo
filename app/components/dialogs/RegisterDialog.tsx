@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import { Link } from 'react-router';
@@ -15,14 +15,18 @@ export default function RegisterDialog({
   open,
   onClose,
   onSwitchToLogin,
+  completionOnly = false,
 }: {
   open: boolean;
   onClose: () => void;
-  onSwitchToLogin: () => void;
+  onSwitchToLogin?: () => void;
+  completionOnly?: boolean;
 }) {
   const { t } = useTranslation();
   const ref = useRef<HTMLDivElement | null>(null);
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const titleId = useId();
+  const phoneId = useId();
+  const [step, setStep] = useState<1 | 2 | 3>(completionOnly ? 3 : 1);
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -119,10 +123,10 @@ export default function RegisterDialog({
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape' && !submitting) onClose();
     };
     const onClickOutside = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
+      if (!completionOnly && !submitting && ref.current && !ref.current.contains(e.target as Node)) onClose();
     };
     window.addEventListener('keydown', onKey);
     window.addEventListener('mousedown', onClickOutside);
@@ -130,7 +134,16 @@ export default function RegisterDialog({
       window.removeEventListener('keydown', onKey);
       window.removeEventListener('mousedown', onClickOutside);
     };
-  }, [open, onClose]);
+  }, [open, onClose, completionOnly, submitting]);
+
+  useEffect(() => {
+    if (!open || !completionOnly) return;
+    const previousFocus = document.activeElement;
+    ref.current?.focus();
+    return () => {
+      if (previousFocus instanceof HTMLElement && previousFocus.isConnected) previousFocus.focus();
+    };
+  }, [open, completionOnly]);
 
   if (!open) return null;
 
@@ -223,8 +236,8 @@ const message = err.response?.data?.message;
         return;
       }
 
-      if (!form.phoneNumber?.trim()) {
-        setError('Le numero de telephone est requis.');
+      if (!/^\+[1-9]\d{6,14}$/.test(form.phoneNumber) || form.phoneNumber === selectedCountry.phoneCode) {
+        setError(t('dialogs.register.completion.invalidPhone'));
         return;
       }
 
@@ -232,13 +245,13 @@ const message = err.response?.data?.message;
       setError(null);
 
       try {
-        const completionRes = await completeRegistration(selectedCountry.code, form.phoneNumber);
-        setMessage(completionRes.message || 'Inscription terminee avec succes.');
-        setTimeout(() => {
-          onClose();
-        }, 1200);
+        await completeRegistration(selectedCountry.code, form.phoneNumber);
+        if (!completionOnly) setStep(1);
+        onClose();
       } catch (err: any) {
-        setError(err?.response?.data?.message || 'Impossible de completer votre profil.');
+        setError(t(err?.response?.status === 409
+          ? 'dialogs.register.completion.phoneAlreadyUsed'
+          : 'dialogs.register.completion.error'));
       } finally {
         setSubmitting(false);
       }
@@ -261,21 +274,25 @@ const message = err.response?.data?.message;
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div className={`fixed inset-0 ${completionOnly ? 'z-[60]' : 'z-50'} flex items-center justify-center bg-black/50 p-4`}>
       <div
         ref={ref}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
         className="relative w-full max-w-5xl max-h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden"
       >
         <div className="flex flex-col md:flex-row">
           {/* Côté gauche - Formulaire */}
           <div className="w-full md:w-2/3 p-4 sm:p-6 md:p-8 overflow-y-auto max-h-[90vh]">
             <div className="mb-4">
-              <h1 className="text-xl sm font-bold text-gray-900 mb-2">
+              <h1 id={titleId} className="text-xl sm font-bold text-gray-900 mb-2">
                 {step === 1
                   ? t('dialogs.register.title')
                   : step === 2
                     ? t('dialogs.register.verificationTitle')
-                    : 'Finaliser votre inscription'}
+                    : t('dialogs.register.completion.title')}
               </h1>
               {step !== 3 && (
                 <p className="text-sm sm text-gray-600">
@@ -284,11 +301,14 @@ const message = err.response?.data?.message;
                     : t('dialogs.register.verificationSubtitle')}
                 </p>
               )}
+              {completionOnly && (
+                <p className="text-sm text-gray-600">{t('dialogs.register.completion.subtitle')}</p>
+              )}
             </div>
 
             <form className="space-y-4 sm:space-y-6 text-gray-500" onSubmit={onSubmit}>
               {message && <div className="text-xs sm text-green-600">{message}</div>}
-              {error && <div className="text-xs sm text-red-600">{error}</div>}
+              {error && <div role="alert" className="text-xs sm text-red-600">{error}</div>}
 
               {step === 1 ? (
                 <>
@@ -599,7 +619,7 @@ const message = err.response?.data?.message;
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-semibold text-gray-900">
+                    <label htmlFor={phoneId} className="mb-2 block text-sm font-semibold text-gray-900">
                       {t('dialogs.register.phoneLabel')}
                     </label>
                     <PhoneInput
@@ -613,6 +633,7 @@ const message = err.response?.data?.message;
                           'border border-gray-300 rounded-l-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus pointer-events-none opacity-75',
                       }}
                       inputProps={{
+                        id: phoneId,
                         placeholder: t('dialogs.register.phonePlaceholder'),
                         required: true,
                       }}
@@ -636,8 +657,19 @@ const message = err.response?.data?.message;
                     ? t('dialogs.register.next')
                     : step === 2
                       ? t('dialogs.register.submit')
-                      : 'Terminer mon inscription'}
+                      : t('dialogs.register.completion.submit')}
               </button>
+
+              {completionOnly && (
+                <button
+                  type="button"
+                  disabled={submitting}
+                  onClick={onClose}
+                  className="w-full rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 disabled:opacity-50"
+                >
+                  {t('dialogs.register.completion.later')}
+                </button>
+              )}
 
               {step === 2 && (
                 <button

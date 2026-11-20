@@ -73,13 +73,7 @@ export default function LoginDialog({
     try {
       const result = await signInWithPopup(firebaseAuth, googleProvider);
       const idToken = await result.user.getIdToken();
-      const response = await signInWithGoogle(idToken);
-
-      if (response.needsRegistrationCompletion) {
-        setError('Connexion Google reussie. Completez votre profil pour finaliser le compte.');
-        return;
-      }
-
+      await signInWithGoogle(idToken);
       onClose();
     } catch (err: any) {
       setError(err?.response?.data?.message || err?.message || 'Connexion Google impossible.');
@@ -95,13 +89,7 @@ export default function LoginDialog({
     try {
       const result = await signInWithPopup(firebaseAuth, facebookProvider);
       const idToken = await result.user.getIdToken();
-      const response = await signInWithFacebook(idToken);
-
-      if (response.needsRegistrationCompletion) {
-        setError('Connexion Facebook reussie. Completez votre profil pour finaliser le compte.');
-        return;
-      }
-
+      await signInWithFacebook(idToken);
       onClose();
     } catch (err: any) {
       setError(err?.response?.data?.message || err?.message || 'Connexion Facebook impossible.');

@@ -470,6 +470,15 @@
     },
     "register": {
       "back": "Back",
+      "completion": {
+        "title": "Finish signing up",
+        "subtitle": "Enter your country of residence and phone number to complete your profile.",
+        "submit": "Finish signing up",
+        "later": "Later",
+        "invalidPhone": "Enter a valid phone number with its country code.",
+        "phoneAlreadyUsed": "This phone number is already in use.",
+        "error": "We couldn't complete your profile. Please try again."
+      },
       "confirmPassword": "Confirm password",
       "countryLabel": "Country of residence",
       "countryPlaceholder": "Select your country",
