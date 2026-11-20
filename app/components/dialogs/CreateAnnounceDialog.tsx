@@ -1,3 +1,4 @@
+import { listingError } from '~/utils/listingError';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createTravel, getAirlineFromFlightNumber } from '~/services/travelService';
@@ -62,7 +63,7 @@ export default function CreateAnnounceDialog({
   const [reservationType, setReservationType] = useState<'single' | 'shared'>('single');
   const [bookingType, setBookingType] = useState<'instant' | 'non-instant'>('instant');
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toLocaleDateString('sv-SE');
 
   useEffect(() => {
     if (!open) return;
@@ -238,7 +239,7 @@ export default function CreateAnnounceDialog({
           !!departureId &&
           !!arrivalId &&
           !!flightNumber.trim() &&
-          !!travelDate &&
+          !!travelDate && travelDate >= today &&
           !!story.trim() &&
           story.length <= 500
         );
@@ -252,6 +253,10 @@ export default function CreateAnnounceDialog({
   };
 
   const handleSubmit = async () => {
+    if (!travelDate || travelDate < today) {
+      setError(t('dialogs.createAnnounce.errors.travelDatePast'));
+      return;
+    }
     const errors = validateCurrentStep();
     setValidationErrors(errors);
 
@@ -308,6 +313,7 @@ export default function CreateAnnounceDialog({
       const result = await createTravel(travelData);
 
       if (result) {
+        window.dispatchEvent(new Event('profile-listing-published'));
         setSuccess(t('dialogs.createAnnounce.success'));
         setTimeout(() => {
           onClose();
@@ -320,16 +326,7 @@ export default function CreateAnnounceDialog({
       if (err?.response?.status === 401 || err?.status === 401) {
         setError(t('dialogs.createAnnounce.errors.authRequired'));
       } else {
-        // Handle validation errors from backend
-        if (err?.response?.data?.message) {
-          if (Array.isArray(err.response.data.message)) {
-            setError(err.response.data.message.join(', '));
-          } else {
-            setError(err.response.data.message);
-          }
-        } else {
-          setError(t('dialogs.createAnnounce.errors.createFailed'));
-        }
+        setError(listingError(err?.response?.data?.message, t, 'dialogs.createAnnounce.errors.createFailed'));
       }
     } finally {
       setSubmitting(false);

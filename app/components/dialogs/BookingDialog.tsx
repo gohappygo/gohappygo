@@ -57,7 +57,9 @@ function CheckoutForm({
       });
 
       if (stripeError) {
-        setError(stripeError.message || t('dialogs.booking.errors.processPayment'));
+        setError(t(stripeError.code === 'card_declined'
+          ? 'dialogs.booking.errors.cardDeclined'
+          : 'dialogs.booking.errors.processPayment'));
         setIsSubmitting(false);
         return;
       }
@@ -77,7 +79,9 @@ function CheckoutForm({
       }
     } catch (err: any) {
       // En cas d'erreur, afficher le message et ne PAS appeler onSuccess
-      setError(err.message || t('dialogs.booking.errors.generic'));
+      setError(t(/your card was declined|card_declined/i.test(String(err?.message))
+        ? 'dialogs.booking.errors.cardDeclined'
+        : 'dialogs.booking.errors.generic'));
       setIsSubmitting(false);
       // Ne pas appeler onSuccess ici
     }

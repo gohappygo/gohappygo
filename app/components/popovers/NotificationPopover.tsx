@@ -654,7 +654,7 @@ export default function NotificationPopover({
                         <h4
                           className={`text-xs font-semibold ${!n.isRead ? 'text-gray-900' : 'text-gray-700'} line-clamp-1`}
                         >
-                          {n.title}
+                          {n.title === 'Alert Created Successfully' ? t('announcements.alertCreated') : n.title}
                         </h4>
                         {!n.isRead && (
                           <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-blue-600 mt-1"></span>

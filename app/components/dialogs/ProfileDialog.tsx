@@ -21,6 +21,7 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
   const { t } = useTranslation();
 
   // Parse firstName and lastName from user.name
+  const visiblePhone = (phone?: string) => phone?.startsWith('email_') ? '' : phone || '';
   const nameParts = user?.name?.split(' ') || [];
   const firstName = nameParts[0] || '';
   const lastName = nameParts.slice(1).join(' ') || '';
@@ -30,7 +31,7 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
     firstName: firstName,
     lastName: lastName,
     aboutMe: user?.bio || '',
-    phoneNumber: user?.phone || '',
+    phoneNumber: visiblePhone(user?.phone),
   });
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
@@ -72,7 +73,7 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
             firstName: userData?.firstName || firstName,
             lastName: userData?.lastName || lastName,
             aboutMe: userData?.bio || user.bio || '',
-            phoneNumber: userData?.phone || user?.phone || '',
+            phoneNumber: visiblePhone(userData?.phone || user?.phone),
           });
           setSavedPhone(userData?.phone || user?.phone || '');
           setIsIdentityVerified(Boolean(userData?.isVerified ?? user.isVerified));
@@ -82,7 +83,7 @@ export default function ProfileDialog({ open, onClose }: ProfileDialogProps) {
             firstName: firstName,
             lastName: lastName,
             aboutMe: user.bio || '',
-            phoneNumber: user?.phone || '',
+            phoneNumber: visiblePhone(user?.phone),
           });
           setSavedPhone(user?.phone || '');
           setIsIdentityVerified(Boolean(user.isVerified));

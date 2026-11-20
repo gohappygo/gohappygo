@@ -1,3 +1,4 @@
+import { listingError } from '~/utils/listingError';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -7,7 +8,6 @@ import {
 } from '~/services/travelService';
 import AirportComboBox from '~/components/forms/AirportComboBox';
 import CurrencyComboBox from '~/components/forms/CurrencyComboBox';
-import { useAuth } from '~/hooks/useAuth';
 import type { DemandTravelItem } from '~/services/announceService';
 import type { Currency } from '~/services/currencyService';
 
@@ -25,7 +25,7 @@ export default function EditAnnounceDialog({
   onSuccess?: () => void;
 }) {
   const { t } = useTranslation();
-  const { user } = useAuth();
+  const today = new Date().toLocaleDateString('sv-SE');
 
   // Form state - all in one step now
   const [departureId, setDepartureId] = useState<number | null>(null);
@@ -114,15 +114,14 @@ export default function EditAnnounceDialog({
       typeof travel.pricePerKg === 'string' ? parseFloat(travel.pricePerKg) : travel.pricePerKg;
     setPricePerKg(priceValue || '');
 
-    // Set currency - use user's recent currency as fallback since travel doesn't have currency info
-    const defaultCurrency = user?.recentCurrency
-      ? {
-          ...user.recentCurrency,
-          id: user.recentCurrency.id.toString(),
-          country: '',
-        }
-      : null;
-    setCurrency(defaultCurrency);
+    const originalCurrency = travel.currency;
+    setCurrency(originalCurrency ? {
+      id: String(originalCurrency.id),
+      code: originalCurrency.code,
+      symbol: originalCurrency.symbol,
+      name: originalCurrency.code,
+      country: '',
+    } : null);
 
     setAllowExtraGrams(Boolean(travel.isAllowExtraWeight));
     setPunctuality('punctual'); // Default value since not stored in backend yet
@@ -142,7 +141,7 @@ export default function EditAnnounceDialog({
     setSubmitting(false);
     setError(null);
     setSuccess(null);
-  }, [open, travel, user?.recentCurrency]);
+  }, [open, travel]);
 
   const canSubmit = useMemo(() => {
     const hasValidFlightNumber =
@@ -153,6 +152,7 @@ export default function EditAnnounceDialog({
       story.trim().length > 0 &&
       story.length <= 500 &&
       hasValidFlightNumber &&
+      !!travelDate && travelDate >= today &&
       Boolean(kilos) &&
       Boolean(pricePerKg)
     );
@@ -165,10 +165,16 @@ export default function EditAnnounceDialog({
     flightNumber,
     airline.name,
     flightNumberError,
+    travelDate,
+    today,
   ]);
 
   const handleSubmit = async () => {
     if (!travel) return;
+    if (!travelDate || travelDate < today) {
+      setError(t('dialogs.createAnnounce.errors.travelDatePast'));
+      return;
+    }
 
     if (!departureId || !arrivalId) {
       setError(t('dialogs.createAnnounce.errors.selectAirports'));
@@ -189,7 +195,7 @@ export default function EditAnnounceDialog({
       const departureDatetime = travelDate ? `${travelDate}T12:00:00Z` : undefined;
 
       if (!currency) {
-        setError(t('dialogs.createAnnounce.errors.selectCurrency'));
+        setError(t('dialogs.createAnnounce.errors.currencyRequired'));
         return;
       }
 
@@ -228,16 +234,7 @@ export default function EditAnnounceDialog({
       if (err?.response?.status === 401 || err?.status === 401) {
         setError(t('common.errors.loginRequiredUpdate'));
       } else {
-        // Handle validation errors from backend
-        if (err?.response?.data?.message) {
-          if (Array.isArray(err.response.data.message)) {
-            setError(err.response.data.message.join(', '));
-          } else {
-            setError(err.response.data.message);
-          }
-        } else {
-          setError(t('common.errors.genericUpdate'));
-        }
+        setError(listingError(err?.response?.data?.message, t, 'common.errors.genericUpdate'));
       }
     } finally {
       setSubmitting(false);
@@ -317,15 +314,19 @@ export default function EditAnnounceDialog({
                   <p className="mt-1 text-sm text-red-600 font-medium">{flightNumberError}</p>
                 )}
               </Field>
-              <Field label={t('dialogs.createAnnounce.travelDateLabel')}>
+              <Field label={t('announcements.filters.travelDate')}>
                 <input
                   type="date"
+                  min={today}
                   value={travelDate}
                   onChange={(e) => setTravelDate(e.target.value)}
                   placeholder={t('common.placeholders.chooseDate')}
                   className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </Field>
+              {travelDate && travelDate < today && (
+                <p className="text-sm text-red-600">{t('dialogs.createAnnounce.errors.travelDatePast')}</p>
+              )}
               <Field label={t('dialogs.createAnnounce.airlineLabel')}>
                 <div className="relative">
                   <input

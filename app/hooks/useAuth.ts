@@ -388,7 +388,7 @@ export const useAuth = () => {
               res.user?.profilePictureUrl ||
               res.profilePictureUrl ||
               authStore.user.profilePictureUrl,
-            bio: data.bio || authStore.user.bio,
+            bio: data.bio ?? authStore.user.bio,
           };
           storeLogin(authStore.token!, updatedUser);
         }

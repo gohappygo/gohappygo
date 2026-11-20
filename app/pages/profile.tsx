@@ -49,6 +49,13 @@ export default function Profile() {
   // State to track which conversation should be auto-selected when navigating to messages
   const [autoSelectRequestId, setAutoSelectRequestId] = useState<number | null>(null);
 
+  const [listingVersion, setListingVersion] = useState(0);
+  useEffect(() => {
+    const refresh = () => setListingVersion((version) => version + 1);
+    window.addEventListener('profile-listing-published', refresh);
+    return () => window.removeEventListener('profile-listing-published', refresh);
+  }, []);
+
   const [profileDialogOpen, setProfileDialogOpen] = useState<boolean>(false);
   const [createAnnounceDialogOpen, setCreateAnnounceDialogOpen] = useState<boolean>(false);
   const [createPackageDialogOpen, setCreatePackageDialogOpen] = useState<boolean>(false);
@@ -266,9 +273,9 @@ export default function Profile() {
       case 'reviews':
         return <ReviewsSection />;
       case 'travel-requests':
-        return <TravelRequestsSection />;
+        return <TravelRequestsSection key={listingVersion} />;
       case 'travels':
-        return <TravelsSection />;
+        return <TravelsSection key={listingVersion} />;
       case 'favorites':
         return <FavoritesSection />;
       case 'payments':
@@ -357,7 +364,7 @@ export default function Profile() {
                 </h3> */}
                 <p className="text-sm text-gray-600 line-clamp-3 italic">
                   "
-                  {profileUser.bio ||
+                  {((isOwnProfile ? currentUser?.bio : undefined) ?? profileUser.bio) ||
                     (isOwnProfile ? t('profile.messages.addBio') : t('profile.messages.noBio'))}
                   "
                 </p>

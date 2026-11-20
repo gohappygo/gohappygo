@@ -66,7 +66,7 @@ export default function VerifiedTravelers() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString(i18n.language === 'fr' ? 'fr-FR' : 'en-US', {
+    return date.toLocaleDateString(i18n.resolvedLanguage || i18n.language, {
       day: 'numeric',
       month: 'short',
     });

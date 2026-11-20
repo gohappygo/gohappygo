@@ -1,3 +1,4 @@
+import { listingError } from '~/utils/listingError';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { updateDemand } from '~/services/transportService';
@@ -91,6 +92,7 @@ export default function EditPackageDialog({
     setSuccess(null);
   }, [open, demand, user?.recentCurrency]);
 
+  const today = new Date().toLocaleDateString('sv-SE');
   const canSubmit = () => {
     return (
       departureAirportId !== null &&
@@ -100,12 +102,16 @@ export default function EditPackageDialog({
       Boolean(weight) &&
       Boolean(pricePerKilo) &&
       Boolean(flightNumber) &&
-      Boolean(travelDate)
+      Boolean(travelDate) && travelDate >= today
     );
   };
 
   const handleSubmit = async () => {
     if (!demand) return;
+    if (!travelDate || travelDate < today) {
+      setError(t('dialogs.createPackage.errors.pastDate'));
+      return;
+    }
 
     setSubmitting(true);
     setError(null);
@@ -119,7 +125,7 @@ export default function EditPackageDialog({
       }
 
       if (!currency) {
-        setError(t('dialogs.createAnnounce.errors.selectCurrency'));
+        setError(t('dialogs.createAnnounce.errors.currencyRequired'));
         setSubmitting(false);
         return;
       }
@@ -151,16 +157,7 @@ export default function EditPackageDialog({
       if (err?.response?.status === 401 || err?.status === 401) {
         setError(t('common.errors.loginRequiredUpdate'));
       } else {
-        // Handle validation errors from backend
-        if (err?.response?.data?.message) {
-          if (Array.isArray(err.response.data.message)) {
-            setError(err.response.data.message.join(', '));
-          } else {
-            setError(err.response.data.message);
-          }
-        } else {
-          setError(t('common.errors.genericUpdate'));
-        }
+        setError(listingError(err?.response?.data?.message, t, 'common.errors.genericUpdate'));
       }
     } finally {
       setSubmitting(false);
@@ -222,11 +219,16 @@ export default function EditPackageDialog({
               <Field label={t('dialogs.createAnnounce.travelDate')}>
                 <input
                   type="date"
+                  min={today}
                   value={travelDate}
                   onChange={(e) => setTravelDate(e.target.value)}
                   className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </Field>
+
+              {travelDate && travelDate < today && (
+                <p className="text-sm text-red-600">{t('dialogs.createPackage.errors.pastDate')}</p>
+              )}
 
               <Field label={t('dialogs.createAnnounce.story')}>
                 <textarea

@@ -1,5 +1,6 @@
 {
   "announcements": {
+    "alertCreated": "Alert created successfully",
     "card": {
       "addToFavorites": "Add to favorites",
       "availableSpace": "Available space",
@@ -259,6 +260,7 @@
         "createPaymentMethod": "Unable to create the payment method",
         "generic": "An error occurred",
         "loadForm": "Error while loading the payment form",
+        "cardDeclined": "Your card was declined. Use another payment method.",
         "processPayment": "Error while processing the payment"
       },
       "payCta": "Pay {{amount}} {{currency}}",
@@ -318,6 +320,8 @@
       "departureAirportLabel": "Select your departure airport",
       "departureAirportPlaceholder": "Choose an airport",
       "errors": {
+        "createFailed": "Unable to publish the trip.",
+        "duplicateListing": "An active listing for this route or flight already exists on this date.",
         "airportsMustDiffer": "The arrival airport must be different from the departure airport",
         "arrivalRequired": "Please select an arrival airport",
         "authRequired": "You must be logged in to create an announcement. Please log in.",
@@ -386,6 +390,7 @@
       "departurePlaceholder": "Select your airport of departure",
       "description": "Description",
       "errors": {
+        "createFailed": "Unable to publish the travel request.",
         "arrivalRequired": "Please select an arrival airport",
         "authRequired": "You must be logged in to create a travel request. Please log in.",
         "bothAirportsRequired": "Please select departure and arrival airports",
@@ -472,6 +477,7 @@
       "email": "Email",
       "error": {
         "invalidCode": "Invalid verification code. Please try again.",
+        "emailAlreadyUsed": "This email address is already in use.",
         "registrationFailed": "Registration failed. Please try again.",
         "resendCodeFailed": "Failed to resend verification code. Please try again."
       },
@@ -702,7 +708,7 @@
       },
       "subtitle": "A simple and secure solution for your shipments",
       "title": "Why choose GoHappyGo ?",
-      "verifiedTickets": "Verified flight tickets and much more"
+      "verifiedTickets": "Verified identities and a selfie together in the app when you meet"
     },
     "hero": {
       "datePlaceholder": "When ?",
@@ -715,7 +721,7 @@
       "searchFlight": "Flight",
       "searchFrom": "From",
       "searchTo": "To",
-      "subtitle": "Have your excess baggage checked in by other travelers on the same flight as you, for the same destination",
+      "subtitle": "Send your excess baggage with other travelers on the same flight to the same destination",
       "title": "Ship your packages safely",
       "titlePart1": "Carry as much luggage as you wish with",
       "titlePart2": "during your journey",

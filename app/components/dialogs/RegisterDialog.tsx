@@ -147,7 +147,19 @@ export default function RegisterDialog({
       };
 
       if (!Object.values(passwordValidation).every(Boolean)) {
-        setError(t('dialogs.register.validation.minLength')); // Or more specific error
+const rules = {
+          minLength: 'minLength',
+          hasUpper: 'uppercase',
+          hasLower: 'lowercase',
+          hasNumber: 'number',
+          hasSpecial: 'special',
+        } as const;
+        setError(
+          (Object.keys(rules) as Array<keyof typeof rules>)
+            .filter((rule) => !passwordValidation[rule])
+            .map((rule) => t(`dialogs.register.validation.${rules[rule]}`))
+            .join(' · '),
+        );
         setShowPasswordRequirements(true);
         return;
       }
@@ -165,7 +177,12 @@ export default function RegisterDialog({
         setMessage(res.message);
         setStep(2);
       } catch (err: any) {
-        setError(err.response?.data?.message || t('dialogs.register.error.registrationFailed'));
+const message = err.response?.data?.message;
+        setError(t(
+          err.response?.status === 409 || /email is already in use/i.test(String(message ?? err.message))
+            ? 'dialogs.register.error.emailAlreadyUsed'
+            : 'dialogs.register.error.registrationFailed',
+        ));
       } finally {
         setSubmitting(false);
       }

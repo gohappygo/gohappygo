@@ -1,5 +1,6 @@
 {
   "announcements": {
+    "alertCreated": "Alerte créée avec succès",
     "card": {
       "addToFavorites": "Ajouter aux favoris",
       "availableSpace": "Espace disponible",
@@ -259,6 +260,7 @@
         "createPaymentMethod": "Impossible de créer la méthode de paiement",
         "generic": "Une erreur est survenue",
         "loadForm": "Erreur lors du chargement du formulaire de paiement",
+        "cardDeclined": "Votre carte a été refusée. Utilisez un autre moyen de paiement.",
         "processPayment": "Erreur lors du traitement du paiement"
       },
       "payCta": "Payer {{amount}} {{currency}}",
@@ -318,6 +320,8 @@
       "departureAirportLabel": "Sélectionnez votre aéroport de départ",
       "departureAirportPlaceholder": "Choisir un aéroport",
       "errors": {
+        "createFailed": "Impossible de publier le voyage.",
+        "duplicateListing": "Une annonce active avec ce trajet ou ce vol existe déjà à cette date.",
         "airportsMustDiffer": "L'aéroport d'arrivée doit être différent de l'aéroport de départ",
         "arrivalRequired": "Veuillez sélectionner un aéroport d'arrivée",
         "authRequired": "Vous devez être connecté pour créer une annonce. Veuillez vous connecter.",
@@ -386,6 +390,7 @@
       "departurePlaceholder": "Sélectionnez votre aéroport de départ",
       "description": "Description",
       "errors": {
+        "createFailed": "Impossible de publier la demande de voyage.",
         "arrivalRequired": "Veuillez sélectionner un aéroport d'arrivée",
         "authRequired": "Vous devez être connecté pour créer une demande de voyage. Veuillez vous connecter.",
         "bothAirportsRequired": "Veuillez sélectionner les aéroports de départ et d'arrivée",
@@ -472,6 +477,7 @@
       "email": "Email",
       "error": {
         "invalidCode": "Code de vérification invalide. Veuillez réessayer.",
+        "emailAlreadyUsed": "Cette adresse e-mail est déjà utilisée.",
         "registrationFailed": "Échec de l'inscription. Veuillez réessayer.",
         "resendCodeFailed": "Échec du renvoi du code de vérification. Veuillez réessayer."
       },
@@ -1768,7 +1774,8 @@
     "beFirstReview": "Soyez le premier à",
     "count": "{{count}} Commentaire",
     "count_plural": "{{count}} Commentaires",
-    "countTotal": "{{count}} reviews",
+    "countTotal_one": "{{count}} avis",
+    "countTotal_other": "{{count}} avis",
     "dialog": {
       "comment": "Votre commentaire (optionnel)",
       "commentPlaceholder": "Partagez votre expérience...",

@@ -286,7 +286,11 @@ export default function NotificationsPage() {
                         {/* Content */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between gap-4 mb-2">
-                            <h3 className="font-semibold text-gray-900">{notification.title}</h3>
+                            <h3 className="font-semibold text-gray-900">
+                              {notification.title === 'Alert Created Successfully'
+                                ? t('announcements.alertCreated')
+                                : notification.title}
+                            </h3>
                             <span className="text-xs text-gray-500 whitespace-nowrap">
                               {formatTimeAgo(notification.createdAt, t)}
                             </span>

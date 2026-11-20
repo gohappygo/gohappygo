@@ -1,3 +1,4 @@
+import { listingError } from '~/utils/listingError';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -38,7 +39,7 @@ export default function CreatePackageDialog({
   const [flightNumber, setFlightNumber] = useState('');
   const [travelDate, setTravelDate] = useState('');
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toLocaleDateString('sv-SE');
 
   useEffect(() => {
     if (!open) return;
@@ -102,6 +103,7 @@ export default function CreatePackageDialog({
         if (!flightNumber.trim())
           errors.flightNumber = t('dialogs.createPackage.errors.flightNumberRequired');
         if (!travelDate) errors.travelDate = t('dialogs.createPackage.errors.travelDateRequired');
+        else if (travelDate < today) errors.travelDate = t('dialogs.createPackage.errors.pastDate');
         break;
       case 2:
         if (photos.length < 3) errors.photos = t('dialogs.createPackage.errors.photosMinimum');
@@ -144,7 +146,7 @@ export default function CreatePackageDialog({
           !!departureAirportId &&
           !!arrivalAirportId &&
           !!flightNumber.trim() &&
-          !!travelDate &&
+          !!travelDate && travelDate >= today &&
           !!baggageDescription.trim() &&
           baggageDescription.length <= 500
         );
@@ -163,6 +165,10 @@ export default function CreatePackageDialog({
   };
 
   const handleSubmit = async () => {
+    if (!travelDate || travelDate < today) {
+      setError(t('dialogs.createPackage.errors.pastDate'));
+      return;
+    }
     const errors = validateCurrentStep();
     setValidationErrors(errors);
 
@@ -209,6 +215,7 @@ export default function CreatePackageDialog({
       const result = await createDemand(demandData);
 
       if (result) {
+        window.dispatchEvent(new Event('profile-listing-published'));
         setSuccess(t('dialogs.createPackage.success'));
         setTimeout(() => {
           onClose();
@@ -221,16 +228,7 @@ export default function CreatePackageDialog({
       if (err?.response?.status === 401 || err?.status === 401) {
         setError(t('dialogs.createPackage.errors.authRequired'));
       } else {
-        // Handle validation errors from backend
-        if (err?.response?.data?.message) {
-          if (Array.isArray(err.response.data.message)) {
-            setError(err.response.data.message.join(', '));
-          } else {
-            setError(err.response.data.message);
-          }
-        } else {
-          setError(t('dialogs.createPackage.errors.createFailed'));
-        }
+        setError(listingError(err?.response?.data?.message, t, 'dialogs.createPackage.errors.createFailed'));
       }
     } finally {
       setSubmitting(false);
@@ -419,8 +417,8 @@ export default function CreatePackageDialog({
                   />
                   {t('dialogs.createAnnounce.photosUploadCta', { count: photos.length, max: 3 })}
                 </label>
-                {validationErrors.photos && (
-                  <p className="text-sm text-red-600">{validationErrors.photos}</p>
+                {photos.length < 3 && (
+                  <p className="text-sm text-red-600">{t('dialogs.createPackage.errors.photosMinimum')}</p>
                 )}
                 {photos.length > 0 && (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
